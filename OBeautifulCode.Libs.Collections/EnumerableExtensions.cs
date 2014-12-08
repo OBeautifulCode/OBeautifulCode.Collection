@@ -38,224 +38,105 @@ namespace OBeautifulCode.Libs.Collections
         #region Public Methods
 
         /// <summary>
-        /// Checks whether a collection is the same as another collection
-        /// </summary>
-        /// <param name="value">The current instance object</param>
-        /// <param name="compareList">The collection to compare with</param>
-        /// <param name="comparer">The comparer object to use to compare each item in the collection.  If null uses EqualityComparer(T).Default</param>
-        /// <returns>True if the two collections contain all the same items in the same order</returns>
-        public static bool IsEqualTo<TSource>(this IEnumerable<TSource> value, IEnumerable<TSource> compareList, IEqualityComparer<TSource> comparer)
-        {
-            if (value == compareList)
-            {
-                return true;
-            }
-            if (value == null || compareList == null)
-            {
-                return false;
-            }
-
-            if (comparer == null)
-            {
-                comparer = EqualityComparer<TSource>.Default;
-            }
-
-            IEnumerator<TSource> enumerator1 = value.GetEnumerator();
-            IEnumerator<TSource> enumerator2 = compareList.GetEnumerator();
-
-            bool enum1HasValue = enumerator1.MoveNext();
-            bool enum2HasValue = enumerator2.MoveNext();
-
-            try
-            {
-                while (enum1HasValue && enum2HasValue)
-                {
-                    if (!comparer.Equals(enumerator1.Current, enumerator2.Current))
-                    {
-                        return false;
-                    }
-
-                    enum1HasValue = enumerator1.MoveNext();
-                    enum2HasValue = enumerator2.MoveNext();
-                }
-
-                return !(enum1HasValue || enum2HasValue);
-            }
-            finally
-            {
-                enumerator1.Dispose();
-                enumerator2.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// Checks whether a collection is the same as another collection
-        /// </summary>
-        /// <param name="value">The current instance object</param>
-        /// <param name="compareList">The collection to compare with</param>
-        /// <returns>True if the two collections contain all the same items in the same order</returns>
-        public static bool IsEqualTo<TSource>(this IEnumerable<TSource> value, IEnumerable<TSource> compareList)
-        {
-            return IsEqualTo(value, compareList, null);
-        }
-
-        /// <summary>
-        /// Checks whether a collection is the same as another collection
-        /// </summary>
-        /// <param name="value">The current instance object</param>
-        /// <param name="compareList">The collection to compare with</param>
-        /// <returns>True if the two collections contain all the same items in the same order</returns>
-        public static bool IsEqualTo(this IEnumerable value, IEnumerable compareList)
-        {
-            return IsEqualTo(value.OfType<object>(), compareList.OfType<object>());
-        }
-
-        /// <summary>
-        /// Concatenates the individual values in an IEnumerable with a given delimiter
+        /// Concatenates the individual values in an <see cref="IEnumerable"/> with a given delimiter
         /// separating the individual values.
         /// </summary>
+        /// <param name="value">The enumerable to concatenate.</param>
+        /// <param name="delimiter">The delimiter to use between elements in the enumerable.</param>
         /// <remarks>
-        /// if IEnumerable is empty, returns null.  If an element of the IEnumerable is null,
-        /// then its treated like an empty string.
+        /// If an element of the IEnumerable is null, then its treated like an empty string.
         /// </remarks>
-        /// <exception cref="ArgumentNullException">Thrown when delimiter is null</exception>
-        /// <exception cref="ArgumentNullException">Thrown when value is null</exception>
+        /// <returns>
+        /// Returns a string that contains each element in the input enumerable, separated by the given delimiter.
+        /// If the enumerable is empty, then this method returns null.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">value is null.</exception>
+        /// <exception cref="ArgumentNullException">delimiter is null.</exception>
         public static string ToDelimitedString(this IEnumerable<string> value, string delimiter)
         {
+            // ReSharper disable PossibleMultipleEnumeration
+            Condition.Requires(value, "value").IsNotNull();
             Condition.Requires(delimiter, "delimiter").IsNotNull();
             try
             {
-                string result = value.Aggregate((working, next) => working + delimiter + next);
                 // if there is only one element and it is null, then value.Aggregate returns null instead of empty string
-                // ReSharper disable ConvertIfStatementToNullCoalescingExpression
-                if (result == null)
-                // ReSharper restore ConvertIfStatementToNullCoalescingExpression
-                {
-                    result = "";
-                }
+                string result = value.Aggregate((working, next) => working + delimiter + next) ?? string.Empty;
                 return result;
             }
-            catch (InvalidOperationException)  // means there are no elements in the IEnumerable
+            catch (InvalidOperationException)
             {
+                // means there are no elements in the IEnumerable
                 return null;
             }
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         /// <summary>
-        /// Creates a Common Separated Values string from the individual strings in an IEnumerable,
-        /// making csv treatments where needed (double quotes around strings with commas, etc.)
+        /// Creates a common separated values (CSV) string from the individual strings in an <see cref="IEnumerable"/>,
+        /// making CSV treatments where needed (double quotes around strings with commas, etc.)
         /// </summary>
+        /// <param name="value">The enumerable to transform into a CSV string.</param>
         /// <remarks>
-        /// if IEnumerable is empty, returns null.  If an element of the IEnumerable is null,
-        /// then its treated like an empty string.
-        /// csv treatments: http://en.wikipedia.org/wiki/Comma-separated_values
+        /// If an element of the IEnumerable is null, then its treated like an empty string.
+        /// CSV treatments: <a href="http://en.wikipedia.org/wiki/Comma-separated_values"/>
         /// </remarks>
-        /// <exception cref="ArgumentNullException">Thrown when delimiter is null</exception>
-        /// <exception cref="ArgumentNullException">Thrown when value is null</exception>
+        /// <returns>
+        /// Returns a string that contains each element in the input enumerable, separated by a comma
+        /// and with the proper escaping. 
+        /// If the enumerable is empty, returns null.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">value is null.</exception>
         public static string ToCsv(this IEnumerable<string> value)
         {
-            try
-            {
-                // ReSharper disable PossibleMultipleEnumeration
-                int items = value.Count();
-                if (items == 0)
-                {
-                    return null;
-                }
-                string result = value.First().ToCsvSafe() ?? "";
-                bool first = true;
-                foreach (string item in value)
-                {
-                    if (first)
-                    {
-                        first = false;
-                        continue;
-                    }
-                    result = result + "," + item.ToCsvSafe();
-                }
-                return result;
-                // ReSharper restore PossibleMultipleEnumeration
-            }
-            catch (InvalidOperationException)  // means there are no elements in the IEnumerable
-            {
-                return null;
-            }
+            // ReSharper disable PossibleMultipleEnumeration
+            Condition.Requires(value, "value").IsNotNull();
+            return value.Select(item => item == null ? string.Empty : item.ToCsvSafe()).ToDelimitedString(",");
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         /// <summary>
-        /// Creates a string with the values in a given IEnumerable, separated by a newline
+        /// Creates a string with the values in a given <see cref="IEnumerable"/>, separated by a newline.
         /// </summary>
+        /// <param name="value">The enumerable to concatenate.</param>
         /// <remarks>
-        /// if IEnumerable is empty, returns null.  If an element of the IEnumerable is null,
-        /// then its treated like an empty string.
+        /// If an element of the IEnumerable is null, then its treated like an empty string.
         /// </remarks>
-        /// <exception cref="ArgumentNullException">Thrown when delimiter is null</exception>
-        /// <exception cref="ArgumentNullException">Thrown when value is null</exception>
+        /// <returns>
+        /// Returns a string that contains each element in the input enumerable, separated by a newline.
+        /// If the enumerable is empty, then this method returns null.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">value is null.</exception>
         public static string ToNewLineDelimited(this IEnumerable<string> value)
         {
             return value.ToDelimitedString(Environment.NewLine);
         }
 
         /// <summary>
-        /// Converts the source to a hash set.
-        /// </summary>
-        /// <remarks>
-        /// copied from byteflux:  http://byteflux.me/index.php/2009/08/13/some-useful-extension-methods/
-        /// </remarks>
-        /// <typeparam name="TSource">The type of the source.</typeparam>
-        /// <param name="source">The source enumerable.</param>
-        /// <returns>A typed hash set containing the items from the source enumerable.</returns>
-        /// <exception cref="ArgumentNullException">source is null.</exception>
-        public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source)
-        {
-            return new HashSet<TSource>(source);
-        }
-
-        /// <summary>
-        /// Converts the source to a hash set.
-        /// </summary>
-        /// <remarks>
-        /// copied from byteflux:  http://byteflux.me/index.php/2009/08/13/some-useful-extension-methods/
-        /// </remarks>
-        /// <typeparam name="TSource">The type of the source.</typeparam>
-        /// <param name="source">The source enumerable.</param>
-        /// <param name="comparer">
-        /// The comparer used by the hash set. This is useful for example when building a case insensitive
-        /// hash set.
-        /// </param>
-        /// <returns>A typed hash set containing the items from the source enumerable.</returns>
-        /// <exception cref="ArgumentNullException">source is null.</exception>
-        public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer)
-        {
-            return new HashSet<TSource>(source, comparer);
-        }
-
-        /// <summary>
         /// Gets the symmetric difference of two sets using an equality comparer.  
         /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
         /// </summary>
-        /// <param name="value">The current instance object</param>
-        /// <param name="compareList">The collection to compare with</param>
-        /// <param name="comparer">The comparer object to use to compare each item in the collection.  If null uses EqualityComparer(T).Default</param>
-        /// <returns>IEnumerable(T) with the symmetric difference of the two sets.</returns>
-        public static IEnumerable<TSource> SymmetricDifference<TSource>(this IEnumerable<TSource> value, IEnumerable<TSource> compareList, IEqualityComparer<TSource> comparer)
+        /// <remarks>
+        /// If one set has duplicate items when evaluated using the comparer, then the resulting symmetric difference will only
+        /// contain one copy of the the duplicate item and only if it doesn't appear in the other set.
+        /// </remarks>
+        /// <typeparam name="TSource">The type of elements in the collection.</typeparam>
+        /// <param name="value">The first enumerable.</param>
+        /// <param name="secondSet">The second enumerable to compare against the first.</param>
+        /// <param name="comparer">The comparer object to use to compare each item in the collection.  If null uses EqualityComparer(T).Default.</param>
+        /// <returns>Returns an <see cref="IEnumerable{T}"/> with the symmetric difference of the two sets.</returns>
+        /// <exception cref="ArgumentNullException">value is null.</exception>
+        /// <exception cref="ArgumentNullException">secondSet is null.</exception>
+        public static IEnumerable<TSource> SymmetricDifference<TSource>(this IEnumerable<TSource> value, IEnumerable<TSource> secondSet, IEqualityComparer<TSource> comparer)
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
-            if (compareList == null)
-            {
-                throw new ArgumentNullException("compareList");
-            }
-
+            // ReSharper disable PossibleMultipleEnumeration
+            Condition.Requires(value, "value").IsNotNull();
+            Condition.Requires(secondSet, "secondSet").IsNotNull();
             if (comparer == null)
             {
                 comparer = EqualityComparer<TSource>.Default;
             }
 
-            // ReSharper disable PossibleMultipleEnumeration
-            return value.Except(compareList, comparer).Union(compareList.Except(value, comparer), comparer);
+            return value.Except(secondSet, comparer).Union(secondSet.Except(value, comparer), comparer);
             // ReSharper restore PossibleMultipleEnumeration
         }
 
@@ -263,24 +144,37 @@ namespace OBeautifulCode.Libs.Collections
         /// Gets the symmetric difference of two sets using the default equality comparer.  
         /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
         /// </summary>
-        /// <param name="value">The current instance object</param>
-        /// <param name="compareList">The collection to compare with</param>
+        /// <remarks>
+        /// If one set has duplicate items when evaluated using the comparer, then the resulting symmetric difference will only
+        /// contain one copy of the the duplicate item and only if it doesn't appear in the other set.
+        /// </remarks>
+        /// <typeparam name="TSource">The type of elements in the collection.</typeparam>
+        /// <param name="value">The first enumerable.</param>
+        /// <param name="secondSet">The second enumerable to compare against the first.</param>
         /// <returns>IEnumerable(T) with the symmetric difference of the two sets.</returns>
-        public static IEnumerable<TSource> SymmetricDifference<TSource>(this IEnumerable<TSource> value, IEnumerable<TSource> compareList)
+        /// <exception cref="ArgumentNullException">value is null.</exception>
+        /// <exception cref="ArgumentNullException">secondSet is null.</exception>
+        public static IEnumerable<TSource> SymmetricDifference<TSource>(this IEnumerable<TSource> value, IEnumerable<TSource> secondSet)
         {
-            return SymmetricDifference(value, compareList, null);
+            return SymmetricDifference(value, secondSet, null);
         }
 
         /// <summary>
         /// Gets the symmetric difference of two sets using the default equality comparer.  
         /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
         /// </summary>
-        /// <param name="value">The current instance object</param>
-        /// <param name="compareList">The collection to compare with</param>
+        /// <remarks>
+        /// If one set has duplicate items when evaluated using the comparer, then the resulting symmetric difference will only
+        /// contain one copy of the the duplicate item and only if it doesn't appear in the other set.
+        /// </remarks>
+        /// <param name="value">The first enumerable.</param>
+        /// <param name="secondSet">The second enumerable to compare against the first.</param>
         /// <returns>IEnumerable(T) with the symmetric difference of the two sets.</returns>
-        public static IEnumerable SymmetricDifference(this IEnumerable value, IEnumerable compareList)
+        /// <exception cref="ArgumentNullException">value is null.</exception>
+        /// <exception cref="ArgumentNullException">secondSet is null.</exception>
+        public static IEnumerable SymmetricDifference(this IEnumerable value, IEnumerable secondSet)
         {
-            return SymmetricDifference(value.OfType<object>(), compareList.OfType<object>());
+            return SymmetricDifference(value.OfType<object>(), secondSet.OfType<object>());
         }
 
         #endregion
