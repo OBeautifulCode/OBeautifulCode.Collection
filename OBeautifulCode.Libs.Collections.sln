@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Libs.Collections", "OBeautifulCode.Libs.Collections\OBeautifulCode.Libs.Collections.csproj", "{FC669937-2C66-4BD7-A9C5-B13C33260ECC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Libs.Collections.Test", "OBeautifulCode.Libs.Collections.Test\OBeautifulCode.Libs.Collections.Test.csproj", "{7713E31D-FDC3-419E-8E90-3ADF0D0383C8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC669937-2C66-4BD7-A9C5-B13C33260ECC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC669937-2C66-4BD7-A9C5-B13C33260ECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC669937-2C66-4BD7-A9C5-B13C33260ECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC669937-2C66-4BD7-A9C5-B13C33260ECC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7713E31D-FDC3-419E-8E90-3ADF0D0383C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7713E31D-FDC3-419E-8E90-3ADF0D0383C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7713E31D-FDC3-419E-8E90-3ADF0D0383C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7713E31D-FDC3-419E-8E90-3ADF0D0383C8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
