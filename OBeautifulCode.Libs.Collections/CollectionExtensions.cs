@@ -12,11 +12,8 @@ namespace OBeautifulCode.Libs.Collections
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
 
     using CuttingEdge.Conditions;
-
-    using OBeautifulCode.Libs.String;
 
     /// <summary>
     /// Helper methods for operating on objects of type <see cref="ICollection"/>
@@ -38,20 +35,26 @@ namespace OBeautifulCode.Libs.Collections
         #region Public Methods
 
         /// <summary>
-        /// Adds the elements of the specified IEnumerable to a collection.
+        /// Adds the elements of the specified <see cref="IEnumerable"/> to an <see cref="ICollection"/>.
         /// </summary>
         /// <typeparam name="T">The type of elements in the collection.</typeparam>
         /// <param name="collection">The collection to add to.</param>
-        /// <param name="values">The IEnumerable whose elements should be added to the Collection. The IEnumerable itself cannot be a null reference, but it can contain elements that are a null reference.</param>
-        /// <exception cref="ArgumentNullException">collection or values is a null reference.</exception>
-        public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> values)
+        /// <param name="valuesToAdd">
+        /// The <see cref="IEnumerable"/> whose elements should be added to the <see cref="ICollection"/>.
+        /// The <see cref="IEnumerable"/> itself cannot be a null reference, but it can contain elements that are a null reference.
+        /// </param>
+        /// <exception cref="ArgumentNullException">collection is null.</exception>
+        /// <exception cref="ArgumentNullException">valuesToAdd is null.</exception>
+        public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> valuesToAdd)
         {
             Condition.Requires(collection, "collection").IsNotNull();
-            Condition.Requires(values, "values").IsNotNull();
-            foreach (var item in values)
+            // ReSharper disable PossibleMultipleEnumeration
+            Condition.Requires(valuesToAdd, "valuesToAdd").IsNotNull();
+            foreach (var item in valuesToAdd)
             {
                 collection.Add(item);
             }
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         #endregion
