@@ -13,7 +13,7 @@ namespace OBeautifulCode.Collection
     using System.Collections;
     using System.Collections.Generic;
 
-    using CuttingEdge.Conditions;
+    using Conditions;
 
     /// <summary>
     /// Helper methods for operating on objects of type <see cref="ICollection"/>

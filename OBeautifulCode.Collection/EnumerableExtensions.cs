@@ -14,9 +14,9 @@ namespace OBeautifulCode.Collection
     using System.Collections.Generic;
     using System.Linq;
 
-    using CuttingEdge.Conditions;
+    using Conditions;
 
-    using OBeautifulCode.Libs.String;
+    using OBeautifulCode.String;
 
     /// <summary>
     /// Helper methods for operating on objects of type <see cref="IEnumerable"/>
