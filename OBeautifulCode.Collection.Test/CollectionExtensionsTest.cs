@@ -21,10 +21,6 @@ namespace OBeautifulCode.Collection.Test
     public static class CollectionExtensionsTest
     {
         // ReSharper disable InconsistentNaming
-
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void AddRange_CollectionIsNull_ThrowsArgumentNullException()
         {
@@ -35,9 +31,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Throws<ArgumentNullException>(() => CollectionExtensions.AddRange(null, valuesToAdd));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void AddRange_ValuesToAddIsNull_ThrowsArgumentNullException()
         {
@@ -50,9 +43,6 @@ namespace OBeautifulCode.Collection.Test
             // ReSharper restore AssignNullToNotNullAttribute
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void AddRange_CollectionIsEmptyAndValuesToAddIsEmpty_ResultingCollectionIsEmpty()
         {
@@ -67,9 +57,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Empty(collection);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void AddRange_CollectionIsEmptyAndValuesToAddNotEmpty_ResultingCollectionContainsAllElementsInValuesToAdd()
         {
@@ -93,9 +80,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("b", collection2);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void AddRange_CollectionIsNotEmptyAndValuesToAddIsEmpty_NothingAddedToCollection()
         {
@@ -119,9 +103,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("b", collection2);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void AddRange_NeitherCollectionNorValuesToAddIsEmpty_ResultingCollectionHasAllPreExistingValuesAsWellAsNewlyAddedValues()
         {

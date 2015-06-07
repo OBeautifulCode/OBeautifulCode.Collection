@@ -22,10 +22,6 @@ namespace OBeautifulCode.Collection.Test
     public static class EnumerableExtensionsTest
     {
         // ReSharper disable InconsistentNaming
-
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToDelimitedString_ValueIsNull_ThrowsArgumentNullException()
         {
@@ -36,9 +32,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Throws<ArgumentNullException>(() => EnumerableExtensions.ToDelimitedString(null, Delimiter));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToDelimitedString_DelimiterIsNull_ThrowsArgumentNullException()
         {
@@ -49,9 +42,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Throws<ArgumentNullException>(() => values.ToDelimitedString(null));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToDelimitedString_EnumerableIsEmpty_ReturnsNull()
         {
@@ -66,9 +56,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Null(actual);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToDelimitedString_EnumerableContainsOneElement_ReturnsThatOneElement()
         {
@@ -83,9 +70,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Equal(values[0], actual);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToDelimitedString_DelimiterIsTheEmpyString_ReturnsAllElementsOfEnumerableConcatenated()
         {
@@ -105,9 +89,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Equal(Expected2, actual2);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToDelimitedString_EnumerableHasMultipleElementsWithNonEmptyDelimiter_ReturnsAllElementsInTheSameStringSeparatedByDelimiter()
         {
@@ -137,9 +118,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Equal(Expected2b, actual2b);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToDelimitedString_EnumerableHasNullElements_NullElementsTreatedAsEmptyStringWhenConstructingDelmitedString()
         {
@@ -169,9 +147,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Equal(Expected2b, actual2b);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToCsv_ValueIsNull_ThrowsArgumentNullException()
         {
@@ -179,9 +154,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Throws<ArgumentNullException>(() => EnumerableExtensions.ToCsv(null));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToCsv_EnumerableIsEmpty_ReturnsNull()
         {
@@ -195,9 +167,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Null(actual);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToCsv_EnumerableContainsOneElement_ReturnsThatOneElement()
         {
@@ -211,9 +180,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Equal(values[0], actual);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToCsv_EnumerableHasMultipleElements_ReturnsAllElementsInTheSameStringSeparatedByComma()
         {
@@ -232,9 +198,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Equal(Expected1b, actual1b);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToCsv_EnumerableHasNullElements_NullElementsTreatedAsEmptyStringWhenConstructingCsv()
         {
@@ -262,9 +225,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Equal(Expected2b, actual2b);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToCsv_EnumerableHasElementsThatAreNotCsvSafe_AllNonSafeElementsAreMadeSafeBeforeInsertingIntoString()
         {
@@ -284,9 +244,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Equal(Expected2, actual2);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToNewLineDelimited_ValueIsNull_ThrowsArgumentNullException()
         {
@@ -294,9 +251,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Throws<ArgumentNullException>(() => EnumerableExtensions.ToNewLineDelimited(null));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToNewLineDelimited_EnumerableIsEmpty_ReturnsNull()
         {
@@ -310,9 +264,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Null(actual);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToNewLineDelimited_EnumerableContainsOneElement_ReturnsThatOneElement()
         {
@@ -326,9 +277,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Equal(values[0], actual);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToNewLineDelimited_EnumerableHasMultipleElements_ReturnsAllElementsInTheSameStringSeparatedByComma()
         {
@@ -347,9 +295,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Equal(Expected1b, actual1b);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void ToNewLineDelimited_EnumerableHasNullElements_NullElementsTreatedAsEmptyStringWhenConstructingCsv()
         {
@@ -377,9 +322,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Equal(Expected2b, actual2b);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndComparerAndFirstSetIsNull_ThrowsArgumentNullException()
         {
@@ -390,9 +332,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Throws<ArgumentNullException>(() => EnumerableExtensions.SymmetricDifference(null, secondSet, StringComparer.CurrentCulture));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndComparerAndSecondSetIsNull_ThrowsArgumentNullException()
         {
@@ -403,9 +342,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Throws<ArgumentNullException>(() => firstSet.SymmetricDifference(null, StringComparer.CurrentCulture));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndComparerAndBothSetsAreEmpty_ReturnsEmptySet()
         {
@@ -420,9 +356,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Empty(actual);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndComparerAndSetsAreTheSame_ReturnsEmptySet()
         {
@@ -452,9 +385,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Empty(actual4);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndComparerAndOneSetIsEmpty_ReturnsValuesInNonEmptySet()
         {
@@ -489,9 +419,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.True(secondSet5.SequenceEqual(actual5));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndComparerAndSetsHaveOneOrMoreDifferences_ReturnsTheSymmetricDifference()
         {
@@ -550,9 +477,6 @@ namespace OBeautifulCode.Collection.Test
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndNullComparer_ReturnsTheSymmetricDifferenceUsingDefaultComparer()
         {
@@ -611,9 +535,6 @@ namespace OBeautifulCode.Collection.Test
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndCaseInsensitiveComparer_ReturnsTheSymmetricDifferenceUsingCaseInsensitiveComparisons()
         {
@@ -664,9 +585,6 @@ namespace OBeautifulCode.Collection.Test
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndComparerAndOneSetHasDuplicateItems_TheResultingSymmetricDifferenceOnlyContainsOneCopyOfDuplicatedItem()
         {
@@ -719,9 +637,6 @@ namespace OBeautifulCode.Collection.Test
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndNoComparerAndFirstSetIsNull_ThrowsArgumentNullException()
         {
@@ -732,9 +647,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Throws<ArgumentNullException>(() => EnumerableExtensions.SymmetricDifference(null, secondSet));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndNoComparerAndSecondSetIsNull_ThrowsArgumentNullException()
         {
@@ -745,9 +657,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Throws<ArgumentNullException>(() => firstSet.SymmetricDifference(null));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndNoComparerAndBothSetsAreEmpty_ReturnsEmptySet()
         {
@@ -762,9 +671,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Empty(actual);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndNoComparerAndSetsAreTheSame_ReturnsEmptySet()
         {
@@ -794,9 +700,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Empty(actual4);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndNoComparerAndOneSetIsEmpty_ReturnsValuesInNonEmptySet()
         {
@@ -831,9 +734,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.True(secondSet5.SequenceEqual(actual5));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndNoComparerAndSetsHaveOneOrMoreDifferences_ReturnsTheSymmetricDifference()
         {
@@ -892,9 +792,6 @@ namespace OBeautifulCode.Collection.Test
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithTypedSourceAndNoComparerAndOneSetHasDuplicateItems_TheResultingSymmetricDifferenceOnlyContainsOneCopyOfDuplicatedItem()
         {
@@ -940,9 +837,6 @@ namespace OBeautifulCode.Collection.Test
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithNonTypedSourceAndFirstSetIsNull_ThrowsArgumentNullException()
         {
@@ -953,9 +847,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Throws<ArgumentNullException>(() => EnumerableExtensions.SymmetricDifference(null, secondSet));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithNonTypedSourceAndSecondSetIsNull_ThrowsArgumentNullException()
         {
@@ -966,9 +857,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Throws<ArgumentNullException>(() => firstSet.SymmetricDifference(null));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithNonTypedSourceAndBothSetsAreEmpty_ReturnsEmptySet()
         {
@@ -983,9 +871,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Empty(actual);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithNonTypedSourceAndSetsAreTheSame_ReturnsEmptySet()
         {
@@ -1015,9 +900,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Empty(actual4);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithNonTypedSourceAndOneSetIsEmpty_ReturnsValuesInNonEmptySet()
         {
@@ -1052,9 +934,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.True(secondSet5.Cast<object>().SequenceEqual(actual5.Cast<object>()));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithNonTypedSourceAndSetsHaveOneOrMoreDifferences_ReturnsTheSymmetricDifference()
         {
@@ -1113,9 +992,6 @@ namespace OBeautifulCode.Collection.Test
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void SymmetricDifference_CalledWithNonTypedSourceAndOneSetHasDuplicateItems_TheResultingSymmetricDifferenceOnlyContainsOneCopyOfDuplicatedItem()
         {
