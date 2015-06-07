@@ -18,21 +18,8 @@ namespace OBeautifulCode.Collection.Test
     /// <summary>
     /// Tests the <see cref="CollectionExtensions"/> class.
     /// </summary>
-    public class CollectionExtensionsTest
+    public static class CollectionExtensionsTest
     {
-        #region Fields (Private)
-
-        #endregion
-
-        #region Constructors
-
-        #endregion
-
-        #region Properties
-
-        #endregion
-
-        #region Public Methods
         // ReSharper disable InconsistentNaming
 
         /// <summary>
@@ -176,19 +163,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("h", collection3);
         }
 
-        // ReSharper restore InconsistentNaming
-        #endregion
-
-        #region Internal Methods
-
-        #endregion
-
-        #region Protected Methods
-
-        #endregion
-
-        #region Private Methods
-
-        #endregion
+        // ReSharper restore InconsistentNaming        
     }
 }

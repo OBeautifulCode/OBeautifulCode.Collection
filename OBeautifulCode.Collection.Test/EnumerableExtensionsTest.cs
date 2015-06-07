@@ -19,21 +19,8 @@ namespace OBeautifulCode.Collection.Test
     /// <summary>
     /// Tests the <see cref="EnumerableExtensions"/> class.
     /// </summary>
-    public class EnumerableExtensionsTest
+    public static class EnumerableExtensionsTest
     {
-        #region Fields (Private)
-
-        #endregion
-
-        #region Constructors
-
-        #endregion
-
-        #region Properties
-
-        #endregion
-
-        #region Public Methods
         // ReSharper disable InconsistentNaming
 
         /// <summary>
@@ -1174,19 +1161,6 @@ namespace OBeautifulCode.Collection.Test
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        // ReSharper restore InconsistentNaming
-        #endregion
-
-        #region Internal Methods
-
-        #endregion
-
-        #region Protected Methods
-
-        #endregion
-
-        #region Private Methods
-
-        #endregion
+        // ReSharper restore InconsistentNaming        
     }
 }

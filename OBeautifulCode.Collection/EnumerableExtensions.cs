@@ -23,20 +23,6 @@ namespace OBeautifulCode.Collection
     /// </summary>
     public static class EnumerableExtensions
     {
-        #region Fields (Private)
-        
-        #endregion
-
-        #region Constructors
-
-        #endregion
-
-        #region Properties
-
-        #endregion
-
-        #region Public Methods
-
         /// <summary>
         /// Concatenates the individual values in an <see cref="IEnumerable"/> with a given delimiter
         /// separating the individual values.
@@ -175,20 +161,6 @@ namespace OBeautifulCode.Collection
         public static IEnumerable SymmetricDifference(this IEnumerable value, IEnumerable secondSet)
         {
             return SymmetricDifference(value.OfType<object>(), secondSet.OfType<object>());
-        }
-
-        #endregion
-
-        #region Internal Methods
-
-        #endregion
-
-        #region Protected Methods
-
-        #endregion
-
-        #region Private Methods
-
-        #endregion
+        }        
     }
 }

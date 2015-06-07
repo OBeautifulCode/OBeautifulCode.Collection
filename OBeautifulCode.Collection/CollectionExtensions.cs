@@ -20,20 +20,6 @@ namespace OBeautifulCode.Collection
     /// </summary>
     public static class CollectionExtensions
     {
-        #region Fields (Private)
-
-        #endregion
-
-        #region Constructors
-
-        #endregion
-
-        #region Properties
-
-        #endregion
-
-        #region Public Methods
-
         /// <summary>
         /// Adds the elements of the specified <see cref="IEnumerable"/> to an <see cref="ICollection"/>.
         /// </summary>
@@ -56,19 +42,5 @@ namespace OBeautifulCode.Collection
             }
             // ReSharper restore PossibleMultipleEnumeration
         }
-
-        #endregion
-
-        #region Internal Methods
-
-        #endregion
-
-        #region Protected Methods
-
-        #endregion
-
-        #region Private Methods
-
-        #endregion
     }
 }
