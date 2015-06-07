@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/hdanik4jnuko2ram?svg=true)](https://ci.appveyor.com/project/OBeautifulCode/obeautifulcode-libs-collections)
+[![Build status](https://ci.appveyor.com/api/projects/status/e41oivkk52noc3gl?svg=true)](https://ci.appveyor.com/project/SurajGupta/obeautifulcode-collection)
 
 Collections Helpers
 ===================
