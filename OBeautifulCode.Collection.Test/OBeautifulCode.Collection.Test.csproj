@@ -7,8 +7,8 @@
     <ProjectGuid>{7713E31D-FDC3-419E-8E90-3ADF0D0383C8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OBeautifulCode.Libs.Collections.Test</RootNamespace>
-    <AssemblyName>OBeautifulCode.Libs.Collections.Test</AssemblyName>
+    <RootNamespace>OBeautifulCode.Collection.Test</RootNamespace>
+    <AssemblyName>OBeautifulCode.Collection.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,7 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Debug\OBeautifulCode.Libs.Collections.Test.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\OBeautifulCode.Collection.Test.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,7 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\OBeautifulCode.Libs.Collections.Test.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\OBeautifulCode.Collection.Test.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CuttingEdge.Conditions">
@@ -55,9 +55,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OBeautifulCode.Libs.Collections\OBeautifulCode.Libs.Collections.csproj">
+    <ProjectReference Include="..\OBeautifulCode.Collection\OBeautifulCode.Collection.csproj">
       <Project>{fc669937-2c66-4bd7-a9c5-b13c33260ecc}</Project>
-      <Name>OBeautifulCode.Libs.Collections</Name>
+      <Name>OBeautifulCode.Collection</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

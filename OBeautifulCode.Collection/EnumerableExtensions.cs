@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace OBeautifulCode.Libs.Collections
+namespace OBeautifulCode.Collection
 {
     using System;
     using System.Collections;
