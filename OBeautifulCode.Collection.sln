@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Libs.Collections", "OBeautifulCode.Libs.Collections\OBeautifulCode.Libs.Collections.csproj", "{FC669937-2C66-4BD7-A9C5-B13C33260ECC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Collection", "OBeautifulCode.Collection\OBeautifulCode.Collection.csproj", "{FC669937-2C66-4BD7-A9C5-B13C33260ECC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Libs.Collections.Test", "OBeautifulCode.Libs.Collections.Test\OBeautifulCode.Libs.Collections.Test.csproj", "{7713E31D-FDC3-419E-8E90-3ADF0D0383C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Collection.Test", "OBeautifulCode.Collection.Test\OBeautifulCode.Collection.Test.csproj", "{7713E31D-FDC3-419E-8E90-3ADF0D0383C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

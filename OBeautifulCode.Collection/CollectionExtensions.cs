@@ -1,39 +1,22 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CollectionExtensions.cs" company="OBeautifulCode">
-//   Copyright 2014 OBeautifulCode
+//   Copyright 2015 OBeautifulCode
 // </copyright>
-// <summary>
-//   Helper methods for operating on objects of type <see cref="ICollection"/>
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace OBeautifulCode.Libs.Collections
+namespace OBeautifulCode.Collection
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
 
-    using CuttingEdge.Conditions;
+    using Conditions;
 
     /// <summary>
     /// Helper methods for operating on objects of type <see cref="ICollection"/>
     /// </summary>
     public static class CollectionExtensions
     {
-        #region Fields (Private)
-
-        #endregion
-
-        #region Constructors
-
-        #endregion
-
-        #region Properties
-
-        #endregion
-
-        #region Public Methods
-
         /// <summary>
         /// Adds the elements of the specified <see cref="IEnumerable"/> to an <see cref="ICollection"/>.
         /// </summary>
@@ -56,19 +39,5 @@ namespace OBeautifulCode.Libs.Collections
             }
             // ReSharper restore PossibleMultipleEnumeration
         }
-
-        #endregion
-
-        #region Internal Methods
-
-        #endregion
-
-        #region Protected Methods
-
-        #endregion
-
-        #region Private Methods
-
-        #endregion
     }
 }

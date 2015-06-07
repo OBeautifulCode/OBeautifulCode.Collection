@@ -1,13 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CollectionExtensionsTest.cs" company="OBeautifulCode">
-//   Copyright 2014 OBeautifulCode
+//   Copyright 2015 OBeautifulCode
 // </copyright>
-// <summary>
-//   Tests the <see cref="CollectionExtensions"/> class.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace OBeautifulCode.Libs.Collections.Test
+namespace OBeautifulCode.Collection.Test
 {
     using System;
     using System.Collections.Generic;
@@ -18,26 +15,9 @@ namespace OBeautifulCode.Libs.Collections.Test
     /// <summary>
     /// Tests the <see cref="CollectionExtensions"/> class.
     /// </summary>
-    public class CollectionExtensionsTest
+    public static class CollectionExtensionsTest
     {
-        #region Fields (Private)
-
-        #endregion
-
-        #region Constructors
-
-        #endregion
-
-        #region Properties
-
-        #endregion
-
-        #region Public Methods
         // ReSharper disable InconsistentNaming
-
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void AddRange_CollectionIsNull_ThrowsArgumentNullException()
         {
@@ -48,9 +28,6 @@ namespace OBeautifulCode.Libs.Collections.Test
             Assert.Throws<ArgumentNullException>(() => CollectionExtensions.AddRange(null, valuesToAdd));
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void AddRange_ValuesToAddIsNull_ThrowsArgumentNullException()
         {
@@ -63,9 +40,6 @@ namespace OBeautifulCode.Libs.Collections.Test
             // ReSharper restore AssignNullToNotNullAttribute
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void AddRange_CollectionIsEmptyAndValuesToAddIsEmpty_ResultingCollectionIsEmpty()
         {
@@ -80,9 +54,6 @@ namespace OBeautifulCode.Libs.Collections.Test
             Assert.Empty(collection);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void AddRange_CollectionIsEmptyAndValuesToAddNotEmpty_ResultingCollectionContainsAllElementsInValuesToAdd()
         {
@@ -106,9 +77,6 @@ namespace OBeautifulCode.Libs.Collections.Test
             Assert.Contains("b", collection2);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void AddRange_CollectionIsNotEmptyAndValuesToAddIsEmpty_NothingAddedToCollection()
         {
@@ -132,9 +100,6 @@ namespace OBeautifulCode.Libs.Collections.Test
             Assert.Contains("b", collection2);
         }
 
-        /// <summary>
-        /// Test method.
-        /// </summary>
         [Fact]
         public static void AddRange_NeitherCollectionNorValuesToAddIsEmpty_ResultingCollectionHasAllPreExistingValuesAsWellAsNewlyAddedValues()
         {
@@ -176,19 +141,6 @@ namespace OBeautifulCode.Libs.Collections.Test
             Assert.Contains("h", collection3);
         }
 
-        // ReSharper restore InconsistentNaming
-        #endregion
-
-        #region Internal Methods
-
-        #endregion
-
-        #region Protected Methods
-
-        #endregion
-
-        #region Private Methods
-
-        #endregion
+        // ReSharper restore InconsistentNaming        
     }
 }
