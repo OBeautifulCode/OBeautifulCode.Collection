@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="EnumerableExtensions.cs" company="OBeautifulCode">
-//   Copyright 2015 OBeautifulCode
+//   Copyright (c) OBeautifulCode. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -38,8 +38,8 @@ namespace OBeautifulCode.Collection
         public static string ToDelimitedString(this IEnumerable<string> value, string delimiter)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            Condition.Requires(value, "value").IsNotNull();
-            Condition.Requires(delimiter, "delimiter").IsNotNull();
+            Condition.Requires(value, nameof(value)).IsNotNull();
+            Condition.Requires(delimiter, nameof(delimiter)).IsNotNull();
             try
             {
                 // if there is only one element and it is null, then value.Aggregate returns null instead of empty string
@@ -51,6 +51,7 @@ namespace OBeautifulCode.Collection
                 // means there are no elements in the IEnumerable
                 return null;
             }
+
             // ReSharper restore PossibleMultipleEnumeration
         }
 
@@ -65,14 +66,14 @@ namespace OBeautifulCode.Collection
         /// </remarks>
         /// <returns>
         /// Returns a string that contains each element in the input enumerable, separated by a comma
-        /// and with the proper escaping. 
+        /// and with the proper escaping.
         /// If the enumerable is empty, returns null.
         /// </returns>
         /// <exception cref="ArgumentNullException">value is null.</exception>
         public static string ToCsv(this IEnumerable<string> value)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            Condition.Requires(value, "value").IsNotNull();
+            Condition.Requires(value, nameof(value)).IsNotNull();
             return value.Select(item => item == null ? string.Empty : item.ToCsvSafe()).ToDelimitedString(",");
             // ReSharper restore PossibleMultipleEnumeration
         }
@@ -95,7 +96,7 @@ namespace OBeautifulCode.Collection
         }
 
         /// <summary>
-        /// Gets the symmetric difference of two sets using an equality comparer.  
+        /// Gets the symmetric difference of two sets using an equality comparer.
         /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
         /// </summary>
         /// <remarks>
@@ -112,8 +113,8 @@ namespace OBeautifulCode.Collection
         public static IEnumerable<TSource> SymmetricDifference<TSource>(this IEnumerable<TSource> value, IEnumerable<TSource> secondSet, IEqualityComparer<TSource> comparer)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            Condition.Requires(value, "value").IsNotNull();
-            Condition.Requires(secondSet, "secondSet").IsNotNull();
+            Condition.Requires(value, nameof(value)).IsNotNull();
+            Condition.Requires(secondSet, nameof(secondSet)).IsNotNull();
             if (comparer == null)
             {
                 comparer = EqualityComparer<TSource>.Default;
@@ -124,7 +125,7 @@ namespace OBeautifulCode.Collection
         }
 
         /// <summary>
-        /// Gets the symmetric difference of two sets using the default equality comparer.  
+        /// Gets the symmetric difference of two sets using the default equality comparer.
         /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
         /// </summary>
         /// <remarks>
@@ -143,7 +144,7 @@ namespace OBeautifulCode.Collection
         }
 
         /// <summary>
-        /// Gets the symmetric difference of two sets using the default equality comparer.  
+        /// Gets the symmetric difference of two sets using the default equality comparer.
         /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
         /// </summary>
         /// <remarks>
@@ -158,6 +159,6 @@ namespace OBeautifulCode.Collection
         public static IEnumerable SymmetricDifference(this IEnumerable value, IEnumerable secondSet)
         {
             return SymmetricDifference(value.OfType<object>(), secondSet.OfType<object>());
-        }        
+        }
     }
 }

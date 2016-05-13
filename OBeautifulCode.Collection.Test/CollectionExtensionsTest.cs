@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CollectionExtensionsTest.cs" company="OBeautifulCode">
-//   Copyright 2015 OBeautifulCode
+//   Copyright (c) OBeautifulCode. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -19,17 +19,20 @@ namespace OBeautifulCode.Collection.Test
     {
         // ReSharper disable InconsistentNaming
         [Fact]
-        public static void AddRange_CollectionIsNull_ThrowsArgumentNullException()
+        public static void AddRange___Should_throw_ArgumentNullException___When_parameter_collection_is_null()
         {
             // Arrange
+            // ReSharper disable CollectionNeverUpdated.Local
             var valuesToAdd = new List<int>();
+            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act, Assert
             Assert.Throws<ArgumentNullException>(() => CollectionExtensions.AddRange(null, valuesToAdd));
         }
 
         [Fact]
-        public static void AddRange_ValuesToAddIsNull_ThrowsArgumentNullException()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "Addis", Justification = "Code Analysis does not recognize the underscore as a word breaker.")]
+        public static void AddRange___Should_throw_ArgumentNullException___When_parameter_valuesToAdd_is_null()
         {
             // Arrange
             var collection = new List<string>();
@@ -41,11 +44,14 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void AddRange_CollectionIsEmptyAndValuesToAddIsEmpty_ResultingCollectionIsEmpty()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "Addis", Justification = "Code Analysis does not recognize the underscore as a word breaker.")]
+        public static void AddRange___Should_not_add_any_elements_to_collection___When_collection_is_empty_and_valuesToAdd_is_empty()
         {
             // Arrange
             var collection = new HashSet<string>();
+            // ReSharper disable CollectionNeverUpdated.Local
             var valuesToAdd = new List<string>();
+            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             collection.AddRange(valuesToAdd);
@@ -55,7 +61,8 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void AddRange_CollectionIsEmptyAndValuesToAddNotEmpty_ResultingCollectionContainsAllElementsInValuesToAdd()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "Addis", Justification = "Code Analysis does not recognize the underscore as a word breaker.")]
+        public static void AddRange___Should_add_all_elements_in_valuesToAdd_to_collection___When_collection_is_empty_and_valuesToAdd_is_not_empty()
         {
             // Arrange
             var collection1 = new HashSet<string>();
@@ -78,14 +85,17 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void AddRange_CollectionIsNotEmptyAndValuesToAddIsEmpty_NothingAddedToCollection()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "Addis", Justification = "Code Analysis does not recognize the underscore as a word breaker.")]
+        public static void AddRange___Should_not_add_any_elements_to_collection___When_collection_is_not_empty_and_valuesToAdd_is_empty()
         {
             // Arrange
+            // ReSharper disable CollectionNeverUpdated.Local
             var collection1 = new HashSet<string> { "a" };
             var valuesToAdd1 = new List<string>();
 
             var collection2 = new HashSet<string> { "a", "b" };
             var valuesToAdd2 = new List<string>();
+            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             collection1.AddRange(valuesToAdd1);
@@ -101,7 +111,8 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void AddRange_NeitherCollectionNorValuesToAddIsEmpty_ResultingCollectionHasAllPreExistingValuesAsWellAsNewlyAddedValues()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "Addis", Justification = "Code Analysis does not recognize the underscore as a word breaker.")]
+        public static void AddRange___Should_add_all_elements_in_valuesToAdd_to_collection___When_collection_is_not_empty_and_valuesToAdd_is_not_empty()
         {
             // Arrange
             var collection1 = new HashSet<string> { "d", "e", "f" };
@@ -141,6 +152,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("h", collection3);
         }
 
-        // ReSharper restore InconsistentNaming        
+        // ReSharper restore InconsistentNaming
     }
 }

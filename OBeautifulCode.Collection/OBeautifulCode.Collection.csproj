@@ -22,6 +22,8 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Debug\OBeautifulCode.Collection.XML</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\common\analyzers.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,10 +35,12 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Release\OBeautifulCode.Collection.XML</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\common\analyzers.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Conditions, Version=2.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Conditions.2.0.0\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Conditions.dll</HintPath>
+    <Reference Include="Conditions, Version=2.0.1.19, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Conditions.2.0.1\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Conditions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OBeautifulCode.String, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
@@ -58,6 +62,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="OBeautifulCode.Collection.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <AdditionalFiles Include="..\common\stylecop.json">
+      <Link>stylecop.json</Link>
+        <InProject>false</InProject>
+    </AdditionalFiles>
+  </ItemGroup>
+    <ItemGroup>
+      <CodeAnalysisDictionary Include="..\common\codeanalysis-dictionary.xml">
+        <Link>codeanalysis-dictionary.xml</Link>
+        <InProject>false</InProject>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
