@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CollectionExtensions.cs" company="OBeautifulCode">
-//   Copyright 2015 OBeautifulCode
+//   Copyright (c) OBeautifulCode. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -31,12 +31,14 @@ namespace OBeautifulCode.Collection
         public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> valuesToAdd)
         {
             Condition.Requires(collection, nameof(collection)).IsNotNull();
+
             // ReSharper disable PossibleMultipleEnumeration
             Condition.Requires(valuesToAdd, nameof(valuesToAdd)).IsNotNull();
             foreach (var item in valuesToAdd)
             {
                 collection.Add(item);
             }
+
             // ReSharper restore PossibleMultipleEnumeration
         }
     }

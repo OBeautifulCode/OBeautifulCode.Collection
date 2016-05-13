@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="EnumerableExtensionsTest.cs" company="OBeautifulCode">
-//   Copyright 2015 OBeautifulCode
+//   Copyright (c) OBeautifulCode. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ namespace OBeautifulCode.Collection.Test
     {
         // ReSharper disable InconsistentNaming
         [Fact]
-        public static void ToDelimitedString_ValueIsNull_ThrowsArgumentNullException()
+        public static void ToDelimitedString___Should_throw_ArgumentNullException___When_parameter_value_is_null()
         {
             // Arrange
             const string Delimiter = ",";
@@ -30,7 +30,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToDelimitedString_DelimiterIsNull_ThrowsArgumentNullException()
+        public static void ToDelimitedString___Should_throw_ArgumentNullException___When_parameter_delimiter_is_null()
         {
             // Arrange
             var values = new List<string> { "abc", "def" };
@@ -40,10 +40,12 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToDelimitedString_EnumerableIsEmpty_ReturnsNull()
+        public static void ToDelimitedString___Should_return_null___When_parameter_values_is_empty()
         {
             // Arrange
+            // ReSharper disable CollectionNeverUpdated.Local
             var values = new List<string>();
+            // ReSharper restore CollectionNeverUpdated.Local
             const string Delimiter = ",";
 
             // Act
@@ -54,7 +56,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToDelimitedString_EnumerableContainsOneElement_ReturnsThatOneElement()
+        public static void ToDelimitedString___Should_return_same_one_element___When_parameter_values_contains_one_element()
         {
             // Arrange
             var values = new List<string> { "fir    st" };
@@ -68,7 +70,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToDelimitedString_DelimiterIsTheEmpyString_ReturnsAllElementsOfEnumerableConcatenated()
+        public static void ToDelimitedString___Should_return_string_with_all_elements_of_specified_enumerable_concatenated___When_delimiter_is_empty_string()
         {
             // Arrange
             var values1 = new List<string> { "fir    st" };
@@ -87,7 +89,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToDelimitedString_EnumerableHasMultipleElementsWithNonEmptyDelimiter_ReturnsAllElementsInTheSameStringSeparatedByDelimiter()
+        public static void ToDelimitedString___Should_return_string_with_all_elements_separated_by_delimiter___When_enumerable_has_multiple_elements_with_nonempty_delimiter()
         {
             // Arrange
             const string Delimiter1 = ",";
@@ -116,7 +118,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToDelimitedString_EnumerableHasNullElements_NullElementsTreatedAsEmptyStringWhenConstructingDelmitedString()
+        public static void ToDelimitedString__Should_return_string_with_all_elements_separated_by_delimiter_and_null_elements_treated_as_empty_string___When_enumerable_has_null_elements()
         {
             // Arrange
             const string Delimiter1 = ",";
@@ -145,17 +147,19 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToCsv_ValueIsNull_ThrowsArgumentNullException()
+        public static void ToCsv___Should_throw_ArgumentNullException___When_parameter_value_is_null()
         {
             // Arrange, Act, Assert
             Assert.Throws<ArgumentNullException>(() => EnumerableExtensions.ToCsv(null));
         }
 
         [Fact]
-        public static void ToCsv_EnumerableIsEmpty_ReturnsNull()
+        public static void ToCsv___Should_return_null___When_enumerable_is_empty()
         {
             // Arrange
+            // ReSharper disable CollectionNeverUpdated.Local
             var values = new List<string>();
+            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             var actual = values.ToCsv();
@@ -165,7 +169,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToCsv_EnumerableContainsOneElement_ReturnsThatOneElement()
+        public static void ToCsv___Should_return_same_one_element___When_enumerable_contains_one_elements()
         {
             // Arrange
             var values = new List<string> { "fir    st" };
@@ -178,7 +182,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToCsv_EnumerableHasMultipleElements_ReturnsAllElementsInTheSameStringSeparatedByComma()
+        public static void ToCsv___Should_return_all_elements_separated_by_comma___When_enumerable_has_multiple_elements()
         {
             // Arrange
             var values1a = new List<string> { "first", "second" };
@@ -196,7 +200,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToCsv_EnumerableHasNullElements_NullElementsTreatedAsEmptyStringWhenConstructingCsv()
+        public static void ToCsv___Should_return_all_elements_separated_by_comma_with_null_elements_treated_as_empty_string___When_enumerable_has_null_elements()
         {
             // Arrange
             var values1a = new List<string> { null };
@@ -223,7 +227,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToCsv_EnumerableHasElementsThatAreNotCsvSafe_AllNonSafeElementsAreMadeSafeBeforeInsertingIntoString()
+        public static void ToCsv___Should_make_all_non_CSV_safe_elements_safe_before_adding_to_string___When_enumerable_has_elements_that_are_not_CSV_safe()
         {
             // Arrange
             var values1 = new List<string> { "first", null, "se\"c\"ond" };
@@ -242,17 +246,19 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToNewLineDelimited_ValueIsNull_ThrowsArgumentNullException()
+        public static void ToNewLineDelimited___Should_throw_ArgumentNullException___When_parameter_value_is_null()
         {
             // Arrange, Act, Assert
             Assert.Throws<ArgumentNullException>(() => EnumerableExtensions.ToNewLineDelimited(null));
         }
 
         [Fact]
-        public static void ToNewLineDelimited_EnumerableIsEmpty_ReturnsNull()
+        public static void ToNewLineDelimited___Should_return_null___When_parameter_value_is_null()
         {
             // Arrange
+            // ReSharper disable CollectionNeverUpdated.Local
             var values = new List<string>();
+            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             var actual = values.ToNewLineDelimited();
@@ -262,7 +268,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToNewLineDelimited_EnumerableContainsOneElement_ReturnsThatOneElement()
+        public static void ToNewLineDelimited___Should_return_same_one_element___When_enumerable_contains_one_element()
         {
             // Arrange
             var values = new List<string> { "fir    st" };
@@ -275,7 +281,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToNewLineDelimited_EnumerableHasMultipleElements_ReturnsAllElementsInTheSameStringSeparatedByComma()
+        public static void ToNewLineDelimited___Should_return_all_elements_separated_by_new_line___When_enumerable_has_multiple_elements()
         {
             // Arrange
             var values1a = new List<string> { "first", "second" };
@@ -293,7 +299,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToNewLineDelimited_EnumerableHasNullElements_NullElementsTreatedAsEmptyStringWhenConstructingCsv()
+        public static void ToNewLineDelimited___Should_return_all_elements_separated_by_new_line_with_null_elements_treated_as_empty_string___When_enumerable_has_empty_elements()
         {
             // Arrange
             var values1a = new List<string> { null };
@@ -320,7 +326,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndComparerAndFirstSetIsNull_ThrowsArgumentNullException()
+        public static void SymmetricDifference_typed_source_with_comparer___Should_throw_ArgumentNullException___When_first_set_is_null()
         {
             // Arrange
             var secondSet = new List<string> { "abc" };
@@ -330,7 +336,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndComparerAndSecondSetIsNull_ThrowsArgumentNullException()
+        public static void SymmetricDifference_typed_source_with_comparer___Should_throw_ArgumentNullException___When_second_set_is_null()
         {
             // Arrange
             var firstSet = new List<string> { "abc" };
@@ -340,11 +346,13 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndComparerAndBothSetsAreEmpty_ReturnsEmptySet()
+        public static void SymmetricDifference_typed_source_with_comparer___Should_return_empty_set___When_both_sets_are_empty()
         {
             // Arrange
+            // ReSharper disable CollectionNeverUpdated.Local
             var firstSet = new List<string>();
             var secondSet = new List<string>();
+            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             var actual = firstSet.SymmetricDifference(secondSet, StringComparer.CurrentCulture);
@@ -354,7 +362,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndComparerAndSetsAreTheSame_ReturnsEmptySet()
+        public static void SymmetricDifference_typed_source_with_comparer___Should_return_empty_set___When_sets_are_the_same()
         {
             // Arrange
             var firstSet1 = new List<string> { "abc" };
@@ -383,9 +391,10 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndComparerAndOneSetIsEmpty_ReturnsValuesInNonEmptySet()
+        public static void SymmetricDifference_typed_source_with_comparer___Should_return_values_in_nonempty_set___When_one_set_is_empty()
         {
             // Arrange
+            // ReSharper disable CollectionNeverUpdated.Local
             var firstSet1 = new List<string>();
             var secondSet1 = new List<string> { "abc" };
 
@@ -400,6 +409,7 @@ namespace OBeautifulCode.Collection.Test
 
             var firstSet5 = new List<string>();
             var secondSet5 = new List<string> { "abc", "def", "ghi", "jkl" };
+            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             var actual1 = firstSet1.SymmetricDifference(secondSet1, StringComparer.CurrentCulture);
@@ -417,7 +427,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndComparerAndSetsHaveOneOrMoreDifferences_ReturnsTheSymmetricDifference()
+        public static void SymmetricDifference_typed_source_with_comparer___Should_return_the_symmetric_difference___When_sets_have_one_or_more_differences()
         {
             // Arrange
             var firstSet1 = new List<string> { "def" };
@@ -475,7 +485,268 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndNullComparer_ReturnsTheSymmetricDifferenceUsingDefaultComparer()
+        public static void SymmetricDifference_typed_source_with_comparer___Should_return_symmetric_difference_using_case_insensitive_comparisons___When_called_with_case_insensitive_comparer()
+        {
+            // Arrange
+            var firstSet1 = new List<string> { "def" };
+            var secondSet1 = new List<string> { "abc" };
+
+            var firstSet2 = new List<string> { "abc", "DEF" };
+            var secondSet2 = new List<string> { "ghi" };
+
+            var firstSet3 = new List<string> { "DEF" };
+            var secondSet3 = new List<string> { "abc", "def" };
+
+            var firstSet4 = new List<string> { "abc", "DEF", "ghi", "jkl" };
+            var secondSet4 = new List<string> { "pqr", "def", "JKL", "mno" };
+
+            var firstSet5 = new List<string> { "ABC", "DEF", "GHI", "JKL" };
+            var secondSet5 = new List<string> { "abc", "def", "ghi", "jkl" };
+
+            // Act
+            var actual1 = firstSet1.SymmetricDifference(secondSet1, StringComparer.CurrentCultureIgnoreCase);
+            var actual2 = firstSet2.SymmetricDifference(secondSet2, StringComparer.CurrentCultureIgnoreCase);
+            var actual3 = firstSet3.SymmetricDifference(secondSet3, StringComparer.CurrentCultureIgnoreCase);
+            var actual4 = firstSet4.SymmetricDifference(secondSet4, StringComparer.CurrentCultureIgnoreCase);
+            var actual5 = firstSet5.SymmetricDifference(secondSet5, StringComparer.CurrentCultureIgnoreCase);
+
+            // Assert
+            // ReSharper disable PossibleMultipleEnumeration
+            Assert.Equal(2, actual1.Count());
+            Assert.Contains("def", actual1);
+            Assert.Contains("abc", actual1);
+
+            Assert.Equal(3, actual2.Count());
+            Assert.Contains("DEF", actual2);
+            Assert.Contains("abc", actual2);
+            Assert.Contains("ghi", actual2);
+
+            Assert.Equal(1, actual3.Count());
+            Assert.Contains("abc", actual3);
+
+            Assert.Equal(4, actual4.Count());
+            Assert.Contains("abc", actual4);
+            Assert.Contains("ghi", actual4);
+            Assert.Contains("mno", actual4);
+            Assert.Contains("pqr", actual4);
+
+            Assert.Equal(0, actual5.Count());
+            // ReSharper restore PossibleMultipleEnumeration
+        }
+
+        [Fact]
+        public static void SymmetricDifference_typed_source_with_comparer___Should_return_symmetric_difference_with_only_one_copy_of_duplicate_items___When_one_set_has_duplicate_items()
+        {
+            // Arrange
+            var firstSet1 = new List<string> { "def", "def" };
+            var secondSet1 = new List<string> { "abc" };
+
+            var firstSet2 = new List<string> { "abc", "DEF" };
+            var secondSet2 = new List<string> { "ghi", "ghi" };
+
+            var firstSet3 = new List<string> { "DEF" };
+            var secondSet3 = new List<string> { "DEF", "abc", "DEF", "abc" };
+
+            var firstSet4 = new List<string> { "abc", "def", "ghi", "jkl", "ghi", "def" };
+            var secondSet4 = new List<string> { "mno", "pqr", "jkl", "def", "jkl", "mno" };
+
+            var firstSet5 = new List<string> { "ABC", "MNO", "DEF", "GHI", "JKL", "mno" };
+            var secondSet5 = new List<string> { "abc", "pqr", "def", "ghi", "jkl", "PQR" };
+
+            // Act
+            var actual1 = firstSet1.SymmetricDifference(secondSet1, StringComparer.CurrentCulture);
+            var actual2 = firstSet2.SymmetricDifference(secondSet2, StringComparer.CurrentCulture);
+            var actual3 = firstSet3.SymmetricDifference(secondSet3, StringComparer.CurrentCulture);
+            var actual4 = firstSet4.SymmetricDifference(secondSet4, StringComparer.CurrentCulture);
+            var actual5 = firstSet5.SymmetricDifference(secondSet5, StringComparer.CurrentCultureIgnoreCase);
+
+            // Assert
+            // ReSharper disable PossibleMultipleEnumeration
+            Assert.Equal(2, actual1.Count());
+            Assert.Contains("def", actual1);
+            Assert.Contains("abc", actual1);
+
+            Assert.Equal(3, actual2.Count());
+            Assert.Contains("DEF", actual2);
+            Assert.Contains("abc", actual2);
+            Assert.Contains("ghi", actual2);
+
+            Assert.Equal(1, actual3.Count());
+            Assert.Contains("abc", actual3);
+
+            Assert.Equal(4, actual4.Count());
+            Assert.Contains("abc", actual4);
+            Assert.Contains("ghi", actual4);
+            Assert.Contains("mno", actual4);
+            Assert.Contains("pqr", actual4);
+
+            Assert.Equal(2, actual5.Count());
+            Assert.Contains("MNO", actual5);
+            Assert.Contains("pqr", actual5);
+            // ReSharper restore PossibleMultipleEnumeration
+        }
+
+        [Fact]
+        public static void SymmetricDifference_typed_source_no_comparer___Should_throw_ArgumentNullException___When_first_set_is_null()
+        {
+            // Arrange
+            var secondSet = new List<string> { "abc" };
+
+            // Act, Assert
+            Assert.Throws<ArgumentNullException>(() => EnumerableExtensions.SymmetricDifference(null, secondSet));
+        }
+
+        [Fact]
+        public static void SymmetricDifference_typed_source_no_comparer___Should_throw_ArgumentNullException___When_second_set_is_null()
+        {
+            // Arrange
+            var firstSet = new List<string> { "abc" };
+
+            // Act, Assert
+            Assert.Throws<ArgumentNullException>(() => firstSet.SymmetricDifference(null));
+        }
+
+        [Fact]
+        public static void SymmetricDifference_typed_source_no_comparer___Should_return_empty_set___When_both_sets_are_empty()
+        {
+            // Arrange
+            // ReSharper disable CollectionNeverUpdated.Local
+            var firstSet = new List<string>();
+            var secondSet = new List<string>();
+            // ReSharper restore CollectionNeverUpdated.Local
+
+            // Act
+            var actual = firstSet.SymmetricDifference(secondSet);
+
+            // Assert
+            Assert.Empty(actual);
+        }
+
+        [Fact]
+        public static void SymmetricDifference_typed_source_no_comparer___Should_return_empty_set___When_sets_are_the_same()
+        {
+            // Arrange
+            var firstSet1 = new List<string> { "abc" };
+            var secondSet1 = new List<string> { "abc" };
+
+            var firstSet2 = new List<string> { "abc", "DEF" };
+            var secondSet2 = new List<string> { "abc", "DEF" };
+
+            var firstSet3 = new List<string> { "DEF", "abc" };
+            var secondSet3 = new List<string> { "abc", "DEF" };
+
+            var firstSet4 = new List<string> { "abc", "def", "ghi", "jkl" };
+            var secondSet4 = new List<string> { "ghi", "abc", "jkl", "def" };
+
+            // Act
+            var actual1 = firstSet1.SymmetricDifference(secondSet1);
+            var actual2 = firstSet2.SymmetricDifference(secondSet2);
+            var actual3 = firstSet3.SymmetricDifference(secondSet3);
+            var actual4 = firstSet4.SymmetricDifference(secondSet4);
+
+            // Assert
+            Assert.Empty(actual1);
+            Assert.Empty(actual2);
+            Assert.Empty(actual3);
+            Assert.Empty(actual4);
+        }
+
+        [Fact]
+        public static void SymmetricDifference_typed_source_no_comparer___Should_return_values_in_nonempty_set___When_one_set_is_empty()
+        {
+            // Arrange
+            // ReSharper disable CollectionNeverUpdated.Local
+            var firstSet1 = new List<string>();
+            var secondSet1 = new List<string> { "abc" };
+
+            var firstSet2 = new List<string> { "abc", "DEF" };
+            var secondSet2 = new List<string>();
+
+            var firstSet3 = new List<string>();
+            var secondSet3 = new List<string> { "abc", "DEF" };
+
+            var firstSet4 = new List<string> { "abc", "def", "ghi", "jkl" };
+            var secondSet4 = new List<string>();
+
+            var firstSet5 = new List<string>();
+            var secondSet5 = new List<string> { "abc", "def", "ghi", "jkl" };
+            // ReSharper restore CollectionNeverUpdated.Local
+
+            // Act
+            var actual1 = firstSet1.SymmetricDifference(secondSet1);
+            var actual2 = firstSet2.SymmetricDifference(secondSet2);
+            var actual3 = firstSet3.SymmetricDifference(secondSet3);
+            var actual4 = firstSet4.SymmetricDifference(secondSet4);
+            var actual5 = firstSet5.SymmetricDifference(secondSet5);
+
+            // Assert
+            Assert.True(secondSet1.SequenceEqual(actual1));
+            Assert.True(firstSet2.SequenceEqual(actual2));
+            Assert.True(secondSet3.SequenceEqual(actual3));
+            Assert.True(firstSet4.SequenceEqual(actual4));
+            Assert.True(secondSet5.SequenceEqual(actual5));
+        }
+
+        [Fact]
+        public static void SymmetricDifference_typed_source_no_comparer___Should_return_the_symmetric_difference___When_sets_have_one_or_more_differences()
+        {
+            // Arrange
+            var firstSet1 = new List<string> { "def" };
+            var secondSet1 = new List<string> { "abc" };
+
+            var firstSet2 = new List<string> { "abc", "DEF" };
+            var secondSet2 = new List<string> { "ghi" };
+
+            var firstSet3 = new List<string> { "DEF" };
+            var secondSet3 = new List<string> { "abc", "DEF" };
+
+            var firstSet4 = new List<string> { "abc", "def", "ghi", "jkl" };
+            var secondSet4 = new List<string> { "pqr", "def", "jkl", "mno" };
+
+            var firstSet5 = new List<string> { "ABC", "DEF", "GHI", "JKL" };
+            var secondSet5 = new List<string> { "abc", "def", "ghi", "jkl" };
+
+            // Act
+            var actual1 = firstSet1.SymmetricDifference(secondSet1);
+            var actual2 = firstSet2.SymmetricDifference(secondSet2);
+            var actual3 = firstSet3.SymmetricDifference(secondSet3);
+            var actual4 = firstSet4.SymmetricDifference(secondSet4);
+            var actual5 = firstSet5.SymmetricDifference(secondSet5);
+
+            // Assert
+            // ReSharper disable PossibleMultipleEnumeration
+            Assert.Equal(2, actual1.Count());
+            Assert.Contains("def", actual1);
+            Assert.Contains("abc", actual1);
+
+            Assert.Equal(3, actual2.Count());
+            Assert.Contains("DEF", actual2);
+            Assert.Contains("abc", actual2);
+            Assert.Contains("ghi", actual2);
+
+            Assert.Equal(1, actual3.Count());
+            Assert.Contains("abc", actual3);
+
+            Assert.Equal(4, actual4.Count());
+            Assert.Contains("abc", actual4);
+            Assert.Contains("ghi", actual4);
+            Assert.Contains("mno", actual4);
+            Assert.Contains("pqr", actual4);
+
+            Assert.Equal(8, actual5.Count());
+            Assert.Contains("abc", actual5);
+            Assert.Contains("def", actual5);
+            Assert.Contains("ghi", actual5);
+            Assert.Contains("jkl", actual5);
+            Assert.Contains("ABC", actual5);
+            Assert.Contains("DEF", actual5);
+            Assert.Contains("GHI", actual5);
+            Assert.Contains("JKL", actual5);
+            // ReSharper restore PossibleMultipleEnumeration
+        }
+
+        [Fact]
+        public static void SymmetricDifference_typed_source_no_comparer___Should_return_symmetric_difference_using_default_comparer___When_called()
         {
             // Arrange
             var firstSet1 = new List<string> { "def" };
@@ -533,264 +804,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndCaseInsensitiveComparer_ReturnsTheSymmetricDifferenceUsingCaseInsensitiveComparisons()
-        {
-            // Arrange
-            var firstSet1 = new List<string> { "def" };
-            var secondSet1 = new List<string> { "abc" };
-
-            var firstSet2 = new List<string> { "abc", "DEF" };
-            var secondSet2 = new List<string> { "ghi" };
-
-            var firstSet3 = new List<string> { "DEF" };
-            var secondSet3 = new List<string> { "abc", "def" };
-
-            var firstSet4 = new List<string> { "abc", "DEF", "ghi", "jkl" };
-            var secondSet4 = new List<string> { "pqr", "def", "JKL", "mno" };
-
-            var firstSet5 = new List<string> { "ABC", "DEF", "GHI", "JKL" };
-            var secondSet5 = new List<string> { "abc", "def", "ghi", "jkl" };
-
-            // Act
-            var actual1 = firstSet1.SymmetricDifference(secondSet1, StringComparer.CurrentCultureIgnoreCase);
-            var actual2 = firstSet2.SymmetricDifference(secondSet2, StringComparer.CurrentCultureIgnoreCase);
-            var actual3 = firstSet3.SymmetricDifference(secondSet3, StringComparer.CurrentCultureIgnoreCase);
-            var actual4 = firstSet4.SymmetricDifference(secondSet4, StringComparer.CurrentCultureIgnoreCase);
-            var actual5 = firstSet5.SymmetricDifference(secondSet5, StringComparer.CurrentCultureIgnoreCase);
-
-            // Assert
-            // ReSharper disable PossibleMultipleEnumeration
-            Assert.Equal(2, actual1.Count());
-            Assert.Contains("def", actual1);
-            Assert.Contains("abc", actual1);
-
-            Assert.Equal(3, actual2.Count());
-            Assert.Contains("DEF", actual2);
-            Assert.Contains("abc", actual2);
-            Assert.Contains("ghi", actual2);
-
-            Assert.Equal(1, actual3.Count());
-            Assert.Contains("abc", actual3);
-
-            Assert.Equal(4, actual4.Count());
-            Assert.Contains("abc", actual4);
-            Assert.Contains("ghi", actual4);
-            Assert.Contains("mno", actual4);
-            Assert.Contains("pqr", actual4);
-
-            Assert.Equal(0, actual5.Count());
-            // ReSharper restore PossibleMultipleEnumeration
-        }
-
-        [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndComparerAndOneSetHasDuplicateItems_TheResultingSymmetricDifferenceOnlyContainsOneCopyOfDuplicatedItem()
-        {
-            // Arrange
-            var firstSet1 = new List<string> { "def", "def" };
-            var secondSet1 = new List<string> { "abc" };
-
-            var firstSet2 = new List<string> { "abc", "DEF" };
-            var secondSet2 = new List<string> { "ghi", "ghi" };
-
-            var firstSet3 = new List<string> { "DEF" };
-            var secondSet3 = new List<string> { "DEF", "abc", "DEF", "abc" };
-
-            var firstSet4 = new List<string> { "abc", "def", "ghi", "jkl", "ghi", "def" };
-            var secondSet4 = new List<string> { "mno", "pqr", "jkl", "def", "jkl", "mno" };
-
-            var firstSet5 = new List<string> { "ABC", "MNO", "DEF", "GHI", "JKL", "mno" };
-            var secondSet5 = new List<string> { "abc", "pqr", "def", "ghi", "jkl", "PQR" };
-
-            // Act
-            var actual1 = firstSet1.SymmetricDifference(secondSet1, StringComparer.CurrentCulture);
-            var actual2 = firstSet2.SymmetricDifference(secondSet2, StringComparer.CurrentCulture);
-            var actual3 = firstSet3.SymmetricDifference(secondSet3, StringComparer.CurrentCulture);
-            var actual4 = firstSet4.SymmetricDifference(secondSet4, StringComparer.CurrentCulture);
-            var actual5 = firstSet5.SymmetricDifference(secondSet5, StringComparer.CurrentCultureIgnoreCase);
-
-            // Assert
-            // ReSharper disable PossibleMultipleEnumeration
-            Assert.Equal(2, actual1.Count());
-            Assert.Contains("def", actual1);
-            Assert.Contains("abc", actual1);
-
-            Assert.Equal(3, actual2.Count());
-            Assert.Contains("DEF", actual2);
-            Assert.Contains("abc", actual2);
-            Assert.Contains("ghi", actual2);
-
-            Assert.Equal(1, actual3.Count());
-            Assert.Contains("abc", actual3);
-
-            Assert.Equal(4, actual4.Count());
-            Assert.Contains("abc", actual4);
-            Assert.Contains("ghi", actual4);
-            Assert.Contains("mno", actual4);
-            Assert.Contains("pqr", actual4);
-
-            Assert.Equal(2, actual5.Count());
-            Assert.Contains("MNO", actual5);
-            Assert.Contains("pqr", actual5);
-            // ReSharper restore PossibleMultipleEnumeration
-        }
-
-        [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndNoComparerAndFirstSetIsNull_ThrowsArgumentNullException()
-        {
-            // Arrange
-            var secondSet = new List<string> { "abc" };
-
-            // Act, Assert
-            Assert.Throws<ArgumentNullException>(() => EnumerableExtensions.SymmetricDifference(null, secondSet));
-        }
-
-        [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndNoComparerAndSecondSetIsNull_ThrowsArgumentNullException()
-        {
-            // Arrange
-            var firstSet = new List<string> { "abc" };
-
-            // Act, Assert
-            Assert.Throws<ArgumentNullException>(() => firstSet.SymmetricDifference(null));
-        }
-
-        [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndNoComparerAndBothSetsAreEmpty_ReturnsEmptySet()
-        {
-            // Arrange
-            var firstSet = new List<string>();
-            var secondSet = new List<string>();
-
-            // Act
-            var actual = firstSet.SymmetricDifference(secondSet);
-
-            // Assert
-            Assert.Empty(actual);
-        }
-
-        [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndNoComparerAndSetsAreTheSame_ReturnsEmptySet()
-        {
-            // Arrange
-            var firstSet1 = new List<string> { "abc" };
-            var secondSet1 = new List<string> { "abc" };
-
-            var firstSet2 = new List<string> { "abc", "DEF" };
-            var secondSet2 = new List<string> { "abc", "DEF" };
-
-            var firstSet3 = new List<string> { "DEF", "abc" };
-            var secondSet3 = new List<string> { "abc", "DEF" };
-
-            var firstSet4 = new List<string> { "abc", "def", "ghi", "jkl" };
-            var secondSet4 = new List<string> { "ghi", "abc", "jkl", "def" };
-
-            // Act
-            var actual1 = firstSet1.SymmetricDifference(secondSet1);
-            var actual2 = firstSet2.SymmetricDifference(secondSet2);
-            var actual3 = firstSet3.SymmetricDifference(secondSet3);
-            var actual4 = firstSet4.SymmetricDifference(secondSet4);
-
-            // Assert
-            Assert.Empty(actual1);
-            Assert.Empty(actual2);
-            Assert.Empty(actual3);
-            Assert.Empty(actual4);
-        }
-
-        [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndNoComparerAndOneSetIsEmpty_ReturnsValuesInNonEmptySet()
-        {
-            // Arrange
-            var firstSet1 = new List<string>();
-            var secondSet1 = new List<string> { "abc" };
-
-            var firstSet2 = new List<string> { "abc", "DEF" };
-            var secondSet2 = new List<string>();
-
-            var firstSet3 = new List<string>();
-            var secondSet3 = new List<string> { "abc", "DEF" };
-
-            var firstSet4 = new List<string> { "abc", "def", "ghi", "jkl" };
-            var secondSet4 = new List<string>();
-
-            var firstSet5 = new List<string>();
-            var secondSet5 = new List<string> { "abc", "def", "ghi", "jkl" };
-
-            // Act
-            var actual1 = firstSet1.SymmetricDifference(secondSet1);
-            var actual2 = firstSet2.SymmetricDifference(secondSet2);
-            var actual3 = firstSet3.SymmetricDifference(secondSet3);
-            var actual4 = firstSet4.SymmetricDifference(secondSet4);
-            var actual5 = firstSet5.SymmetricDifference(secondSet5);
-
-            // Assert
-            Assert.True(secondSet1.SequenceEqual(actual1));
-            Assert.True(firstSet2.SequenceEqual(actual2));
-            Assert.True(secondSet3.SequenceEqual(actual3));
-            Assert.True(firstSet4.SequenceEqual(actual4));
-            Assert.True(secondSet5.SequenceEqual(actual5));
-        }
-
-        [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndNoComparerAndSetsHaveOneOrMoreDifferences_ReturnsTheSymmetricDifference()
-        {
-            // Arrange
-            var firstSet1 = new List<string> { "def" };
-            var secondSet1 = new List<string> { "abc" };
-
-            var firstSet2 = new List<string> { "abc", "DEF" };
-            var secondSet2 = new List<string> { "ghi" };
-
-            var firstSet3 = new List<string> { "DEF" };
-            var secondSet3 = new List<string> { "abc", "DEF" };
-
-            var firstSet4 = new List<string> { "abc", "def", "ghi", "jkl" };
-            var secondSet4 = new List<string> { "pqr", "def", "jkl", "mno" };
-
-            var firstSet5 = new List<string> { "ABC", "DEF", "GHI", "JKL" };
-            var secondSet5 = new List<string> { "abc", "def", "ghi", "jkl" };
-
-            // Act
-            var actual1 = firstSet1.SymmetricDifference(secondSet1);
-            var actual2 = firstSet2.SymmetricDifference(secondSet2);
-            var actual3 = firstSet3.SymmetricDifference(secondSet3);
-            var actual4 = firstSet4.SymmetricDifference(secondSet4);
-            var actual5 = firstSet5.SymmetricDifference(secondSet5);
-
-            // Assert
-            // ReSharper disable PossibleMultipleEnumeration
-            Assert.Equal(2, actual1.Count());
-            Assert.Contains("def", actual1);
-            Assert.Contains("abc", actual1);
-
-            Assert.Equal(3, actual2.Count());
-            Assert.Contains("DEF", actual2);
-            Assert.Contains("abc", actual2);
-            Assert.Contains("ghi", actual2);
-
-            Assert.Equal(1, actual3.Count());
-            Assert.Contains("abc", actual3);
-
-            Assert.Equal(4, actual4.Count());
-            Assert.Contains("abc", actual4);
-            Assert.Contains("ghi", actual4);
-            Assert.Contains("mno", actual4);
-            Assert.Contains("pqr", actual4);
-
-            Assert.Equal(8, actual5.Count());
-            Assert.Contains("abc", actual5);
-            Assert.Contains("def", actual5);
-            Assert.Contains("ghi", actual5);
-            Assert.Contains("jkl", actual5);
-            Assert.Contains("ABC", actual5);
-            Assert.Contains("DEF", actual5);
-            Assert.Contains("GHI", actual5);
-            Assert.Contains("JKL", actual5);
-            // ReSharper restore PossibleMultipleEnumeration
-        }
-
-        [Fact]
-        public static void SymmetricDifference_CalledWithTypedSourceAndNoComparerAndOneSetHasDuplicateItems_TheResultingSymmetricDifferenceOnlyContainsOneCopyOfDuplicatedItem()
+        public static void SymmetricDifference_typed_source_no_comparer___Should_return_symmetric_difference_with_only_one_copy_of_duplicate_items___When_one_set_has_duplicate_items()
         {
             // Arrange
             var firstSet1 = new List<string> { "def", "def" };
@@ -835,7 +849,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithNonTypedSourceAndFirstSetIsNull_ThrowsArgumentNullException()
+        public static void SymmetricDifference_not_typed_source___Should_throw_ArgumentNullException___When_first_set_is_null()
         {
             // Arrange
             var secondSet = new ArrayList { "abc" };
@@ -845,7 +859,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithNonTypedSourceAndSecondSetIsNull_ThrowsArgumentNullException()
+        public static void SymmetricDifference_not_typed_source___Should_throw_ArgumentNullException___When_second_set_is_null()
         {
             // Arrange
             var firstSet = new ArrayList { "abc" };
@@ -855,11 +869,13 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithNonTypedSourceAndBothSetsAreEmpty_ReturnsEmptySet()
+        public static void SymmetricDifference_not_typed_source___Should_return_empty_set___When_both_sets_are_empty()
         {
             // Arrange
+            // ReSharper disable CollectionNeverUpdated.Local
             var firstSet = new ArrayList();
             var secondSet = new ArrayList();
+            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             var actual = firstSet.SymmetricDifference(secondSet);
@@ -869,7 +885,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithNonTypedSourceAndSetsAreTheSame_ReturnsEmptySet()
+        public static void SymmetricDifference_not_typed_source___Should_return_empty_set___When_both_sets_are_the_same()
         {
             // Arrange
             var firstSet1 = new ArrayList { "abc" };
@@ -898,9 +914,10 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithNonTypedSourceAndOneSetIsEmpty_ReturnsValuesInNonEmptySet()
+        public static void SymmetricDifference_not_typed_source___Should_return_values_in_nonempty_set___When_one_set_is_empty()
         {
             // Arrange
+            // ReSharper disable CollectionNeverUpdated.Local
             var firstSet1 = new ArrayList();
             var secondSet1 = new ArrayList { "abc" };
 
@@ -915,6 +932,7 @@ namespace OBeautifulCode.Collection.Test
 
             var firstSet5 = new ArrayList();
             var secondSet5 = new ArrayList { "abc", "def", "ghi", "jkl" };
+            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             var actual1 = firstSet1.SymmetricDifference(secondSet1);
@@ -932,7 +950,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithNonTypedSourceAndSetsHaveOneOrMoreDifferences_ReturnsTheSymmetricDifference()
+        public static void SymmetricDifference_not_typed_source___Should_return_the_symmetric_difference___When_both_sets_have_one_or_more_differences()
         {
             // Arrange
             var firstSet1 = new ArrayList { "def" };
@@ -990,7 +1008,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_CalledWithNonTypedSourceAndOneSetHasDuplicateItems_TheResultingSymmetricDifferenceOnlyContainsOneCopyOfDuplicatedItem()
+        public static void SymmetricDifference_not_typed_source___Should_return_the_symmetric_difference_with_only_one_copy_of_duplicate_items___When_one_set_has_duplicate_items()
         {
             // Arrange
             var firstSet1 = new ArrayList { "def", "def" };
@@ -1034,6 +1052,6 @@ namespace OBeautifulCode.Collection.Test
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        // ReSharper restore InconsistentNaming        
+        // ReSharper restore InconsistentNaming
     }
 }
