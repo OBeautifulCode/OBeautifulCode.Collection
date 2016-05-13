@@ -14,9 +14,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("OBeautifulCode.Collection")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("OBeautifulCode")]
 [assembly: AssemblyProduct("OBeautifulCode.Collection")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyCopyright("Copyright ©  2016 OBeautifulCode")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

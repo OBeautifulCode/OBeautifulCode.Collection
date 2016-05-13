@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/OBeautifulCode/OBeautifulCode.Collection</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection/nuget-icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/LICENSE</licenseUrl>
+    <description>$description$</description>
+    <summary>Provides convenience/utility methods for objects in the System.Collections namespace.</summary>
+    <copyright>Copyright 2016 OBeautifulCode</copyright>
+    <tags>collection enumerable extension extensions</tags>
+  </metadata>
+</package>
