@@ -30,9 +30,9 @@ namespace OBeautifulCode.Collection
         /// <exception cref="ArgumentNullException">valuesToAdd is null.</exception>
         public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> valuesToAdd)
         {
-            Condition.Requires(collection, "collection").IsNotNull();
+            Condition.Requires(collection, nameof(collection)).IsNotNull();
             // ReSharper disable PossibleMultipleEnumeration
-            Condition.Requires(valuesToAdd, "valuesToAdd").IsNotNull();
+            Condition.Requires(valuesToAdd, nameof(valuesToAdd)).IsNotNull();
             foreach (var item in valuesToAdd)
             {
                 collection.Add(item);

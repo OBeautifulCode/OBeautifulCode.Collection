@@ -38,8 +38,8 @@ namespace OBeautifulCode.Collection
         public static string ToDelimitedString(this IEnumerable<string> value, string delimiter)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            Condition.Requires(value, "value").IsNotNull();
-            Condition.Requires(delimiter, "delimiter").IsNotNull();
+            Condition.Requires(value, nameof(value)).IsNotNull();
+            Condition.Requires(delimiter, nameof(delimiter)).IsNotNull();
             try
             {
                 // if there is only one element and it is null, then value.Aggregate returns null instead of empty string
@@ -72,7 +72,7 @@ namespace OBeautifulCode.Collection
         public static string ToCsv(this IEnumerable<string> value)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            Condition.Requires(value, "value").IsNotNull();
+            Condition.Requires(value, nameof(value)).IsNotNull();
             return value.Select(item => item == null ? string.Empty : item.ToCsvSafe()).ToDelimitedString(",");
             // ReSharper restore PossibleMultipleEnumeration
         }
@@ -112,8 +112,8 @@ namespace OBeautifulCode.Collection
         public static IEnumerable<TSource> SymmetricDifference<TSource>(this IEnumerable<TSource> value, IEnumerable<TSource> secondSet, IEqualityComparer<TSource> comparer)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            Condition.Requires(value, "value").IsNotNull();
-            Condition.Requires(secondSet, "secondSet").IsNotNull();
+            Condition.Requires(value, nameof(value)).IsNotNull();
+            Condition.Requires(secondSet, nameof(secondSet)).IsNotNull();
             if (comparer == null)
             {
                 comparer = EqualityComparer<TSource>.Default;
