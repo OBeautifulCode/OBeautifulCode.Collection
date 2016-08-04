@@ -16,7 +16,7 @@ namespace OBeautifulCode.Collection
     using OBeautifulCode.String;
 
     /// <summary>
-    /// Helper methods for operating on objects of type <see cref="IEnumerable"/>
+    /// Helper methods for operating on objects of type <see cref="IEnumerable"/> and <see cref="IEnumerable{T}"/>
     /// </summary>
     public static class EnumerableExtensions
     {
