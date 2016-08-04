@@ -13,7 +13,7 @@ namespace OBeautifulCode.Collection
     using Conditions;
 
     /// <summary>
-    /// Helper methods for operating on objects of type <see cref="ICollection"/>
+    /// Helper methods for operating on objects of type <see cref="ICollection{T}"/>
     /// </summary>
     public static class CollectionExtensions
     {

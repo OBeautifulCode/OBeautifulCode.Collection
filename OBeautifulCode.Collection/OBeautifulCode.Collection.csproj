@@ -39,12 +39,12 @@
     <CodeAnalysisRuleSet>..\common\analyzers.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Conditions, Version=2.0.1.19, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Conditions.2.0.1\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Conditions.dll</HintPath>
+    <Reference Include="Conditions, Version=2.1.0.24, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Conditions.2.1.0\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Conditions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="OBeautifulCode.String, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OBeautifulCode.String.1.0.4\lib\45\OBeautifulCode.String.dll</HintPath>
+    <Reference Include="OBeautifulCode.String, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OBeautifulCode.String.1.0.7\lib\net45\OBeautifulCode.String.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -67,13 +67,13 @@
     </None>
     <AdditionalFiles Include="..\common\stylecop.json">
       <Link>stylecop.json</Link>
-        <InProject>false</InProject>
+      <InProject>false</InProject>
     </AdditionalFiles>
   </ItemGroup>
-    <ItemGroup>
-      <CodeAnalysisDictionary Include="..\common\codeanalysis-dictionary.xml">
-        <Link>codeanalysis-dictionary.xml</Link>
-        <InProject>false</InProject>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\common\codeanalysis-dictionary.xml">
+      <Link>codeanalysis-dictionary.xml</Link>
+      <InProject>false</InProject>
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
