@@ -15,14 +15,14 @@ before_build:
 build:
   verbosity: minimal
 after_build:
-- 7z a OBeautifulCode.String.zip %APPVEYOR_BUILD_FOLDER%\OBeautifulCode.String\bin\%CONFIGURATION%\*.* -r
+- 7z a OBeautifulCode.Collection.zip %APPVEYOR_BUILD_FOLDER%\OBeautifulCode.Collection\bin\%CONFIGURATION%\*.* -r
 - ps: (New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/NaosProject/Naos.Powershell/master/Build/Nuget-Functions.ps1', "$($env:appveyor_build_folder)\Nuget-Functions.ps1")
 - ps: . "$($env:appveyor_build_folder)\Nuget-Functions.ps1"
-- ps: ls . -filter *.recipe-nuspec -recurse | %{Nuget-OverrideNuSpecIntoNewFile -templateFile "$($env:appveyor_build_folder)\OBeautifulCode.String\OBeautifulCode.String.template-nuspec" -overrideFile $_.FullName -targetFile $_.FullName.Replace('.recipe-nuspec','.nuspec')}
+- ps: ls . -filter *.recipe-nuspec -recurse | %{Nuget-OverrideNuSpecIntoNewFile -templateFile "$($env:appveyor_build_folder)\OBeautifulCode.Collection\OBeautifulCode.Collection.template-nuspec" -overrideFile $_.FullName -targetFile $_.FullName.Replace('.recipe-nuspec','.nuspec')}
 - ps: $version = Nuget-CreatePreReleaseSupportedVersion -version $env:appveyor_build_version -branchName $env:appveyor_repo_branch
 - ps: ls . -filter *.nuspec -recurse | %{nuget pack $_.FullName -Version $version }
 artifacts:
-- path: OBeautifulCode.String.zip
+- path: OBeautifulCode.Collection.zip
 - path: '*.nupkg'
 - path: Nuget-Functions.ps1
 deploy:
