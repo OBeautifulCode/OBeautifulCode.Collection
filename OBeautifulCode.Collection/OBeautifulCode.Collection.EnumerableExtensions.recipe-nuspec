@@ -1,0 +1,12 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>OBeautifulCode.Collection.EnumerableExtensions</id>
+    <description>Helper methods for operating on objects of type IEnumerable.</description>
+    <tags>enumerable ienumerable extension extensionmethods</tags>
+    <developmentDependency>true</developmentDependency>
+  </metadata>
+  <files>
+    <file src="EnumerableExtensions.cs" target="content\net45\.OBeautifulCode.Recipes\OBeautifulCode.Collection\EnumerableExtensions.cs" />
+  </files>
+</package>

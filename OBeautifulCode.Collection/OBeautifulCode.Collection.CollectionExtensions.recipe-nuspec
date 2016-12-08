@@ -1,0 +1,12 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>OBeautifulCode.Collection.CollectionExtensions</id>
+    <description>Helper methods for operating on objects of type ICollection.</description>
+    <tags>collection icollection extension extensionmethods</tags>
+    <developmentDependency>true</developmentDependency>
+  </metadata>
+  <files>
+    <file src="CollectionExtensions.cs" target="content\net45\.OBeautifulCode.Recipes\OBeautifulCode.Collection\CollectionExtensions.cs" />
+  </files>
+</package>
