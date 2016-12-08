@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <version>$version$</version>
+    <authors>OBeautifulCode</authors>
+    <owners>OBeautifulCode</owners>
+    <projectUrl>https://github.com/OBeautifulCode/OBeautifulCode.Collection</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection/nuget-icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <copyright>Copyright (c) 2016 OBeautifulCode</copyright>
+  </metadata>
+</package>
