@@ -11,9 +11,9 @@ namespace OBeautifulCode.Collection
     using System.Collections.Generic;
     using System.Linq;
 
-    using Conditions;
-
     using OBeautifulCode.String;
+
+    using Spritely.Recipes;
 
     /// <summary>
     /// Helper methods for operating on objects of type <see cref="IEnumerable"/> and <see cref="IEnumerable{T}"/>
@@ -38,8 +38,9 @@ namespace OBeautifulCode.Collection
         public static string ToDelimitedString(this IEnumerable<string> value, string delimiter)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            Condition.Requires(value, nameof(value)).IsNotNull();
-            Condition.Requires(delimiter, nameof(delimiter)).IsNotNull();
+            value.Named(nameof(value)).Must().NotBeNull().OrThrow();
+            delimiter.Named(nameof(delimiter)).Must().NotBeNull().OrThrow();
+
             try
             {
                 // if there is only one element and it is null, then value.Aggregate returns null instead of empty string
@@ -73,7 +74,7 @@ namespace OBeautifulCode.Collection
         public static string ToCsv(this IEnumerable<string> value)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            Condition.Requires(value, nameof(value)).IsNotNull();
+            value.Named(nameof(value)).Must().NotBeNull().OrThrow();
             return value.Select(item => item == null ? string.Empty : item.ToCsvSafe()).ToDelimitedString(",");
             // ReSharper restore PossibleMultipleEnumeration
         }
@@ -113,8 +114,9 @@ namespace OBeautifulCode.Collection
         public static IEnumerable<TSource> SymmetricDifference<TSource>(this IEnumerable<TSource> value, IEnumerable<TSource> secondSet, IEqualityComparer<TSource> comparer)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            Condition.Requires(value, nameof(value)).IsNotNull();
-            Condition.Requires(secondSet, nameof(secondSet)).IsNotNull();
+            value.Named(nameof(value)).Must().NotBeNull().OrThrow();
+            secondSet.Named(nameof(secondSet)).Must().NotBeNull().OrThrow();
+
             if (comparer == null)
             {
                 comparer = EqualityComparer<TSource>.Default;

@@ -10,7 +10,7 @@ namespace OBeautifulCode.Collection
     using System.Collections;
     using System.Collections.Generic;
 
-    using Conditions;
+    using Spritely.Recipes;
 
     /// <summary>
     /// Helper methods for operating on objects of type <see cref="ICollection{T}"/>
@@ -30,16 +30,13 @@ namespace OBeautifulCode.Collection
         /// <exception cref="ArgumentNullException">valuesToAdd is null.</exception>
         public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> valuesToAdd)
         {
-            Condition.Requires(collection, nameof(collection)).IsNotNull();
+            collection.Named(nameof(collection)).Must().NotBeNull().OrThrow();
+            valuesToAdd.Named(nameof(valuesToAdd)).Must().NotBeNull().OrThrow();
 
-            // ReSharper disable PossibleMultipleEnumeration
-            Condition.Requires(valuesToAdd, nameof(valuesToAdd)).IsNotNull();
             foreach (var item in valuesToAdd)
             {
                 collection.Add(item);
             }
-
-            // ReSharper restore PossibleMultipleEnumeration
         }
     }
 }
