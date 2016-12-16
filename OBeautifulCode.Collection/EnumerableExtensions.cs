@@ -26,7 +26,7 @@ namespace OBeautifulCode.Collection
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Collection", "See package version number")]
 #endif
-    public static class EnumerableExtensions
+    internal static class EnumerableExtensions
     {
         /// <summary>
         /// Concatenates the individual values in an <see cref="IEnumerable"/> with a given delimiter

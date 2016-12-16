@@ -23,7 +23,7 @@ namespace OBeautifulCode.Collection
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Collection", "See package version number")]
 #endif
-    public static class CollectionExtensions
+    internal static class CollectionExtensions
     {
         /// <summary>
         /// Adds the elements of the specified <see cref="IEnumerable"/> to an <see cref="ICollection"/>.
