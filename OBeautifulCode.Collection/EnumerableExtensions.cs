@@ -7,14 +7,14 @@
 // </auto-generated>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace OBeautifulCode.Collection
+namespace OBeautifulCode.Collection.Recipes
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
 
-    using OBeautifulCode.String;
+    using OBeautifulCode.String.Recipes;
 
     using Spritely.Recipes;
 

@@ -11,11 +11,10 @@ namespace OBeautifulCode.Collection.Test
     using System.Collections.Generic;
     using System.Linq;
 
+    using OBeautifulCode.Collection.Recipes;
+
     using Xunit;
 
-    /// <summary>
-    /// Tests the <see cref="EnumerableExtensions"/> class.
-    /// </summary>
     public static class EnumerableExtensionsTest
     {
         // ReSharper disable InconsistentNaming

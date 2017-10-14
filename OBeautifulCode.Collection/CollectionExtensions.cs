@@ -7,7 +7,7 @@
 // </auto-generated>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace OBeautifulCode.Collection
+namespace OBeautifulCode.Collection.Recipes
 {
     using System;
     using System.Collections;
