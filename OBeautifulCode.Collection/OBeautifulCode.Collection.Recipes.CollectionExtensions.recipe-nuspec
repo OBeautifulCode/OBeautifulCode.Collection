@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <package >
   <metadata>
-    <id>OBeautifulCode.Collection.CollectionExtensions</id>
+    <id>OBeautifulCode.Collection.Recipes.CollectionExtensions</id>
     <description>Helper methods for operating on objects of type ICollection.</description>
     <tags>collection icollection extension extensionmethods</tags>
     <developmentDependency>true</developmentDependency>
