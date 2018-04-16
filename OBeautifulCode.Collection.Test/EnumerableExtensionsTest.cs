@@ -11,6 +11,8 @@ namespace OBeautifulCode.Collection.Test
     using System.Collections.Generic;
     using System.Linq;
 
+    using FluentAssertions;
+
     using OBeautifulCode.Collection.Recipes;
 
     using Xunit;
@@ -52,6 +54,20 @@ namespace OBeautifulCode.Collection.Test
 
             // Assert
             Assert.Null(actual);
+        }
+
+        [Fact]
+        public static void ToDelimitedString___Should_return_empty_string___When_parameter_values_contains_one_element_that_is_null()
+        {
+            // Arrange
+            var values = new List<string> { null };
+            const string Delimiter = ",";
+
+            // Act
+            var actual = values.ToDelimitedString(Delimiter);
+
+            // Assert
+            actual.Should().Be(string.Empty);
         }
 
         [Fact]
@@ -199,7 +215,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void ToCsv___Should_return_all_elements_separated_by_comma_with_null_elements_treated_as_empty_string___When_enumerable_has_null_elements()
+        public static void ToCsv___Should_return_all_elements_separated_by_comma_with_null_elements_treated_as_empty_string___When_enumerable_has_null_elements_and_nullValueEncoding_is_the_empty_string()
         {
             // Arrange
             var values1a = new List<string> { null };
@@ -226,6 +242,35 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
+        public static void ToCsv___Should_return_all_elements_separated_by_comma_with_a_well_known_token_used_for_null_elements___When_enumerable_has_null_elements_and_nullValueEncoding_is_a_well_known_token()
+        {
+            // Arrange
+            const string nullValueEncoding = "<null>";
+
+            var values1a = new List<string> { null };
+            string expected1a = "<null>";
+            var values1b = new List<string> { "first", "second", null };
+            const string Expected1b = "first,second,<null>";
+
+            var values2a = new List<string> { null, "second" };
+            const string Expected2a = "<null>,second";
+            var values2b = new List<string> { "first", null, "third" };
+            const string Expected2b = "first,<null>,third";
+
+            // Act
+            var actual1a = values1a.ToCsv(nullValueEncoding: nullValueEncoding);
+            var actual1b = values1b.ToCsv(nullValueEncoding: nullValueEncoding);
+            var actual2a = values2a.ToCsv(nullValueEncoding: nullValueEncoding);
+            var actual2b = values2b.ToCsv(nullValueEncoding: nullValueEncoding);
+
+            // Assert
+            Assert.Equal(expected1a, actual1a);
+            Assert.Equal(Expected1b, actual1b);
+            Assert.Equal(Expected2a, actual2a);
+            Assert.Equal(Expected2b, actual2b);
+        }
+
+        [Fact]
         public static void ToCsv___Should_make_all_non_CSV_safe_elements_safe_before_adding_to_string___When_enumerable_has_elements_that_are_not_CSV_safe()
         {
             // Arrange
@@ -235,13 +280,18 @@ namespace OBeautifulCode.Collection.Test
             var values2 = new List<string> { "  first  ", "sec,ond" };
             const string Expected2 = "\"  first  \",\"sec,ond\"";
 
+            var values3 = new List<string> { "first", null, "se\"c\"ond" };
+            const string Expected3 = "first,<null>,\"se\"\"c\"\"ond\"";
+
             // Act
             var actual1 = values1.ToCsv();
             var actual2 = values2.ToCsv();
+            var actual3 = values3.ToCsv(nullValueEncoding: "<null>");
 
             // Assert
             Assert.Equal(Expected1, actual1);
             Assert.Equal(Expected2, actual2);
+            Assert.Equal(Expected3, actual3);
         }
 
         [Fact]

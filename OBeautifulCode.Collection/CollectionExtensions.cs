@@ -7,6 +7,7 @@
 // </auto-generated>
 // --------------------------------------------------------------------------------------------------------------------
 
+// ReSharper disable once CheckNamespace
 namespace OBeautifulCode.Collection.Recipes
 {
     using System;
@@ -19,7 +20,6 @@ namespace OBeautifulCode.Collection.Recipes
     /// Helper methods for operating on objects of type <see cref="ICollection{T}"/>
     /// </summary>
 #if !OBeautifulCodeCollectionRecipesProject
-    [System.Diagnostics.DebuggerStepThrough]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Collection", "See package version number")]
 #endif
@@ -36,8 +36,11 @@ namespace OBeautifulCode.Collection.Recipes
         /// </param>
         /// <exception cref="ArgumentNullException">collection is null.</exception>
         /// <exception cref="ArgumentNullException">valuesToAdd is null.</exception>
-        public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> valuesToAdd)
+        public static void AddRange<T>(
+            this ICollection<T> collection, 
+            IEnumerable<T> valuesToAdd)
         {
+            // ReSharper disable PossibleMultipleEnumeration
             collection.Named(nameof(collection)).Must().NotBeNull().OrThrow();
             valuesToAdd.Named(nameof(valuesToAdd)).Must().NotBeNull().OrThrow();
 
@@ -45,6 +48,7 @@ namespace OBeautifulCode.Collection.Recipes
             {
                 collection.Add(item);
             }
+            // ReSharper restore PossibleMultipleEnumeration
         }
     }
 }
