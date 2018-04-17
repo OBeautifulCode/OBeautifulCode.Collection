@@ -14,6 +14,7 @@ namespace OBeautifulCode.Collection.Test
     using FluentAssertions;
 
     using OBeautifulCode.Collection.Recipes;
+    using OBeautifulCode.String.Recipes;
 
     using Xunit;
 
@@ -292,6 +293,20 @@ namespace OBeautifulCode.Collection.Test
             Assert.Equal(Expected1, actual1);
             Assert.Equal(Expected2, actual2);
             Assert.Equal(Expected3, actual3);
+        }
+
+        [Fact]
+        public static void ToCsv___Should_result_in_a_string_that_parses_into_the_original_collection_using_FromCsv___When_both_methods_called_using_same_nullValueEncoding()
+        {
+            // Arrange
+            var expected = new List<string> { string.Empty, "ed133556-a398-4e15-a234-5b3b182e0ff5", null, string.Empty, null, "7235b88a-71b8-4f8a-92a7-03b90f3af393" };
+
+            // Act
+            var csv = expected.ToCsv(nullValueEncoding: "<null>");
+            var actual = csv.FromCsv(nullValueEncoding: "<null>");
+
+            // Assert
+            actual.Should().Equal(expected);
         }
 
         [Fact]
