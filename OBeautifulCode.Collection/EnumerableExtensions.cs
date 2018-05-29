@@ -43,8 +43,8 @@ namespace OBeautifulCode.Collection.Recipes
         /// Returns a string that contains each element in the input enumerable, separated by the given delimiter.
         /// If the enumerable is empty, then this method returns null.
         /// </returns>
-        /// <exception cref="ArgumentNullException">value is null.</exception>
-        /// <exception cref="ArgumentNullException">delimiter is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="delimiter"/> is null.</exception>
         public static string ToDelimitedString(
             this IEnumerable<string> value,
             string delimiter)
@@ -79,7 +79,7 @@ namespace OBeautifulCode.Collection.Recipes
         /// separated by a comma and with the proper escaping.
         /// If the enumerable is empty, returns null.
         /// </returns>
-        /// <exception cref="ArgumentNullException">value is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
         public static string ToCsv(
             this IEnumerable<string> value,
             string nullValueEncoding = "")
@@ -103,7 +103,7 @@ namespace OBeautifulCode.Collection.Recipes
         /// Returns a string that contains each element in the input enumerable, separated by a newline.
         /// If the enumerable is empty, then this method returns null.
         /// </returns>
-        /// <exception cref="ArgumentNullException">value is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
         public static string ToNewLineDelimited(
             this IEnumerable<string> value)
         {
@@ -124,8 +124,8 @@ namespace OBeautifulCode.Collection.Recipes
         /// <param name="secondSet">The second enumerable to compare against the first.</param>
         /// <param name="comparer">The comparer object to use to compare each item in the collection.  If null uses EqualityComparer(T).Default.</param>
         /// <returns>Returns an <see cref="IEnumerable{T}"/> with the symmetric difference of the two sets.</returns>
-        /// <exception cref="ArgumentNullException">value is null.</exception>
-        /// <exception cref="ArgumentNullException">secondSet is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="secondSet"/> is null.</exception>
         public static IEnumerable<TSource> SymmetricDifference<TSource>(
             this IEnumerable<TSource> value,
             IEnumerable<TSource> secondSet,
@@ -158,8 +158,8 @@ namespace OBeautifulCode.Collection.Recipes
         /// <param name="value">The first enumerable.</param>
         /// <param name="secondSet">The second enumerable to compare against the first.</param>
         /// <returns>IEnumerable(T) with the symmetric difference of the two sets.</returns>
-        /// <exception cref="ArgumentNullException">value is null.</exception>
-        /// <exception cref="ArgumentNullException">secondSet is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="secondSet"/> is null.</exception>
         public static IEnumerable<TSource> SymmetricDifference<TSource>(
             this IEnumerable<TSource> value,
             IEnumerable<TSource> secondSet)
@@ -179,8 +179,8 @@ namespace OBeautifulCode.Collection.Recipes
         /// <param name="value">The first enumerable.</param>
         /// <param name="secondSet">The second enumerable to compare against the first.</param>
         /// <returns>IEnumerable(T) with the symmetric difference of the two sets.</returns>
-        /// <exception cref="ArgumentNullException">value is null.</exception>
-        /// <exception cref="ArgumentNullException">secondSet is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="secondSet"/> is null.</exception>
         public static IEnumerable SymmetricDifference(
             this IEnumerable value,
             IEnumerable secondSet)

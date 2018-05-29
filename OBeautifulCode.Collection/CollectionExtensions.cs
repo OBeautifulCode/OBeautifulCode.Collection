@@ -36,8 +36,8 @@ namespace OBeautifulCode.Collection.Recipes
         /// The <see cref="IEnumerable"/> whose elements should be added to the <see cref="ICollection"/>.
         /// The <see cref="IEnumerable"/> itself cannot be a null reference, but it can contain elements that are a null reference.
         /// </param>
-        /// <exception cref="ArgumentNullException">collection is null.</exception>
-        /// <exception cref="ArgumentNullException">valuesToAdd is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="collection"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="valuesToAdd"/> is null.</exception>
         public static void AddRange<T>(
             this ICollection<T> collection,
             IEnumerable<T> valuesToAdd)
