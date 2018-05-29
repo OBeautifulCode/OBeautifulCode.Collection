@@ -15,8 +15,7 @@ namespace OBeautifulCode.Collection.Recipes
     using System.Linq;
 
     using OBeautifulCode.String.Recipes;
-
-    using Spritely.Recipes;
+    using OBeautifulCode.Validation.Recipes;
 
     /// <summary>
     /// Helper methods for operating on objects of type <see cref="IEnumerable"/> and <see cref="IEnumerable{T}"/>.
@@ -50,8 +49,8 @@ namespace OBeautifulCode.Collection.Recipes
             string delimiter)
         {
             // ReSharper disable once PossibleMultipleEnumeration
-            value.Named(nameof(value)).Must().NotBeNull().OrThrow();
-            delimiter.Named(nameof(delimiter)).Must().NotBeNull().OrThrow();
+            new { value }.Must().NotBeNull();
+            new { delimiter }.Must().NotBeNull();
 
             // ReSharper disable once PossibleMultipleEnumeration
             var valueAsList = value.ToList();
@@ -85,7 +84,7 @@ namespace OBeautifulCode.Collection.Recipes
             string nullValueEncoding = "")
         {
             // ReSharper disable once PossibleMultipleEnumeration
-            value.Named(nameof(value)).Must().NotBeNull().OrThrow();
+            new { value }.Must().NotBeNull();
 
             // ReSharper disable once PossibleMultipleEnumeration
             var result = value.Select(item => item == null ? nullValueEncoding : item.ToCsvSafe()).ToDelimitedString(",");
@@ -132,8 +131,8 @@ namespace OBeautifulCode.Collection.Recipes
             IEqualityComparer<TSource> comparer)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            value.Named(nameof(value)).Must().NotBeNull().OrThrow();
-            secondSet.Named(nameof(secondSet)).Must().NotBeNull().OrThrow();
+            new { value }.Must().NotBeNull();
+            new { secondSet }.Must().NotBeNull();
 
             if (comparer == null)
             {
