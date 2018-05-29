@@ -6,7 +6,7 @@
     <tags>enumerable ienumerable extension extensionmethods</tags>
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection/nuget-icon.png</iconUrl>
     <dependencies>
-      <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.30" />
+      <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.31" />
       <dependency id="OBeautifulCode.Validation.Recipes.ParameterValidator" version="1.0.11" />
     </dependencies>
   </metadata>

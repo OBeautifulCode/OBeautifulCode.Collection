@@ -38,8 +38,8 @@
     <CodeAnalysisRuleSet />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions, Version=5.2.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentAssertions.5.2.0\lib\net45\FluentAssertions.dll</HintPath>
+    <Reference Include="FluentAssertions, Version=5.3.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.5.3.0\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -64,16 +64,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include=".recipes\OBeautifulCode.String\StringExtensions.cs" />
-    <Compile Include=".recipes\OBeautifulCode.Validation.ParameterValidator\Parameter.cs" />
-    <Compile Include=".recipes\OBeautifulCode.Validation.ParameterValidator\ParameterShould.cs" />
-    <Compile Include=".recipes\OBeautifulCode.Validation.ParameterValidator\ParameterValidation.cs" />
-    <Compile Include=".recipes\OBeautifulCode.Validation.ParameterValidator\ParameterValidation.Internal.cs" />
-    <Compile Include=".recipes\OBeautifulCode.Validation.ParameterValidator\ParameterValidation.Strings.cs" />
-    <Compile Include=".recipes\OBeautifulCode.Validation.ParameterValidator\ParameterValidation.TypeValidation.cs" />
-    <Compile Include=".recipes\OBeautifulCode.Validation.ParameterValidator\ParameterValidation.Utility.cs" />
-    <Compile Include=".recipes\OBeautifulCode.Validation.ParameterValidator\ParameterValidator.cs" />
-    <Compile Include=".recipes\OBeautifulCode.Validation.ParameterValidator\Range.cs" />
-    <Compile Include=".recipes\OBeautifulCode.Validation.ParameterValidator\ValidatedNotNullAttribute.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\Parameter.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ParameterShould.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ParameterValidation.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ParameterValidation.Internal.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ParameterValidation.Strings.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ParameterValidation.TypeValidation.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ParameterValidation.Utility.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ParameterValidator.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\Range.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ValidatedNotNullAttribute.cs" />
     <Compile Include="CollectionExtensionsTest.cs" />
     <Compile Include="EnumerableExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

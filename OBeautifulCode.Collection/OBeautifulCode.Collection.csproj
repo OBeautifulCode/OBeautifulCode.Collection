@@ -44,6 +44,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include=".recipes\OBeautifulCode.String\StringExtensions.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\Parameter.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ParameterShould.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ParameterValidation.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ParameterValidation.Internal.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ParameterValidation.Strings.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ParameterValidation.TypeValidation.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ParameterValidation.Utility.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ParameterValidator.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\Range.cs" />
+    <Compile Include=".recipes\OBeautifulCode.Validation\ValidatedNotNullAttribute.cs" />
     <Compile Include=".recipes\Spritely.MustValidation\MakeRule.cs" />
     <Compile Include=".recipes\Spritely.MustValidation\MustExtensions.cs" />
     <Compile Include=".recipes\Spritely.MustValidation\RuleExtensions.cs" />
