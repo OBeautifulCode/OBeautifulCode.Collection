@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="EnumerableExtensionsTest.cs" company="OBeautifulCode">
-//   Copyright (c) OBeautifulCode. All rights reserved.
+//   Copyright (c) OBeautifulCode 2018. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -20,7 +20,6 @@ namespace OBeautifulCode.Collection.Test
 
     public static class EnumerableExtensionsTest
     {
-        // ReSharper disable InconsistentNaming
         [Fact]
         public static void ToDelimitedString___Should_throw_ArgumentNullException___When_parameter_value_is_null()
         {
@@ -45,9 +44,7 @@ namespace OBeautifulCode.Collection.Test
         public static void ToDelimitedString___Should_return_null___When_parameter_values_is_empty()
         {
             // Arrange
-            // ReSharper disable CollectionNeverUpdated.Local
             var values = new List<string>();
-            // ReSharper restore CollectionNeverUpdated.Local
             const string Delimiter = ",";
 
             // Act
@@ -173,9 +170,7 @@ namespace OBeautifulCode.Collection.Test
         public static void ToCsv___Should_return_null___When_enumerable_is_empty()
         {
             // Arrange
-            // ReSharper disable CollectionNeverUpdated.Local
             var values = new List<string>();
-            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             var actual = values.ToCsv();
@@ -320,9 +315,7 @@ namespace OBeautifulCode.Collection.Test
         public static void ToNewLineDelimited___Should_return_null___When_parameter_value_is_null()
         {
             // Arrange
-            // ReSharper disable CollectionNeverUpdated.Local
             var values = new List<string>();
-            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             var actual = values.ToNewLineDelimited();
@@ -413,10 +406,8 @@ namespace OBeautifulCode.Collection.Test
         public static void SymmetricDifference_typed_source_with_comparer___Should_return_empty_set___When_both_sets_are_empty()
         {
             // Arrange
-            // ReSharper disable CollectionNeverUpdated.Local
             var firstSet = new List<string>();
             var secondSet = new List<string>();
-            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             var actual = firstSet.SymmetricDifference(secondSet, StringComparer.CurrentCulture);
@@ -458,7 +449,6 @@ namespace OBeautifulCode.Collection.Test
         public static void SymmetricDifference_typed_source_with_comparer___Should_return_values_in_nonempty_set___When_one_set_is_empty()
         {
             // Arrange
-            // ReSharper disable CollectionNeverUpdated.Local
             var firstSet1 = new List<string>();
             var secondSet1 = new List<string> { "abc" };
 
@@ -473,7 +463,6 @@ namespace OBeautifulCode.Collection.Test
 
             var firstSet5 = new List<string>();
             var secondSet5 = new List<string> { "abc", "def", "ghi", "jkl" };
-            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             var actual1 = firstSet1.SymmetricDifference(secondSet1, StringComparer.CurrentCulture);
@@ -517,7 +506,6 @@ namespace OBeautifulCode.Collection.Test
             var actual5 = firstSet5.SymmetricDifference(secondSet5, StringComparer.CurrentCulture);
 
             // Assert
-            // ReSharper disable PossibleMultipleEnumeration
             Assert.Equal(2, actual1.Count());
             Assert.Contains("def", actual1);
             Assert.Contains("abc", actual1);
@@ -545,7 +533,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("DEF", actual5);
             Assert.Contains("GHI", actual5);
             Assert.Contains("JKL", actual5);
-            // ReSharper restore PossibleMultipleEnumeration
         }
 
         [Fact]
@@ -575,7 +562,6 @@ namespace OBeautifulCode.Collection.Test
             var actual5 = firstSet5.SymmetricDifference(secondSet5, StringComparer.CurrentCultureIgnoreCase);
 
             // Assert
-            // ReSharper disable PossibleMultipleEnumeration
             Assert.Equal(2, actual1.Count());
             Assert.Contains("def", actual1);
             Assert.Contains("abc", actual1);
@@ -595,7 +581,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("pqr", actual4);
 
             Assert.Equal(0, actual5.Count());
-            // ReSharper restore PossibleMultipleEnumeration
         }
 
         [Fact]
@@ -625,7 +610,6 @@ namespace OBeautifulCode.Collection.Test
             var actual5 = firstSet5.SymmetricDifference(secondSet5, StringComparer.CurrentCultureIgnoreCase);
 
             // Assert
-            // ReSharper disable PossibleMultipleEnumeration
             Assert.Equal(2, actual1.Count());
             Assert.Contains("def", actual1);
             Assert.Contains("abc", actual1);
@@ -647,7 +631,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Equal(2, actual5.Count());
             Assert.Contains("MNO", actual5);
             Assert.Contains("pqr", actual5);
-            // ReSharper restore PossibleMultipleEnumeration
         }
 
         [Fact]
@@ -674,10 +657,8 @@ namespace OBeautifulCode.Collection.Test
         public static void SymmetricDifference_typed_source_no_comparer___Should_return_empty_set___When_both_sets_are_empty()
         {
             // Arrange
-            // ReSharper disable CollectionNeverUpdated.Local
             var firstSet = new List<string>();
             var secondSet = new List<string>();
-            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             var actual = firstSet.SymmetricDifference(secondSet);
@@ -719,7 +700,6 @@ namespace OBeautifulCode.Collection.Test
         public static void SymmetricDifference_typed_source_no_comparer___Should_return_values_in_nonempty_set___When_one_set_is_empty()
         {
             // Arrange
-            // ReSharper disable CollectionNeverUpdated.Local
             var firstSet1 = new List<string>();
             var secondSet1 = new List<string> { "abc" };
 
@@ -734,7 +714,6 @@ namespace OBeautifulCode.Collection.Test
 
             var firstSet5 = new List<string>();
             var secondSet5 = new List<string> { "abc", "def", "ghi", "jkl" };
-            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             var actual1 = firstSet1.SymmetricDifference(secondSet1);
@@ -778,7 +757,6 @@ namespace OBeautifulCode.Collection.Test
             var actual5 = firstSet5.SymmetricDifference(secondSet5);
 
             // Assert
-            // ReSharper disable PossibleMultipleEnumeration
             Assert.Equal(2, actual1.Count());
             Assert.Contains("def", actual1);
             Assert.Contains("abc", actual1);
@@ -806,7 +784,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("DEF", actual5);
             Assert.Contains("GHI", actual5);
             Assert.Contains("JKL", actual5);
-            // ReSharper restore PossibleMultipleEnumeration
         }
 
         [Fact]
@@ -836,7 +813,6 @@ namespace OBeautifulCode.Collection.Test
             var actual5 = firstSet5.SymmetricDifference(secondSet5, null);
 
             // Assert
-            // ReSharper disable PossibleMultipleEnumeration
             Assert.Equal(2, actual1.Count());
             Assert.Contains("def", actual1);
             Assert.Contains("abc", actual1);
@@ -864,7 +840,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("DEF", actual5);
             Assert.Contains("GHI", actual5);
             Assert.Contains("JKL", actual5);
-            // ReSharper restore PossibleMultipleEnumeration
         }
 
         [Fact]
@@ -890,7 +865,6 @@ namespace OBeautifulCode.Collection.Test
             var actual4 = firstSet4.SymmetricDifference(secondSet4);
 
             // Assert
-            // ReSharper disable PossibleMultipleEnumeration
             Assert.Equal(2, actual1.Count());
             Assert.Contains("def", actual1);
             Assert.Contains("abc", actual1);
@@ -908,8 +882,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("ghi", actual4);
             Assert.Contains("mno", actual4);
             Assert.Contains("pqr", actual4);
-
-            // ReSharper restore PossibleMultipleEnumeration
         }
 
         [Fact]
@@ -936,10 +908,8 @@ namespace OBeautifulCode.Collection.Test
         public static void SymmetricDifference_not_typed_source___Should_return_empty_set___When_both_sets_are_empty()
         {
             // Arrange
-            // ReSharper disable CollectionNeverUpdated.Local
             var firstSet = new ArrayList();
             var secondSet = new ArrayList();
-            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             var actual = firstSet.SymmetricDifference(secondSet);
@@ -981,7 +951,6 @@ namespace OBeautifulCode.Collection.Test
         public static void SymmetricDifference_not_typed_source___Should_return_values_in_nonempty_set___When_one_set_is_empty()
         {
             // Arrange
-            // ReSharper disable CollectionNeverUpdated.Local
             var firstSet1 = new ArrayList();
             var secondSet1 = new ArrayList { "abc" };
 
@@ -996,7 +965,6 @@ namespace OBeautifulCode.Collection.Test
 
             var firstSet5 = new ArrayList();
             var secondSet5 = new ArrayList { "abc", "def", "ghi", "jkl" };
-            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             var actual1 = firstSet1.SymmetricDifference(secondSet1);
@@ -1040,7 +1008,6 @@ namespace OBeautifulCode.Collection.Test
             var actual5 = firstSet5.SymmetricDifference(secondSet5).Cast<object>();
 
             // Assert
-            // ReSharper disable PossibleMultipleEnumeration
             Assert.Equal(2, actual1.Count());
             Assert.Contains("def", actual1);
             Assert.Contains("abc", actual1);
@@ -1068,7 +1035,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("DEF", actual5);
             Assert.Contains("GHI", actual5);
             Assert.Contains("JKL", actual5);
-            // ReSharper restore PossibleMultipleEnumeration
         }
 
         [Fact]
@@ -1094,7 +1060,6 @@ namespace OBeautifulCode.Collection.Test
             var actual4 = firstSet4.SymmetricDifference(secondSet4).Cast<object>();
 
             // Assert
-            // ReSharper disable PossibleMultipleEnumeration
             Assert.Equal(2, actual1.Count());
             Assert.Contains("def", actual1);
             Assert.Contains("abc", actual1);
@@ -1112,10 +1077,6 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("ghi", actual4);
             Assert.Contains("mno", actual4);
             Assert.Contains("pqr", actual4);
-
-            // ReSharper restore PossibleMultipleEnumeration
         }
-
-        // ReSharper restore InconsistentNaming
     }
 }

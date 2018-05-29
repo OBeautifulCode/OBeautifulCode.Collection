@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Collection", "OBeautifulCode.Collection\OBeautifulCode.Collection.csproj", "{FC669937-2C66-4BD7-A9C5-B13C33260ECC}"
 EndProject
@@ -9,12 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Collection.T
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B0E10BCE-8B61-4CDB-9F6B-801F5DEBFED4}"
 	ProjectSection(SolutionItems) = preProject
-		common\analyzers-testing.ruleset = common\analyzers-testing.ruleset
-		common\analyzers.ruleset = common\analyzers.ruleset
-		appveyor.yml = appveyor.yml
-		common\codeanalysis-dictionary.xml = common\codeanalysis-dictionary.xml
 		LICENSE = LICENSE
-		common\stylecop.json = common\stylecop.json
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
@@ -34,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1FA202FD-DB86-46E1-8F57-97F0480042E3}
 	EndGlobalSection
 EndGlobal

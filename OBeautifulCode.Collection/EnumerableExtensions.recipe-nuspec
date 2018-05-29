@@ -1,0 +1,16 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>OBeautifulCode.Collection.Recipes.EnumerableExtensions</id>
+    <description>Helper methods for operating on objects of type IEnumerable.</description>
+    <tags>enumerable ienumerable extension extensionmethods</tags>
+    <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection/nuget-icon.png</iconUrl>
+    <dependencies>
+      <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.30" />
+      <dependency id="OBeautifulCode.Validation.Recipes.ParameterValidator" version="1.0.11" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="EnumerableExtensions.cs" target="content\net462\.recipes\OBeautifulCode.Collection\EnumerableExtensions.cs" />
+  </files>
+</package>

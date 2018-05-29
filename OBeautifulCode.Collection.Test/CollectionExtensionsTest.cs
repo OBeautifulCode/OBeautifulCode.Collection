@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CollectionExtensionsTest.cs" company="OBeautifulCode">
-//   Copyright (c) OBeautifulCode. All rights reserved.
+//   Copyright (c) OBeautifulCode 2018. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,14 +16,11 @@ namespace OBeautifulCode.Collection.Test
 
     public static class CollectionExtensionsTest
     {
-        // ReSharper disable InconsistentNaming
         [Fact]
         public static void AddRange___Should_throw_ArgumentNullException___When_parameter_collection_is_null()
         {
             // Arrange
-            // ReSharper disable CollectionNeverUpdated.Local
             var valuesToAdd = new List<int>();
-            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act, Assert
             Assert.Throws<ArgumentNullException>(() => CollectionExtensions.AddRange(null, valuesToAdd));
@@ -37,9 +34,7 @@ namespace OBeautifulCode.Collection.Test
             var collection = new List<string>();
 
             // Act, Assert
-            // ReSharper disable AssignNullToNotNullAttribute
             Assert.Throws<ArgumentNullException>(() => collection.AddRange(null));
-            // ReSharper restore AssignNullToNotNullAttribute
         }
 
         [Fact]
@@ -48,9 +43,7 @@ namespace OBeautifulCode.Collection.Test
         {
             // Arrange
             var collection = new HashSet<string>();
-            // ReSharper disable CollectionNeverUpdated.Local
             var valuesToAdd = new List<string>();
-            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             collection.AddRange(valuesToAdd);
@@ -88,13 +81,11 @@ namespace OBeautifulCode.Collection.Test
         public static void AddRange___Should_not_add_any_elements_to_collection___When_collection_is_not_empty_and_valuesToAdd_is_empty()
         {
             // Arrange
-            // ReSharper disable CollectionNeverUpdated.Local
             var collection1 = new HashSet<string> { "a" };
             var valuesToAdd1 = new List<string>();
 
             var collection2 = new HashSet<string> { "a", "b" };
             var valuesToAdd2 = new List<string>();
-            // ReSharper restore CollectionNeverUpdated.Local
 
             // Act
             collection1.AddRange(valuesToAdd1);
@@ -150,7 +141,5 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("g", collection3);
             Assert.Contains("h", collection3);
         }
-
-        // ReSharper restore InconsistentNaming
     }
 }
