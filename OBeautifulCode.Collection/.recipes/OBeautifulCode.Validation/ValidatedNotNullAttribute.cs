@@ -15,7 +15,7 @@ namespace OBeautifulCode.Validation.Recipes
     /// Attribute that avoids false positives of Code Analysis rule CA1062.
     /// </summary>
     /// <remarks>
-    /// See <a href="http://esmithy.net/2011/03/15/suppressing-ca1062/" />
+    /// See <a href="http://esmithy.net/2011/03/15/suppressing-ca1062/" />.
     /// </remarks>
     [AttributeUsage(AttributeTargets.Parameter)]
 #if !OBeautifulCodeValidationRecipesProject
