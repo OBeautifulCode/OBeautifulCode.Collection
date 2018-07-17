@@ -285,7 +285,7 @@ namespace OBeautifulCode.String.Recipes
         /// Returns the values contained within a CSV.
         /// If <paramref name="value"/> is null, returns an empty collection.
         /// </returns>
-        public static IReadOnlyCollection<string> FromCsv(
+        public static IReadOnlyList<string> FromCsv(
             this string value,
             string nullValueEncoding = null)
         {
