@@ -7,7 +7,7 @@
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection/nuget-icon.png</iconUrl>
     <dependencies>
       <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.32" />
-      <dependency id="OBeautifulCode.Validation.Recipes.ParameterValidator" version="1.0.13" />
+      <dependency id="OBeautifulCode.Validation.Recipes.ParameterValidator" version="1.0.14" />
     </dependencies>
   </metadata>
   <files>

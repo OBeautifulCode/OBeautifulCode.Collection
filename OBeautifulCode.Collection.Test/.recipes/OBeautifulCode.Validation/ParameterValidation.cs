@@ -376,7 +376,7 @@ namespace OBeautifulCode.Validation.Recipes
         }
 
         /// <summary>
-        /// Validates that the IEnumerable parameter contains at least one null element.
+        /// Validates that the IDictionary, IDictionary{TKey,TValue}, or IReadOnlyDictionary{TKey,TValue} parameter is empty.
         /// </summary>
         /// <param name="parameter">The parameter to validate.</param>
         /// <param name="because">Optional rationale for the validation, used in the exception message if the parameter fails this validation.  The default is use the framework-generated exception message as-is.</param>
@@ -384,7 +384,7 @@ namespace OBeautifulCode.Validation.Recipes
         /// <returns>
         /// The validated parameter.
         /// </returns>
-        public static Parameter ContainSomeNulls(
+        public static Parameter BeEmptyDictionary(
             [ValidatedNotNull] this Parameter parameter,
             string because = null,
             ApplyBecause applyBecause = ApplyBecause.PrefixedToDefaultMessage)
@@ -393,8 +393,62 @@ namespace OBeautifulCode.Validation.Recipes
             {
                 Because = because,
                 ApplyBecause = applyBecause,
-                ValueValidationHandler = ContainSomeNullsInternal,
-                ValidationName = nameof(ContainSomeNulls),
+                ValueValidationHandler = BeEmptyDictionaryInternal,
+                ValidationName = nameof(BeEmptyDictionary),
+                TypeValidations = MustBeDictionaryTypeValidations,
+            };
+
+            parameter.Validate(validation);
+            return parameter;
+        }
+
+        /// <summary>
+        /// Validates that the IDictionary, IDictionary{TKey,TValue}, or IReadOnlyDictionary{TKey,TValue} parameter is not empty.
+        /// </summary>
+        /// <param name="parameter">The parameter to validate.</param>
+        /// <param name="because">Optional rationale for the validation, used in the exception message if the parameter fails this validation.  The default is use the framework-generated exception message as-is.</param>
+        /// <param name="applyBecause">Optional value that determines how to apply the <paramref name="because"/>, when specified.  The default is to prefix the framework-generated exception message with <paramref name="because"/>.</param>
+        /// <returns>
+        /// The validated parameter.
+        /// </returns>
+        public static Parameter NotBeEmptyDictionary(
+            [ValidatedNotNull] this Parameter parameter,
+            string because = null,
+            ApplyBecause applyBecause = ApplyBecause.PrefixedToDefaultMessage)
+        {
+            var validation = new Validation
+            {
+                Because = because,
+                ApplyBecause = applyBecause,
+                ValueValidationHandler = NotBeEmptyDictionaryInternal,
+                ValidationName = nameof(NotBeEmptyDictionary),
+                TypeValidations = MustBeDictionaryTypeValidations,
+            };
+
+            parameter.Validate(validation);
+            return parameter;
+        }
+
+        /// <summary>
+        /// Validates that the IEnumerable parameter contains at least one null element.
+        /// </summary>
+        /// <param name="parameter">The parameter to validate.</param>
+        /// <param name="because">Optional rationale for the validation, used in the exception message if the parameter fails this validation.  The default is use the framework-generated exception message as-is.</param>
+        /// <param name="applyBecause">Optional value that determines how to apply the <paramref name="because"/>, when specified.  The default is to prefix the framework-generated exception message with <paramref name="because"/>.</param>
+        /// <returns>
+        /// The validated parameter.
+        /// </returns>
+        public static Parameter ContainSomeNullElements(
+            [ValidatedNotNull] this Parameter parameter,
+            string because = null,
+            ApplyBecause applyBecause = ApplyBecause.PrefixedToDefaultMessage)
+        {
+            var validation = new Validation
+            {
+                Because = because,
+                ApplyBecause = applyBecause,
+                ValueValidationHandler = ContainSomeNullElementsInternal,
+                ValidationName = nameof(ContainSomeNullElements),
                 TypeValidations = MustBeEnumerableOfNullableTypeValidations,
             };
 
@@ -411,7 +465,7 @@ namespace OBeautifulCode.Validation.Recipes
         /// <returns>
         /// The validated parameter.
         /// </returns>
-        public static Parameter NotContainAnyNulls(
+        public static Parameter NotContainAnyNullElements(
             [ValidatedNotNull] this Parameter parameter,
             string because = null,
             ApplyBecause applyBecause = ApplyBecause.PrefixedToDefaultMessage)
@@ -420,12 +474,97 @@ namespace OBeautifulCode.Validation.Recipes
             {
                 Because = because,
                 ApplyBecause = applyBecause,
-                ValueValidationHandler = NotContainAnyNullsInternal,
-                ValidationName = nameof(NotContainAnyNulls),
+                ValueValidationHandler = NotContainAnyNullElementsInternal,
+                ValidationName = nameof(NotContainAnyNullElements),
                 TypeValidations = MustBeEnumerableOfNullableTypeValidations,
             };
 
             parameter.Validate(validation);
+            return parameter;
+        }
+
+        /// <summary>
+        /// Validates that the IDictionary, IDictionary{TKey,TValue}, or IReadOnlyDictionary{TKey,TValue} parameter contains at least one null value.
+        /// </summary>
+        /// <param name="parameter">The parameter to validate.</param>
+        /// <param name="because">Optional rationale for the validation, used in the exception message if the parameter fails this validation.  The default is use the framework-generated exception message as-is.</param>
+        /// <param name="applyBecause">Optional value that determines how to apply the <paramref name="because"/>, when specified.  The default is to prefix the framework-generated exception message with <paramref name="because"/>.</param>
+        /// <returns>
+        /// The validated parameter.
+        /// </returns>
+        public static Parameter ContainSomeKeyValuePairsWithNullValue(
+            [ValidatedNotNull] this Parameter parameter,
+            string because = null,
+            ApplyBecause applyBecause = ApplyBecause.PrefixedToDefaultMessage)
+        {
+            var validation = new Validation
+            {
+                Because = because,
+                ApplyBecause = applyBecause,
+                ValueValidationHandler = ContainSomeKeyValuePairsWithNullValueInternal,
+                ValidationName = nameof(ContainSomeKeyValuePairsWithNullValue),
+                TypeValidations = MustBeDictionaryOfNullableTypeValidations,
+            };
+
+            parameter.Validate(validation);
+            return parameter;
+        }
+
+        /// <summary>
+        /// Validates that the IDictionary, IDictionary{TKey,TValue}, or IReadOnlyDictionary{TKey,TValue} parameter does not contain any null values.
+        /// </summary>
+        /// <param name="parameter">The parameter to validate.</param>
+        /// <param name="because">Optional rationale for the validation, used in the exception message if the parameter fails this validation.  The default is use the framework-generated exception message as-is.</param>
+        /// <param name="applyBecause">Optional value that determines how to apply the <paramref name="because"/>, when specified.  The default is to prefix the framework-generated exception message with <paramref name="because"/>.</param>
+        /// <returns>
+        /// The validated parameter.
+        /// </returns>
+        public static Parameter NotContainAnyKeyValuePairsWithNullValue(
+            [ValidatedNotNull] this Parameter parameter,
+            string because = null,
+            ApplyBecause applyBecause = ApplyBecause.PrefixedToDefaultMessage)
+        {
+            var validation = new Validation
+            {
+                Because = because,
+                ApplyBecause = applyBecause,
+                ValueValidationHandler = NotContainAnyKeyValuePairsWithNullValueInternal,
+                ValidationName = nameof(NotContainAnyKeyValuePairsWithNullValue),
+                TypeValidations = MustBeDictionaryOfNullableTypeValidations,
+            };
+
+            parameter.Validate(validation);
+            return parameter;
+        }
+
+        /// <summary>
+        /// Validates that the IEnumerable parameter is not null nor empty.
+        /// </summary>
+        /// <remarks>
+        /// This validation is effectively the same as <see cref="NotBeEmptyEnumerable"/> and exists for completeness.
+        /// </remarks>
+        /// <param name="parameter">The parameter to validate.</param>
+        /// <param name="because">Optional rationale for the validation, used in the exception message if the parameter fails this validation.  The default is use the framework-generated exception message as-is.</param>
+        /// <param name="applyBecause">Optional value that determines how to apply the <paramref name="because"/>, when specified.  The default is to prefix the framework-generated exception message with <paramref name="because"/>.</param>
+        /// <returns>
+        /// The validated parameter.
+        /// </returns>
+        public static Parameter NotBeNullNorEmptyEnumerable(
+            [ValidatedNotNull] this Parameter parameter,
+            string because = null,
+            ApplyBecause applyBecause = ApplyBecause.PrefixedToDefaultMessage)
+        {
+            var validation = new Validation
+            {
+                Because = because,
+                ApplyBecause = applyBecause,
+                ValueValidationHandler = NotBeEmptyEnumerableInternal,
+                ValidationName = nameof(NotBeNullNorEmptyEnumerable),
+                TypeValidations = MustBeEnumerableTypeValidations,
+            };
+
+            parameter.Validate(validation);
+
             return parameter;
         }
 
@@ -438,12 +577,12 @@ namespace OBeautifulCode.Validation.Recipes
         /// <returns>
         /// The validated parameter.
         /// </returns>
-        public static Parameter NotBeNullNorEmptyNorContainAnyNulls(
+        public static Parameter NotBeNullNorEmptyEnumerableNorContainAnyNulls(
             [ValidatedNotNull] this Parameter parameter,
             string because = null,
             ApplyBecause applyBecause = ApplyBecause.PrefixedToDefaultMessage)
         {
-            var validationName = nameof(NotBeNullNorEmptyNorContainAnyNulls);
+            var validationName = nameof(NotBeNullNorEmptyEnumerableNorContainAnyNulls);
 
             var validation1 = new Validation
             {
@@ -457,13 +596,83 @@ namespace OBeautifulCode.Validation.Recipes
             var validation2 = new Validation
             {
                 Because = because,
-                ValueValidationHandler = NotContainAnyNullsInternal,
+                ValueValidationHandler = NotContainAnyNullElementsInternal,
                 ValidationName = validationName,
                 TypeValidations = null,
             };
 
             parameter.Validate(validation1);
             parameter.Validate(validation2);
+
+            return parameter;
+        }
+
+        /// <summary>
+        /// Validates that the IDictionary, IDictionary{TKey,TValue}, or IReadOnlyDictionary{TKey,TValue} parameter is not null nor empty nor contains any null values.
+        /// </summary>
+        /// <param name="parameter">The parameter to validate.</param>
+        /// <param name="because">Optional rationale for the validation, used in the exception message if the parameter fails this validation.  The default is use the framework-generated exception message as-is.</param>
+        /// <param name="applyBecause">Optional value that determines how to apply the <paramref name="because"/>, when specified.  The default is to prefix the framework-generated exception message with <paramref name="because"/>.</param>
+        /// <returns>
+        /// The validated parameter.
+        /// </returns>
+        public static Parameter NotBeNullNorEmptyDictionaryNorContainAnyNullValues(
+            [ValidatedNotNull] this Parameter parameter,
+            string because = null,
+            ApplyBecause applyBecause = ApplyBecause.PrefixedToDefaultMessage)
+        {
+            var validationName = nameof(NotBeNullNorEmptyDictionaryNorContainAnyNullValues);
+
+            var validation1 = new Validation
+            {
+                Because = because,
+                ApplyBecause = applyBecause,
+                ValueValidationHandler = NotBeEmptyDictionaryInternal,
+                ValidationName = validationName,
+                TypeValidations = MustBeDictionaryOfNullableTypeValidations,
+            };
+
+            var validation2 = new Validation
+            {
+                Because = because,
+                ValueValidationHandler = NotContainAnyKeyValuePairsWithNullValueInternal,
+                ValidationName = validationName,
+                TypeValidations = null,
+            };
+
+            parameter.Validate(validation1);
+            parameter.Validate(validation2);
+
+            return parameter;
+        }
+
+        /// <summary>
+        /// Validates that the IDictionary, IDictionary{TKey,TValue}, or IReadOnlyDictionary{TKey,TValue} parameter is not null nor empty.
+        /// </summary>
+        /// <remarks>
+        /// This validation is effectively the same as <see cref="NotBeEmptyDictionary"/> and exists for completeness.
+        /// </remarks>
+        /// <param name="parameter">The parameter to validate.</param>
+        /// <param name="because">Optional rationale for the validation, used in the exception message if the parameter fails this validation.  The default is use the framework-generated exception message as-is.</param>
+        /// <param name="applyBecause">Optional value that determines how to apply the <paramref name="because"/>, when specified.  The default is to prefix the framework-generated exception message with <paramref name="because"/>.</param>
+        /// <returns>
+        /// The validated parameter.
+        /// </returns>
+        public static Parameter NotBeNullNorEmptyDictionary(
+            [ValidatedNotNull] this Parameter parameter,
+            string because = null,
+            ApplyBecause applyBecause = ApplyBecause.PrefixedToDefaultMessage)
+        {
+            var validation = new Validation
+            {
+                Because = because,
+                ApplyBecause = applyBecause,
+                ValueValidationHandler = NotBeEmptyDictionaryInternal,
+                ValidationName = nameof(NotBeNullNorEmptyDictionary),
+                TypeValidations = MustBeDictionaryTypeValidations,
+            };
+
+            parameter.Validate(validation);
 
             return parameter;
         }

@@ -18,6 +18,7 @@ namespace OBeautifulCode.Validation.Recipes
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using System.Text.RegularExpressions;
 
     using static System.FormattableString;
 
@@ -34,6 +35,8 @@ namespace OBeautifulCode.Validation.Recipes
 #pragma warning disable SA1201
 
         private static readonly CodeDomProvider CodeDomProvider = CodeDomProvider.CreateProvider("CSharp");
+
+        private static readonly Regex TypeFriendlyNameGenericArgumentsRegex = new Regex("<.*?>", RegexOptions.Compiled);
 
         private static readonly MethodInfo GetDefaultValueOpenGenericMethodInfo = ((Func<object>)GetDefaultValue<object>).Method.GetGenericMethodDefinition();
 
@@ -146,6 +149,90 @@ namespace OBeautifulCode.Validation.Recipes
             return result;
         }
 
+        private static Type GetDictionaryGenericValueType(
+            Type dictionaryType)
+        {
+            Type result;
+
+            if (dictionaryType.IsGenericType && (dictionaryType.GetGenericTypeDefinition() == UnboundGenericDictionaryType))
+            {
+                // type is IDictionary<T,K>
+                result = dictionaryType.GetGenericArguments()[1];
+            }
+            else if (dictionaryType.IsGenericType && (dictionaryType.GetGenericTypeDefinition() == UnboundGenericReadOnlyDictionaryType))
+            {
+                // type is IReadOnlyDictionary<T,K>
+                result = dictionaryType.GetGenericArguments()[1];
+            }
+            else
+            {
+                // type implements IDictionary<T,K>/IReadOnlyDictionary<T,K> or is a subclass (sub-sub-class, ...)
+                // of a type that implements those types
+                // note that we are grabing the first implementation.  it is possible, but
+                // highly unlikely, for a type to have multiple implementations of IDictionary<T,K>
+                result = dictionaryType
+                    .GetInterfaces()
+                    .Where(_ => _.IsGenericType && ((_.GetGenericTypeDefinition() == UnboundGenericDictionaryType) || (_.GetGenericTypeDefinition() == UnboundGenericReadOnlyDictionaryType)))
+                    .Select(_ => _.GenericTypeArguments[1])
+                    .FirstOrDefault();
+
+                if (result == null)
+                {
+                    // here we just assume it's a IDictionary and return typeof(object),
+                    // however, for completeness, we should recurse through all interface implementations
+                    // and check whether those are IDictionary<T,K> or IReadOnlyDictionary<T,K>.
+                    // see: https://stackoverflow.com/questions/5461295/using-isassignablefrom-with-open-generic-types
+                    result = ObjectType;
+                }
+            }
+
+            return result;
+        }
+
+        private static bool IsOfType(
+            this Type type,
+            Type otherType)
+        {
+            if (type.IsGenericTypeDefinition)
+            {
+                ParameterValidator.ThrowImproperUseOfFramework(Invariant($"The parameter type is an unbounded generic type."));
+            }
+
+            // type is equal to the other type
+            if (type == otherType)
+            {
+                return true;
+            }
+
+            // type is assignable to the other type
+            if (otherType.IsAssignableFrom(type))
+            {
+                return true;
+            }
+
+            // type is generic and other type is an unbounded generic type
+            if (type.IsGenericType && otherType.IsGenericTypeDefinition)
+            {
+                // type's unbounded generic version is the other type
+                if (type.GetGenericTypeDefinition() == otherType)
+                {
+                    return true;
+                }
+
+                // type implements an interface who's unbounded generic version is the other type
+                if (type.GetInterfaces().FirstOrDefault(_ => _.IsGenericType && (_.GetGenericTypeDefinition() == otherType)) != null)
+                {
+                    return true;
+                }
+
+                // note that, for completeness, we should recurse through all interface implementations
+                // and check whether any of those are == otherType
+                // see: https://stackoverflow.com/questions/5461295/using-isassignablefrom-with-open-generic-types
+            }
+
+            return false;
+        }
+
         private static void ThrowIfMalformedRange(
             ValidationParameter[] validationParameters)
         {
@@ -163,6 +250,15 @@ namespace OBeautifulCode.Validation.Recipes
         {
             // adapted from: https://stackoverflow.com/a/6402967/356790
             var result = CodeDomProvider.GetTypeOutput(new CodeTypeReference(type.FullName?.Replace(type.Namespace + ".", string.Empty)));
+
+            // if type is an unbounded generic type, then the result will something like List<> or IReadOnlyDictionary<, >
+            // whereas we would perfer List<T> or IReadOnlyDictionary<T,K>
+            if (type.IsGenericTypeDefinition)
+            {
+                var genericArgumentNames = string.Join(",", type.GetGenericArguments().Select(x => x.Name));
+                result = TypeFriendlyNameGenericArgumentsRegex.Replace(result, "<" + genericArgumentNames + ">");
+            }
+
             return result;
         }
 
@@ -183,7 +279,7 @@ namespace OBeautifulCode.Validation.Recipes
             var enumerableQualifier = validation.IsElementInEnumerable ? " contains an element that" : string.Empty;
             var genericTypeQualifier = include.HasFlag(Include.GenericType) ? ", where T: " + (genericTypeOverride?.GetFriendlyTypeName() ?? validation.ValueType.GetFriendlyTypeName()) : string.Empty;
             var failingValueQualifier = include.HasFlag(Include.FailingValue) ? (validation.IsElementInEnumerable ? "  Element value" : "  Parameter value") + Invariant($" is '{validation.Value?.ToString() ?? NullValueToString}'.") : string.Empty;
-            var validationParameterQualifiers = validation.ValidationParameters == null || !validation.ValidationParameters.Any() ? string.Empty : validation.ValidationParameters.Select(_ => Invariant($"  Specified '{_.Name}' is '{_.Value ?? NullValueToString}'.")).Aggregate((running, current) => running + current);
+            var validationParameterQualifiers = validation.ValidationParameters == null || !validation.ValidationParameters.Any() ? string.Empty : string.Join(string.Empty, validation.ValidationParameters.Select(_ => Invariant($"  Specified '{_.Name}' is '{_.Value ?? NullValueToString}'.")));
             var result = Invariant($"Parameter{parameterNameQualifier}{enumerableQualifier} {exceptionMessageSuffix}{genericTypeQualifier}.{failingValueQualifier}{validationParameterQualifiers}");
 
             if (validation.ApplyBecause == ApplyBecause.PrefixedToDefaultMessage)
