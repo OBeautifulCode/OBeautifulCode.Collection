@@ -17,6 +17,8 @@ namespace OBeautifulCode.Collection.Recipes
     using OBeautifulCode.String.Recipes;
     using OBeautifulCode.Validation.Recipes;
 
+    using static System.FormattableString;
+
     /// <summary>
     /// Helper methods for operating on objects of type <see cref="IEnumerable"/> and <see cref="IEnumerable{T}"/>.
     /// </summary>
@@ -29,6 +31,68 @@ namespace OBeautifulCode.Collection.Recipes
 #endif
     static class EnumerableExtensions
     {
+        /// <summary>
+        /// Gets all combinations of items in a specified set of items.
+        /// </summary>
+        /// <remarks>
+        /// Adapted from <a href="https://stackoverflow.com/a/41642733/356790" />.
+        /// </remarks>
+        /// <typeparam name="T">The type of items in the set.</typeparam>
+        /// <param name="values">The set of values.</param>
+        /// <param name="minimumItems">Optional minimum number of items in each combination.  Default is 1.</param>
+        /// <param name="maximumItems">Optional maximum number of items in each combination.  Default is no maximum limit.</param>
+        /// <returns>
+        /// All possible combinations for the input set, constrained by the specified <paramref name="maximumItems"/> and <paramref name="minimumItems"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="values"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="minimumItems"/> is less than 1.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="maximumItems"/> is less than <paramref name="minimumItems"/>"/>.</exception>
+        public static IReadOnlyCollection<IReadOnlyCollection<T>> GetCombinations<T>(
+            this IEnumerable<T> values,
+            int minimumItems = 1,
+            int maximumItems = int.MaxValue)
+        {
+            // ReSharper disable once PossibleMultipleEnumeration
+            new { values }.Must().NotBeNull();
+            new { minimumItems }.Must().BeGreaterThanOrEqualTo(1);
+            new { maximumItems }.Must().BeGreaterThanOrEqualTo(minimumItems, Invariant($"{nameof(maximumItems)} < {nameof(minimumItems)}."));
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            var valuesList = values.ToList();
+
+            var nonEmptyCombinations = (int)Math.Pow(2, valuesList.Count) - 1;
+            var result = new List<List<T>>(nonEmptyCombinations + 1);
+
+            // Optimize generation of empty combination, if empty combination is wanted
+            if (minimumItems == 0)
+            {
+                result.Add(new List<T>());
+            }
+
+            if ((minimumItems <= 1) && (maximumItems >= valuesList.Count))
+            {
+                // Simple case, generate all possible non-empty combinations
+                for (var bitPattern = 1; bitPattern <= nonEmptyCombinations; bitPattern++)
+                {
+                    result.Add(GenerateCombination(valuesList, bitPattern));
+                }
+            }
+            else
+            {
+                // Not-so-simple case, avoid generating the unwanted combinations
+                for (var bitPattern = 1; bitPattern <= nonEmptyCombinations; bitPattern++)
+                {
+                    var bitCount = CountBits(bitPattern);
+                    if (bitCount >= minimumItems && bitCount <= maximumItems)
+                    {
+                        result.Add(GenerateCombination(valuesList, bitPattern));
+                    }
+                }
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Gets the symmetric difference of two sets using the default equality comparer.
         /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
@@ -186,6 +250,35 @@ namespace OBeautifulCode.Collection.Recipes
         {
             var result = value.ToDelimitedString(Environment.NewLine);
             return result;
-        }        
+        }
+
+        private static List<T> GenerateCombination<T>(
+            IReadOnlyList<T> inputList,
+            int bitPattern)
+        {
+            var result = new List<T>(inputList.Count);
+            for (var j = 0; j < inputList.Count; j++)
+            {
+                if ((bitPattern >> j & 1) == 1)
+                {
+                    result.Add(inputList[j]);
+                }
+            }
+
+            return result;
+        }
+
+        private static int CountBits(
+            int bitPattern)
+        {
+            var result = 0;
+            while (bitPattern != 0)
+            {
+                result++;
+                bitPattern &= bitPattern - 1;
+            }
+
+            return result;
+        }
     }
 }

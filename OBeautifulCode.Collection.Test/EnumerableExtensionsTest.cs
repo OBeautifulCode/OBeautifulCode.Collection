@@ -11,8 +11,11 @@ namespace OBeautifulCode.Collection.Test
     using System.Collections.Generic;
     using System.Linq;
 
+    using FakeItEasy;
+
     using FluentAssertions;
 
+    using OBeautifulCode.AutoFakeItEasy;
     using OBeautifulCode.Collection.Recipes;
     using OBeautifulCode.String.Recipes;
 
@@ -20,6 +23,135 @@ namespace OBeautifulCode.Collection.Test
 
     public static class EnumerableExtensionsTest
     {
+        [Fact]
+        public static void GetCombinations___Should_throw_ArgumentNullException___When_parameter_values_is_null()
+        {
+            // Arrange, Act
+            var actual = Record.Exception(() => EnumerableExtensions.GetCombinations<string>(null));
+
+            // Assert
+            actual.Should().BeOfType<ArgumentNullException>();
+            actual.Message.Should().Contain("values");
+        }
+
+        [Fact]
+        public static void GetCombinations___Should_throw_ArgumentOutOfRangeException___When_parameter_minimumItems_is_less_than_1()
+        {
+            // Arrange
+            var values = Some.ReadOnlyDummies<string>();
+
+            // Act
+            var actual1 = Record.Exception(() => values.GetCombinations(minimumItems: 0));
+            var actual2 = Record.Exception(() => values.GetCombinations(minimumItems: A.Dummy<NegativeInteger>()));
+
+            // Assert
+            actual1.Should().BeOfType<ArgumentOutOfRangeException>();
+            actual1.Message.Should().Contain("minimumItems");
+            actual1.Message.Should().Contain("'comparisonValue' is '1'");
+
+            actual2.Should().BeOfType<ArgumentOutOfRangeException>();
+            actual2.Message.Should().Contain("minimumItems");
+            actual2.Message.Should().Contain("'comparisonValue' is '1'");
+        }
+
+        [Fact]
+        public static void GetCombinations___Should_throw_ArgumentOutOfRangeException___When_parameter_maximumItems_is_less_than_minimumItems()
+        {
+            // Arrange
+            var values = Some.ReadOnlyDummies<string>();
+            var minimumItems = A.Dummy<PositiveInteger>().ThatIs(_ => _ > 10000);
+            var maximumItems = A.Dummy<PositiveInteger>().ThatIs(_ => _ < minimumItems);
+
+            // Act
+            var actual = Record.Exception(() => values.GetCombinations(minimumItems, maximumItems));
+
+            // Assert
+            actual.Should().BeOfType<ArgumentOutOfRangeException>();
+            actual.Message.Should().Contain("maximumItems < minimumItems");
+        }
+
+        [Fact]
+        public static void GetCombinations___Should_return_empty_collection___When_values_is_an_empty_collection()
+        {
+            // Arrange
+            var values = new string[] { };
+
+            // Act
+            var actual = values.GetCombinations();
+
+            // Assert
+            actual.Should().BeEmpty();
+        }
+
+        [Fact]
+        public static void GetCombinations___Should_return_empty_collection___When_minimumItems_is_greater_than_the_size_of_the_values_collection()
+        {
+            // Arrange
+            var values = Some.ReadOnlyDummies<string>();
+
+            // Act
+            var actual = values.GetCombinations(minimumItems: values.Count + 1);
+
+            // Assert
+            actual.Should().BeEmpty();
+        }
+
+        [Fact]
+        public static void GetCombinations___Should_return_all_combinations___When_called()
+        {
+            // Arrange
+            var values = new[] { 1, 2, 3 };
+            var expected = new[] { new[] { 1 }, new[] { 2 }, new[] { 3 }, new[] { 1, 2 }, new[] { 1, 3 }, new[] { 2, 3 }, new[] { 1, 2, 3 } };
+
+            // Act
+            var actual = values.GetCombinations();
+
+            // Assert
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public static void GetCombinations___Should_return_all_combinations_that_satisfy_minimumItems_count___When_specifying_non_default_minimumItems()
+        {
+            // Arrange
+            var values = new[] { 1, 2, 3 };
+            var expected = new[] { new[] { 1, 2 }, new[] { 1, 3 }, new[] { 2, 3 }, new[] { 1, 2, 3 } };
+
+            // Act
+            var actual = values.GetCombinations(minimumItems: 2);
+
+            // Assert
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public static void GetCombinations___Should_return_all_combinations_that_satisfy_maximumItems_count___When_specifying_non_default_maximumItems()
+        {
+            // Arrange
+            var values = new[] { 1, 2, 3 };
+            var expected = new[] { new[] { 1 }, new[] { 2 }, new[] { 3 }, new[] { 1, 2 }, new[] { 1, 3 }, new[] { 2, 3 } };
+
+            // Act
+            var actual = values.GetCombinations(maximumItems: 2);
+
+            // Assert
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public static void GetCombinations___Should_return_all_combinations_that_satisfy_both_minimumItems_and_maximumItems_count___When_specifying_non_default_minimumItems_and_maximumItems()
+        {
+            // Arrange
+            var values = new[] { 1, 2, 3 };
+            var expected = new[] { new[] { 1, 2 }, new[] { 1, 3 }, new[] { 2, 3 } };
+
+            // Act
+            var actual = values.GetCombinations(minimumItems: 2, maximumItems: 2);
+
+            // Assert
+            actual.Should().BeEquivalentTo(expected);
+        }
+
         [Fact]
         public static void SymmetricDifference_value_secondSet___Should_throw_ArgumentNullException___When_first_set_is_null()
         {
