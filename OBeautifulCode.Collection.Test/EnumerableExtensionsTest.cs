@@ -21,7 +21,7 @@ namespace OBeautifulCode.Collection.Test
     public static class EnumerableExtensionsTest
     {
         [Fact]
-        public static void SymmetricDifference_not_typed_source___Should_throw_ArgumentNullException___When_first_set_is_null()
+        public static void SymmetricDifference_value_secondSet___Should_throw_ArgumentNullException___When_first_set_is_null()
         {
             // Arrange
             var secondSet = new ArrayList { "abc" };
@@ -31,7 +31,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_not_typed_source___Should_throw_ArgumentNullException___When_second_set_is_null()
+        public static void SymmetricDifference_value_secondSet___Should_throw_ArgumentNullException___When_second_set_is_null()
         {
             // Arrange
             var firstSet = new ArrayList { "abc" };
@@ -41,7 +41,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_not_typed_source___Should_return_empty_set___When_both_sets_are_empty()
+        public static void SymmetricDifference_value_secondSet___Should_return_empty_set___When_both_sets_are_empty()
         {
             // Arrange
             var firstSet = new ArrayList();
@@ -55,7 +55,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_not_typed_source___Should_return_empty_set___When_both_sets_are_the_same()
+        public static void SymmetricDifference_value_secondSet___Should_return_empty_set___When_both_sets_are_the_same()
         {
             // Arrange
             var firstSet1 = new ArrayList { "abc" };
@@ -84,7 +84,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_not_typed_source___Should_return_values_in_nonempty_set___When_one_set_is_empty()
+        public static void SymmetricDifference_value_secondSet___Should_return_values_in_nonempty_set___When_one_set_is_empty()
         {
             // Arrange
             var firstSet1 = new ArrayList();
@@ -118,7 +118,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_not_typed_source___Should_return_the_symmetric_difference___When_both_sets_have_one_or_more_differences()
+        public static void SymmetricDifference_value_secondSet___Should_return_the_symmetric_difference___When_both_sets_have_one_or_more_differences()
         {
             // Arrange
             var firstSet1 = new ArrayList { "def" };
@@ -174,7 +174,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_not_typed_source___Should_return_the_symmetric_difference_with_only_one_copy_of_duplicate_items___When_one_set_has_duplicate_items()
+        public static void SymmetricDifference_value_secondSet___Should_return_the_symmetric_difference_with_only_one_copy_of_duplicate_items___When_one_set_has_duplicate_items()
         {
             // Arrange
             var firstSet1 = new ArrayList { "def", "def" };
@@ -216,7 +216,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_no_comparer___Should_throw_ArgumentNullException___When_first_set_is_null()
+        public static void SymmetricDifference_TSource_value_secondSet___Should_throw_ArgumentNullException___When_first_set_is_null()
         {
             // Arrange
             var secondSet = new List<string> { "abc" };
@@ -226,7 +226,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_no_comparer___Should_throw_ArgumentNullException___When_second_set_is_null()
+        public static void SymmetricDifference_TSource_value_secondSet___Should_throw_ArgumentNullException___When_second_set_is_null()
         {
             // Arrange
             var firstSet = new List<string> { "abc" };
@@ -236,7 +236,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_no_comparer___Should_return_empty_set___When_both_sets_are_empty()
+        public static void SymmetricDifference_TSource_value_secondSet___Should_return_empty_set___When_both_sets_are_empty()
         {
             // Arrange
             var firstSet = new List<string>();
@@ -250,7 +250,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_no_comparer___Should_return_empty_set___When_sets_are_the_same()
+        public static void SymmetricDifference_TSource_value_secondSet___Should_return_empty_set___When_sets_are_the_same()
         {
             // Arrange
             var firstSet1 = new List<string> { "abc" };
@@ -279,7 +279,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_no_comparer___Should_return_values_in_nonempty_set___When_one_set_is_empty()
+        public static void SymmetricDifference_TSource_value_secondSet___Should_return_values_in_nonempty_set___When_one_set_is_empty()
         {
             // Arrange
             var firstSet1 = new List<string>();
@@ -313,7 +313,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_no_comparer___Should_return_the_symmetric_difference___When_sets_have_one_or_more_differences()
+        public static void SymmetricDifference_TSource_value_secondSet___Should_return_the_symmetric_difference___When_sets_have_one_or_more_differences()
         {
             // Arrange
             var firstSet1 = new List<string> { "def" };
@@ -369,7 +369,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_no_comparer___Should_return_symmetric_difference_using_default_comparer___When_called()
+        public static void SymmetricDifference_TSource_value_secondSet___Should_return_symmetric_difference_using_default_comparer___When_called()
         {
             // Arrange
             var firstSet1 = new List<string> { "def" };
@@ -425,7 +425,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_no_comparer___Should_return_symmetric_difference_with_only_one_copy_of_duplicate_items___When_one_set_has_duplicate_items()
+        public static void SymmetricDifference_TSource_value_secondSet___Should_return_symmetric_difference_with_only_one_copy_of_duplicate_items___When_one_set_has_duplicate_items()
         {
             // Arrange
             var firstSet1 = new List<string> { "def", "def" };
@@ -467,7 +467,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_with_comparer___Should_throw_ArgumentNullException___When_first_set_is_null()
+        public static void SymmetricDifference_TSource_value_secondSet_comparer___Should_throw_ArgumentNullException___When_first_set_is_null()
         {
             // Arrange
             var secondSet = new List<string> { "abc" };
@@ -477,7 +477,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_with_comparer___Should_throw_ArgumentNullException___When_second_set_is_null()
+        public static void SymmetricDifference_TSource_value_secondSet_comparer___Should_throw_ArgumentNullException___When_second_set_is_null()
         {
             // Arrange
             var firstSet = new List<string> { "abc" };
@@ -487,7 +487,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_with_comparer___Should_return_empty_set___When_both_sets_are_empty()
+        public static void SymmetricDifference_TSource_value_secondSet_comparer___Should_return_empty_set___When_both_sets_are_empty()
         {
             // Arrange
             var firstSet = new List<string>();
@@ -501,7 +501,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_with_comparer___Should_return_empty_set___When_sets_are_the_same()
+        public static void SymmetricDifference_TSource_value_secondSet_comparer___Should_return_empty_set___When_sets_are_the_same()
         {
             // Arrange
             var firstSet1 = new List<string> { "abc" };
@@ -530,7 +530,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_with_comparer___Should_return_values_in_nonempty_set___When_one_set_is_empty()
+        public static void SymmetricDifference_TSource_value_secondSet_comparer___Should_return_values_in_nonempty_set___When_one_set_is_empty()
         {
             // Arrange
             var firstSet1 = new List<string>();
@@ -564,7 +564,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_with_comparer___Should_return_the_symmetric_difference___When_sets_have_one_or_more_differences()
+        public static void SymmetricDifference_TSource_value_secondSet_comparer___Should_return_the_symmetric_difference___When_sets_have_one_or_more_differences()
         {
             // Arrange
             var firstSet1 = new List<string> { "def" };
@@ -620,7 +620,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_with_comparer___Should_return_symmetric_difference_using_case_insensitive_comparisons___When_called_with_case_insensitive_comparer()
+        public static void SymmetricDifference_TSource_value_secondSet_comparer___Should_return_symmetric_difference_using_case_insensitive_comparisons___When_called_with_case_insensitive_comparer()
         {
             // Arrange
             var firstSet1 = new List<string> { "def" };
@@ -668,7 +668,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void SymmetricDifference_typed_source_with_comparer___Should_return_symmetric_difference_with_only_one_copy_of_duplicate_items___When_one_set_has_duplicate_items()
+        public static void SymmetricDifference_TSource_value_secondSet_comparer___Should_return_symmetric_difference_with_only_one_copy_of_duplicate_items___When_one_set_has_duplicate_items()
         {
             // Arrange
             var firstSet1 = new List<string> { "def", "def" };
