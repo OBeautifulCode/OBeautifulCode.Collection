@@ -153,6 +153,20 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
+        public static void GetCombinations___Should_return_all_unique_combinations___When_values_contains_duplicate_elements()
+        {
+            // Arrange
+            var values = new[] { 1, 2, 3, 2 };
+            var expected = new[] { new[] { 1 }, new[] { 2 }, new[] { 3 }, new[] { 1, 2 }, new[] { 1, 3 }, new[] { 2, 3 }, new[] { 1, 2, 3 } };
+
+            // Act
+            var actual = values.GetCombinations();
+
+            // Assert
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
         public static void SymmetricDifference_value_secondSet___Should_throw_ArgumentNullException___When_first_set_is_null()
         {
             // Arrange

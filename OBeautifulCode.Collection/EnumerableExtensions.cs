@@ -43,6 +43,7 @@ namespace OBeautifulCode.Collection.Recipes
         /// <param name="maximumItems">Optional maximum number of items in each combination.  Default is no maximum limit.</param>
         /// <returns>
         /// All possible combinations for the input set, constrained by the specified <paramref name="maximumItems"/> and <paramref name="minimumItems"/>.
+        /// De
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="values"/> is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="minimumItems"/> is less than 1.</exception>
@@ -58,7 +59,7 @@ namespace OBeautifulCode.Collection.Recipes
             new { maximumItems }.Must().BeGreaterThanOrEqualTo(minimumItems, Invariant($"{nameof(maximumItems)} < {nameof(minimumItems)}."));
 
             // ReSharper disable once PossibleMultipleEnumeration
-            var valuesList = values.ToList();
+            var valuesList = values.Distinct().ToList();
 
             var nonEmptyCombinations = (int)Math.Pow(2, valuesList.Count) - 1;
             var result = new List<List<T>>(nonEmptyCombinations + 1);
