@@ -10,6 +10,8 @@ namespace OBeautifulCode.Collection.Test
     using System.Collections.Generic;
     using System.Linq;
 
+    using FluentAssertions;
+
     using OBeautifulCode.Collection.Recipes;
 
     using Xunit;
@@ -68,7 +70,7 @@ namespace OBeautifulCode.Collection.Test
             collection2.AddRange(valuesToAdd2);
 
             // Assert
-            Assert.Equal(1, collection1.Count);
+            collection1.Should().ContainSingle();
             Assert.Contains("a", collection1);
 
             Assert.Equal(2, collection2.Count);
@@ -92,7 +94,7 @@ namespace OBeautifulCode.Collection.Test
             collection2.AddRange(valuesToAdd2);
 
             // Assert
-            Assert.Equal(1, collection1.Count);
+            collection1.Should().ContainSingle();
             Assert.Contains("a", collection1);
 
             Assert.Equal(2, collection2.Count);

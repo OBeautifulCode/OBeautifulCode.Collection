@@ -153,7 +153,7 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("abc", actual2);
             Assert.Contains("ghi", actual2);
 
-            Assert.Equal(1, actual3.Count());
+            actual3.Should().ContainSingle();
             Assert.Contains("abc", actual3);
 
             Assert.Equal(4, actual4.Count());
@@ -205,7 +205,7 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("abc", actual2);
             Assert.Contains("ghi", actual2);
 
-            Assert.Equal(1, actual3.Count());
+            actual3.Should().ContainSingle();
             Assert.Contains("abc", actual3);
 
             Assert.Equal(4, actual4.Count());
@@ -348,7 +348,7 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("abc", actual2);
             Assert.Contains("ghi", actual2);
 
-            Assert.Equal(1, actual3.Count());
+            actual3.Should().ContainSingle();
             Assert.Contains("abc", actual3);
 
             Assert.Equal(4, actual4.Count());
@@ -404,7 +404,7 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("abc", actual2);
             Assert.Contains("ghi", actual2);
 
-            Assert.Equal(1, actual3.Count());
+            actual3.Should().ContainSingle();
             Assert.Contains("abc", actual3);
 
             Assert.Equal(4, actual4.Count());
@@ -456,7 +456,7 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("abc", actual2);
             Assert.Contains("ghi", actual2);
 
-            Assert.Equal(1, actual3.Count());
+            actual3.Should().ContainSingle();
             Assert.Contains("abc", actual3);
 
             Assert.Equal(4, actual4.Count());
@@ -599,7 +599,7 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("abc", actual2);
             Assert.Contains("ghi", actual2);
 
-            Assert.Equal(1, actual3.Count());
+            actual3.Should().ContainSingle();
             Assert.Contains("abc", actual3);
 
             Assert.Equal(4, actual4.Count());
@@ -655,7 +655,7 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("abc", actual2);
             Assert.Contains("ghi", actual2);
 
-            Assert.Equal(1, actual3.Count());
+            actual3.Should().ContainSingle();
             Assert.Contains("abc", actual3);
 
             Assert.Equal(4, actual4.Count());
@@ -664,7 +664,7 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("mno", actual4);
             Assert.Contains("pqr", actual4);
 
-            Assert.Equal(0, actual5.Count());
+            actual5.Should().BeEmpty();
         }
 
         [Fact]
@@ -703,7 +703,7 @@ namespace OBeautifulCode.Collection.Test
             Assert.Contains("abc", actual2);
             Assert.Contains("ghi", actual2);
 
-            Assert.Equal(1, actual3.Count());
+            actual3.Should().ContainSingle();
             Assert.Contains("abc", actual3);
 
             Assert.Equal(4, actual4.Count());
