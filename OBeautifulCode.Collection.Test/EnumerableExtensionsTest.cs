@@ -1224,5 +1224,135 @@ namespace OBeautifulCode.Collection.Test
             Assert.Equal(Expected2a, actual2a);
             Assert.Equal(Expected2b, actual2b);
         }
+
+        [Fact]
+        public static void SequenceEqualsHandlingNulls_first_second___Should_return_true___When_both_sequences_are_null()
+        {
+            // Arrange, Act
+            var actual = EnumerableExtensions.SequenceEqualHandlingNulls<object>(null, null);
+
+            // Assert
+            actual.Should().BeTrue();
+        }
+
+        [Fact]
+        public static void SequenceEqualsHandlingNulls_first_second___Should_return_true___When_one_but_not_both_sequences_are_null()
+        {
+            // Arrange
+            var notNullSequence = A.Dummy<List<string>>();
+
+            // Act
+            var actual1 = EnumerableExtensions.SequenceEqualHandlingNulls<object>(notNullSequence, null);
+            var actual2 = EnumerableExtensions.SequenceEqualHandlingNulls<object>(null, notNullSequence);
+
+            // Assert
+            actual1.Should().BeFalse();
+            actual2.Should().BeFalse();
+        }
+
+        [Fact]
+        public static void SequenceEqualsHandlingNulls_first_second___Should_return_same_result_as_SequenceEqual___When_both_sequences_are_not_null()
+        {
+            // Arrange
+            var sequence1 = new[] { "abc", "def" };
+            var sequence2 = new[] { "abc", "def" };
+            var sequence3 = new[] { "abc", "def", "ghi" };
+            var sequence4 = new string[0];
+            var sequence5 = new string[0];
+            var sequence6 = new[] { "aBc", "dEf" };
+
+            // Act
+            var actual1 = sequence1.SequenceEqual(sequence2);
+            var actual2 = sequence2.SequenceEqual(sequence3);
+            var actual3 = sequence3.SequenceEqual(sequence2);
+            var actual4 = sequence4.SequenceEqual(sequence5);
+            var actual5 = sequence1.SequenceEqual(sequence6);
+
+            // Assert
+            actual1.Should().BeTrue();
+            actual2.Should().BeFalse();
+            actual3.Should().BeFalse();
+            actual4.Should().BeTrue();
+            actual5.Should().BeFalse();
+        }
+
+        [Fact]
+        public static void SequenceEqualsHandlingNulls_first_second_comparer___Should_return_true___When_both_sequences_are_null()
+        {
+            // Arrange, Act
+            var actual1 = EnumerableExtensions.SequenceEqualHandlingNulls<object>(null, null, null);
+            var actual2 = EnumerableExtensions.SequenceEqualHandlingNulls(null, null, EqualityComparer<object>.Default);
+
+            // Assert
+            actual1.Should().BeTrue();
+            actual2.Should().BeTrue();
+        }
+
+        [Fact]
+        public static void SequenceEqualsHandlingNulls_first_second_comparer___Should_return_true___When_one_but_not_both_sequences_are_null()
+        {
+            // Arrange
+            var notNullSequence = A.Dummy<List<string>>();
+
+            // Act
+            var actual1 = EnumerableExtensions.SequenceEqualHandlingNulls<object>(notNullSequence, null, null);
+            var actual2 = EnumerableExtensions.SequenceEqualHandlingNulls<object>(null, notNullSequence, EqualityComparer<object>.Default);
+
+            // Assert
+            actual1.Should().BeFalse();
+            actual2.Should().BeFalse();
+        }
+
+        [Fact]
+        public static void SequenceEqualsHandlingNulls_first_second_comparer___Should_return_same_result_as_SequenceEqual_using_default_EqualityComparer___When_both_sequences_are_not_null_and_comparer_is_null()
+        {
+            // Arrange
+            var sequence1 = new[] { "abc", "def" };
+            var sequence2 = new[] { "abc", "def" };
+            var sequence3 = new[] { "abc", "def", "ghi" };
+            var sequence4 = new string[0];
+            var sequence5 = new string[0];
+            var sequence6 = new[] { "aBc", "dEf" };
+
+            // Act
+            var actual1 = sequence1.SequenceEqual(sequence2, null);
+            var actual2 = sequence2.SequenceEqual(sequence3, null);
+            var actual3 = sequence3.SequenceEqual(sequence2, null);
+            var actual4 = sequence4.SequenceEqual(sequence5, null);
+            var actual5 = sequence1.SequenceEqual(sequence6, null);
+
+            // Assert
+            actual1.Should().BeTrue();
+            actual2.Should().BeFalse();
+            actual3.Should().BeFalse();
+            actual4.Should().BeTrue();
+            actual5.Should().BeFalse();
+        }
+
+        [Fact]
+        public static void SequenceEqualsHandlingNulls_first_second_comparer___Should_return_same_result_as_SequenceEqual___When_both_sequences_are_not_null()
+        {
+            // Arrange
+            var sequence1 = new[] { "abc", "def" };
+            var sequence2 = new[] { "abc", "def" };
+            var sequence3 = new[] { "abc", "def", "ghi" };
+            var sequence4 = new string[0];
+            var sequence5 = new string[0];
+            var sequence6 = new[] { "aBc", "dEf" };
+
+            // Act
+            var actual1 = sequence1.SequenceEqual(sequence2, StringComparer.CurrentCultureIgnoreCase);
+            var actual2 = sequence2.SequenceEqual(sequence3, StringComparer.CurrentCultureIgnoreCase);
+            var actual3 = sequence3.SequenceEqual(sequence2, StringComparer.CurrentCultureIgnoreCase);
+            var actual4 = sequence4.SequenceEqual(sequence5, StringComparer.CurrentCultureIgnoreCase);
+            var actual5 = sequence1.SequenceEqual(sequence6, StringComparer.CurrentCultureIgnoreCase);
+
+            // Assert
+            actual1.Should().BeTrue();
+            actual2.Should().BeFalse();
+            actual3.Should().BeFalse();
+            actual4.Should().BeTrue();
+            actual5.Should().BeTrue();
+        }
     }
 }

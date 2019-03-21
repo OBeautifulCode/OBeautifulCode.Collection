@@ -253,6 +253,67 @@ namespace OBeautifulCode.Collection.Recipes
             return result;
         }
 
+        /// <summary>
+        /// The same as <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource})"/>,
+        /// except that it handles cases where one or both sets are null.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
+        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
+        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
+        /// <returns>
+        /// - true if the two source sequences are null.
+        /// - false if one or the other is null.
+        /// - true if the two sequences are of equal length and their corresponding elements are equal according to the default equality comparer for their type.
+        /// - otherwise, false.
+        /// </returns>
+        public static bool SequenceEqualHandlingNulls<TSource>(
+            this IEnumerable<TSource> first,
+            IEnumerable<TSource> second)
+        {
+            var result = SequenceEqualHandlingNulls(first, second, null);
+
+            return result;
+        }
+
+        /// <summary>
+        /// The same as <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource}, IEqualityComparer{TSource})" />,
+        /// except that it handles cases where one or both sets are null.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
+        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
+        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
+        /// <param name="comparer">An <see cref="IEqualityComparer{T}"/> to use to compare elements.</param>
+        /// <returns>
+        /// - true if the two source sequences are null.
+        /// - false if one or the other is null.
+        /// - true if the two sequences are of equal length and their corresponding elements are equal according to <paramref name="comparer"/>.
+        /// - otherwise, false.
+        /// </returns>
+        public static bool SequenceEqualHandlingNulls<TSource>(
+            this IEnumerable<TSource> first,
+            IEnumerable<TSource> second,
+            IEqualityComparer<TSource> comparer)
+        {
+            if ((first == null) && (second == null))
+            {
+                return true;
+            }
+
+            if ((first == null) || (second == null))
+            {
+                return false;
+            }
+
+            if (comparer == null)
+            {
+                comparer = EqualityComparer<TSource>.Default;
+            }
+
+            var result = first.SequenceEqual(second, comparer);
+
+            return result;
+        }
+
         private static List<T> GenerateCombination<T>(
             IReadOnlyList<T> inputList,
             int bitPattern)
