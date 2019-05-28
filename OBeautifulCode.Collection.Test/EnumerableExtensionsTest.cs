@@ -9,6 +9,7 @@ namespace OBeautifulCode.Collection.Test
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
 
     using FakeItEasy;
@@ -1267,6 +1268,57 @@ namespace OBeautifulCode.Collection.Test
             var actual3 = sequence3.SequenceEqual(sequence2);
             var actual4 = sequence4.SequenceEqual(sequence5);
             var actual5 = sequence1.SequenceEqual(sequence6);
+
+            // Assert
+            actual1.Should().BeTrue();
+            actual2.Should().BeFalse();
+            actual3.Should().BeFalse();
+            actual4.Should().BeTrue();
+            actual5.Should().BeFalse();
+        }
+
+        [Fact]
+        public static void DictionaryEqualsHandlingNulls_first_second___Should_return_true___When_both_dictionaries_are_null()
+        {
+            // Arrange, Act
+            var actual = EnumerableExtensions.DictionaryEqualHandlingNulls<string, string>(null, null);
+
+            // Assert
+            actual.Should().BeTrue();
+        }
+
+        [Fact]
+        public static void DictionaryEqualsHandlingNulls_first_second___Should_return_true___When_one_but_not_both_dictionaries_are_null()
+        {
+            // Arrange
+            var notNullDictionary = A.Dummy<Dictionary<string, string>>();
+
+            // Act
+            var actual1 = EnumerableExtensions.DictionaryEqualHandlingNulls<string, string>(notNullDictionary, null);
+            var actual2 = EnumerableExtensions.DictionaryEqualHandlingNulls<string, string>(null, notNullDictionary);
+
+            // Assert
+            actual1.Should().BeFalse();
+            actual2.Should().BeFalse();
+        }
+
+        [Fact]
+        public static void DictionaryEqualsHandlingNulls_first_second___Should_return_same_result_as_DictionaryEqual___When_both_dictionaries_are_not_null()
+        {
+            // Arrange
+            var dictionary1 = new Dictionary<string, string> { { "abc", "abc" } };
+            var dictionary2 = new Dictionary<string, string> { { "abc", "abc" } };
+            var dictionary3 = A.Dummy<Dictionary<string, string>>();
+            var dictionary4 = new Dictionary<string, string>();
+            var dictionary5 = new ReadOnlyDictionary<string, string>(new Dictionary<string, string>());
+            var dictionary6 = A.Dummy<Dictionary<string, string>>();
+
+            // Act
+            var actual1 = dictionary1.DictionaryEqualHandlingNulls(dictionary2);
+            var actual2 = dictionary2.DictionaryEqualHandlingNulls(dictionary3);
+            var actual3 = dictionary3.DictionaryEqualHandlingNulls(dictionary2);
+            var actual4 = dictionary4.DictionaryEqualHandlingNulls(dictionary5);
+            var actual5 = dictionary1.DictionaryEqualHandlingNulls(dictionary6);
 
             // Assert
             actual1.Should().BeTrue();
