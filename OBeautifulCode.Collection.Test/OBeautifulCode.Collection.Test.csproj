@@ -93,6 +93,7 @@
     <Compile Include="CollectionExtensionsTest.cs" />
     <Compile Include="EnumerableExtensionsTest.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="EnumerableEqualityComparerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
