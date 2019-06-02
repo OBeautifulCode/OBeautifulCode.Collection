@@ -165,6 +165,36 @@ namespace OBeautifulCode.Math.Recipes
             return helper;
         }
 
+        /// <summary>
+        /// Sorts the elements of an <see cref="IEnumerable{T}"/> and then adds the hash value for each element to the current hash and returns the new value.
+        /// </summary>
+        /// <typeparam name="T">The type of objects to enumerate and hash.</typeparam>
+        /// <param name="values">The enumerable to hash.</param>
+        /// <param name="comparer">Optional comparer to use for sorting.  Default is to use <see cref="Comparer{T}.Default"/>.</param>
+        /// <returns>The new hash code.</returns>
+        public HashCodeHelper HashElementsWithSort<T>(
+            IEnumerable<T> values,
+            IComparer<T> comparer = null)
+        {
+            comparer = comparer ?? Comparer<T>.Default;
+
+            HashCodeHelper helper = this;
+            if (values == null)
+            {
+                helper = helper.Hash((IEnumerable<T>)null);
+            }
+            else
+            {
+                values = values.OrderBy(_ => _, comparer);
+                foreach (var value in values)
+                {
+                    helper = helper.Hash(value);
+                }
+            }
+
+            return helper;
+        }
+
         /// <inheritdoc />
         public bool Equals(
             HashCodeHelper other)

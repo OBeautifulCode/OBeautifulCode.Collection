@@ -6,10 +6,12 @@
     <tags>ienumerable equality comparer iequalitycomparer</tags>
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection/nuget-icon.png</iconUrl>
     <dependencies>
-      <dependency id="OBeautifulCode.Math.Recipes.HashCodeHelper" version="1.0.65" />
+      <dependency id="OBeautifulCode.Math.Recipes.HashCodeHelper" version="1.0.66" />
+      <dependency id="OBeautifulCode.Collection.Recipes.EnumerableExtensions" version="1.0.27" />
     </dependencies>
   </metadata>
   <files>
     <file src="EnumerableEqualityComparer.cs" target="content\net462\.recipes\OBeautifulCode.Collection\EnumerableEqualityComparer.cs" />
+    <file src="EnumerableEqualityComparerStrategy.cs" target="content\net462\.recipes\OBeautifulCode.Collection\EnumerableEqualityComparerStrategy.cs" />
   </files>
 </package>

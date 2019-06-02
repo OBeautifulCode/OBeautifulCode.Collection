@@ -9,10 +9,14 @@
 
 namespace OBeautifulCode.Collection.Recipes
 {
+    using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     using OBeautifulCode.Math.Recipes;
+
+    using static System.FormattableString;
 
     /// <summary>
     /// An implementation of <see cref="IEqualityComparer{T}"/> for any <see cref="IEnumerable{T}"/>.
@@ -30,7 +34,20 @@ namespace OBeautifulCode.Collection.Recipes
 #endif
         class EnumerableEqualityComparer<T> : IEqualityComparer<IEnumerable<T>>
     {
+        private readonly EnumerableEqualityComparerStrategy enumerableEqualityComparerStrategy;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumEqualityComparer{T}"/> class.
+        /// </summary>
+        /// <param name="enumerableEqualityComparerStrategy">The strategy to use when comparing two <see cref="IEnumerable{T}"/> for equality.</param>
+        public EnumerableEqualityComparer(
+            EnumerableEqualityComparerStrategy enumerableEqualityComparerStrategy = EnumerableEqualityComparerStrategy.SequenceEqual)
+        {
+            this.enumerableEqualityComparerStrategy = enumerableEqualityComparerStrategy;
+        }
+
         /// <inheritdoc />
+        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "This is an appropriate exception to raise.")]
         public bool Equals(
             IEnumerable<T> x,
             IEnumerable<T> y)
@@ -45,16 +62,43 @@ namespace OBeautifulCode.Collection.Recipes
                 return false;
             }
 
-            var result = x.SequenceEqual(y);
+            bool result;
 
+            switch (this.enumerableEqualityComparerStrategy)
+            {
+                case EnumerableEqualityComparerStrategy.SequenceEqual:
+                    result = x.SequenceEqual(y);
+                    break;
+                case EnumerableEqualityComparerStrategy.NoSymmetricDifference:
+                    result = !x.SymmetricDifference(y).Any();
+                    break;
+                default:
+                    throw new NotSupportedException(Invariant($"This {nameof(EnumerableEqualityComparerStrategy)} is not supported: {this.enumerableEqualityComparerStrategy}."));
+            }
+            
             return result;
         }
 
         /// <inheritdoc />
+        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "This is an appropriate exception to raise.")]
         public int GetHashCode(
             IEnumerable<T> obj)
         {
-            var result = HashCodeHelper.Initialize().HashElements(obj).Value;
+            int result;
+
+            var hashCodeHelper = HashCodeHelper.Initialize();
+
+            switch (this.enumerableEqualityComparerStrategy)
+            {
+                case EnumerableEqualityComparerStrategy.SequenceEqual:
+                    result = hashCodeHelper.HashElements(obj).Value;
+                    break;
+                case EnumerableEqualityComparerStrategy.NoSymmetricDifference:
+                    result = hashCodeHelper.HashElementsWithSort(obj).Value;
+                    break;
+                default:
+                    throw new NotSupportedException(Invariant($"This {nameof(EnumerableEqualityComparerStrategy)} is not supported: {this.enumerableEqualityComparerStrategy}."));
+            }
 
             return result;
         }
