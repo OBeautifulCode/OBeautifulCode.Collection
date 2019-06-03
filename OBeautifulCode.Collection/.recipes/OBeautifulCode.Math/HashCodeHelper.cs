@@ -122,17 +122,10 @@ namespace OBeautifulCode.Math.Recipes
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
         /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
-        /// <param name="keyComparer">Optional dictionary key comparer that determines the order in which the elements of the dictionary are hashed.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <returns>The new hash code.</returns>
         public HashCodeHelper HashDictionary<TKey, TValue>(
-            IReadOnlyDictionary<TKey, TValue> dictionary,
-            IComparer<TKey> keyComparer = null)
+            IReadOnlyDictionary<TKey, TValue> dictionary)
         {
-            if (keyComparer == null)
-            {
-                keyComparer = Comparer<TKey>.Default;
-            }
-
             HashCodeHelper helper = this;
             if (dictionary == null)
             {
@@ -140,7 +133,7 @@ namespace OBeautifulCode.Math.Recipes
             }
             else
             {
-                var keysInOrder = dictionary.OrderBy(_ => _.Key, keyComparer).Select(_ => _.Key).ToList();
+                var keysInOrder = dictionary.OrderBy(_ => _.Key).Select(_ => _.Key).ToList();
 
                 helper = helper
                     .HashElements(keysInOrder)
@@ -159,17 +152,10 @@ namespace OBeautifulCode.Math.Recipes
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
         /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
-        /// <param name="keyComparer">Optional dictionary key comparer that determines the order in which the elements of the dictionary are hashed.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <returns>The new hash code.</returns>
         public HashCodeHelper HashDictionaryHavingEnumerableValuesForSequenceEqualsValueEquality<TKey, TValue>(
-            IReadOnlyDictionary<TKey, TValue> dictionary,
-            IComparer<TKey> keyComparer = null)
+            IReadOnlyDictionary<TKey, TValue> dictionary)
         {
-            if (keyComparer == null)
-            {
-                keyComparer = Comparer<TKey>.Default;
-            }
-
             HashCodeHelper helper = this;
             if (dictionary == null)
             {
@@ -177,7 +163,7 @@ namespace OBeautifulCode.Math.Recipes
             }
             else
             {
-                var keysInOrder = dictionary.OrderBy(_ => _.Key, keyComparer).Select(_ => _.Key).ToList();
+                var keysInOrder = dictionary.OrderBy(_ => _.Key).Select(_ => _.Key).ToList();
 
                 helper = helper.HashElements(keysInOrder);
 
@@ -201,17 +187,15 @@ namespace OBeautifulCode.Math.Recipes
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
         /// <typeparam name="TElementValue">The dictionary's keys' element type.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
-        /// <param name="keyComparer">Optional dictionary key comparer that determines the order in which the elements of the dictionary are hashed.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <param name="elementValueEqualityComparer">Optional equality comparer used to get the distinct set of elements within each of the dictionary's values.  Default is to use <see cref="EqualityComparer{T}.Default"/>.</param>
         /// <param name="elementValueComparer">Optional comparer used to order the elements within each of the dictionary's values.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <returns>The new hash code.</returns>
         public HashCodeHelper HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, TElementValue>(
             IReadOnlyDictionary<TKey, TElementValue[]> dictionary,
-            IComparer<TKey> keyComparer = null,
             IEqualityComparer<TElementValue> elementValueEqualityComparer = null,
             IComparer<TElementValue> elementValueComparer = null)
         {
-            var result = this.HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, TElementValue[], TElementValue>(dictionary, keyComparer, elementValueEqualityComparer, elementValueComparer);
+            var result = this.HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, TElementValue[], TElementValue>(dictionary, elementValueEqualityComparer, elementValueComparer);
 
             return result;
         }
@@ -225,17 +209,15 @@ namespace OBeautifulCode.Math.Recipes
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
         /// <typeparam name="TElementValue">The dictionary's keys' element type.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
-        /// <param name="keyComparer">Optional dictionary key comparer that determines the order in which the elements of the dictionary are hashed.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <param name="elementValueEqualityComparer">Optional equality comparer used to get the distinct set of elements within each of the dictionary's values.  Default is to use <see cref="EqualityComparer{T}.Default"/>.</param>
         /// <param name="elementValueComparer">Optional comparer used to order the elements within each of the dictionary's values.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <returns>The new hash code.</returns>
         public HashCodeHelper HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, TElementValue>(
             IReadOnlyDictionary<TKey, IEnumerable<TElementValue>> dictionary,
-            IComparer<TKey> keyComparer = null,
             IEqualityComparer<TElementValue> elementValueEqualityComparer = null,
             IComparer<TElementValue> elementValueComparer = null)
         {
-            var result = this.HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, IEnumerable<TElementValue>, TElementValue>(dictionary, keyComparer, elementValueEqualityComparer, elementValueComparer);
+            var result = this.HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, IEnumerable<TElementValue>, TElementValue>(dictionary, elementValueEqualityComparer, elementValueComparer);
 
             return result;
         }
@@ -249,17 +231,15 @@ namespace OBeautifulCode.Math.Recipes
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
         /// <typeparam name="TElementValue">The dictionary's keys' element type.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
-        /// <param name="keyComparer">Optional dictionary key comparer that determines the order in which the elements of the dictionary are hashed.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <param name="elementValueEqualityComparer">Optional equality comparer used to get the distinct set of elements within each of the dictionary's values.  Default is to use <see cref="EqualityComparer{T}.Default"/>.</param>
         /// <param name="elementValueComparer">Optional comparer used to order the elements within each of the dictionary's values.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <returns>The new hash code.</returns>
         public HashCodeHelper HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, TElementValue>(
             IReadOnlyDictionary<TKey, ICollection<TElementValue>> dictionary,
-            IComparer<TKey> keyComparer = null,
             IEqualityComparer<TElementValue> elementValueEqualityComparer = null,
             IComparer<TElementValue> elementValueComparer = null)
         {
-            var result = this.HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, ICollection<TElementValue>, TElementValue>(dictionary, keyComparer, elementValueEqualityComparer, elementValueComparer);
+            var result = this.HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, ICollection<TElementValue>, TElementValue>(dictionary, elementValueEqualityComparer, elementValueComparer);
 
             return result;
         }
@@ -273,17 +253,15 @@ namespace OBeautifulCode.Math.Recipes
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
         /// <typeparam name="TElementValue">The dictionary's keys' element type.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
-        /// <param name="keyComparer">Optional dictionary key comparer that determines the order in which the elements of the dictionary are hashed.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <param name="elementValueEqualityComparer">Optional equality comparer used to get the distinct set of elements within each of the dictionary's values.  Default is to use <see cref="EqualityComparer{T}.Default"/>.</param>
         /// <param name="elementValueComparer">Optional comparer used to order the elements within each of the dictionary's values.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <returns>The new hash code.</returns>
         public HashCodeHelper HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, TElementValue>(
             IReadOnlyDictionary<TKey, IReadOnlyCollection<TElementValue>> dictionary,
-            IComparer<TKey> keyComparer = null,
             IEqualityComparer<TElementValue> elementValueEqualityComparer = null,
             IComparer<TElementValue> elementValueComparer = null)
         {
-            var result = this.HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, IReadOnlyCollection<TElementValue>, TElementValue>(dictionary, keyComparer, elementValueEqualityComparer, elementValueComparer);
+            var result = this.HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, IReadOnlyCollection<TElementValue>, TElementValue>(dictionary, elementValueEqualityComparer, elementValueComparer);
 
             return result;
         }
@@ -297,17 +275,15 @@ namespace OBeautifulCode.Math.Recipes
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
         /// <typeparam name="TElementValue">The dictionary's keys' element type.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
-        /// <param name="keyComparer">Optional dictionary key comparer that determines the order in which the elements of the dictionary are hashed.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <param name="elementValueEqualityComparer">Optional equality comparer used to get the distinct set of elements within each of the dictionary's values.  Default is to use <see cref="EqualityComparer{T}.Default"/>.</param>
         /// <param name="elementValueComparer">Optional comparer used to order the elements within each of the dictionary's values.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <returns>The new hash code.</returns>
         public HashCodeHelper HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, TElementValue>(
             IReadOnlyDictionary<TKey, List<TElementValue>> dictionary,
-            IComparer<TKey> keyComparer = null,
             IEqualityComparer<TElementValue> elementValueEqualityComparer = null,
             IComparer<TElementValue> elementValueComparer = null)
         {
-            var result = this.HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, List<TElementValue>, TElementValue>(dictionary, keyComparer, elementValueEqualityComparer, elementValueComparer);
+            var result = this.HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, List<TElementValue>, TElementValue>(dictionary, elementValueEqualityComparer, elementValueComparer);
 
             return result;
         }
@@ -321,17 +297,15 @@ namespace OBeautifulCode.Math.Recipes
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
         /// <typeparam name="TElementValue">The dictionary's keys' element type.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
-        /// <param name="keyComparer">Optional dictionary key comparer that determines the order in which the elements of the dictionary are hashed.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <param name="elementValueEqualityComparer">Optional equality comparer used to get the distinct set of elements within each of the dictionary's values.  Default is to use <see cref="EqualityComparer{T}.Default"/>.</param>
         /// <param name="elementValueComparer">Optional comparer used to order the elements within each of the dictionary's values.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <returns>The new hash code.</returns>
         public HashCodeHelper HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, TElementValue>(
             IReadOnlyDictionary<TKey, IList<TElementValue>> dictionary,
-            IComparer<TKey> keyComparer = null,
             IEqualityComparer<TElementValue> elementValueEqualityComparer = null,
             IComparer<TElementValue> elementValueComparer = null)
         {
-            var result = this.HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, IList<TElementValue>, TElementValue>(dictionary, keyComparer, elementValueEqualityComparer, elementValueComparer);
+            var result = this.HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, IList<TElementValue>, TElementValue>(dictionary, elementValueEqualityComparer, elementValueComparer);
 
             return result;
         }
@@ -345,17 +319,15 @@ namespace OBeautifulCode.Math.Recipes
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
         /// <typeparam name="TElementValue">The dictionary's keys' element type.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
-        /// <param name="keyComparer">Optional dictionary key comparer that determines the order in which the elements of the dictionary are hashed.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <param name="elementValueEqualityComparer">Optional equality comparer used to get the distinct set of elements within each of the dictionary's values.  Default is to use <see cref="EqualityComparer{T}.Default"/>.</param>
         /// <param name="elementValueComparer">Optional comparer used to order the elements within each of the dictionary's values.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
         /// <returns>The new hash code.</returns>
         public HashCodeHelper HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, TElementValue>(
             IReadOnlyDictionary<TKey, IReadOnlyList<TElementValue>> dictionary,
-            IComparer<TKey> keyComparer = null,
             IEqualityComparer<TElementValue> elementValueEqualityComparer = null,
             IComparer<TElementValue> elementValueComparer = null)
         {
-            var result = this.HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, IReadOnlyList<TElementValue>, TElementValue>(dictionary, keyComparer, elementValueEqualityComparer, elementValueComparer);
+            var result = this.HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, IReadOnlyList<TElementValue>, TElementValue>(dictionary, elementValueEqualityComparer, elementValueComparer);
 
             return result;
         }
@@ -411,15 +383,9 @@ namespace OBeautifulCode.Math.Recipes
 
         private HashCodeHelper HashDictionaryHavingEnumerableValuesForSymmetricDifferenceValueEquality<TKey, TValue, TElementValue>(
             IReadOnlyDictionary<TKey, TValue> dictionary,
-            IComparer<TKey> keyComparer = null,
             IEqualityComparer<TElementValue> elementValueEqualityComparer = null,
             IComparer<TElementValue> elementValueComparer = null)
         {
-            if (keyComparer == null)
-            {
-                keyComparer = Comparer<TKey>.Default;
-            }
-
             if (elementValueEqualityComparer == null)
             {
                 elementValueEqualityComparer = EqualityComparer<TElementValue>.Default;
@@ -437,7 +403,7 @@ namespace OBeautifulCode.Math.Recipes
             }
             else
             {
-                var keysInOrder = dictionary.OrderBy(_ => _.Key, keyComparer).Select(_ => _.Key).ToList();
+                var keysInOrder = dictionary.OrderBy(_ => _.Key).Select(_ => _.Key).ToList();
 
                 helper = helper.HashElements(keysInOrder);
 
