@@ -6,7 +6,7 @@
     <tags>ienumerable equality comparer iequalitycomparer</tags>
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection/nuget-icon.png</iconUrl>
     <dependencies>
-      <dependency id="OBeautifulCode.Math.Recipes.HashCodeHelper" version="1.0.66" />
+      <dependency id="OBeautifulCode.Math.Recipes.HashCodeHelper" version="1.0.67" />
       <dependency id="OBeautifulCode.Collection.Recipes.EnumerableExtensions" version="1.0.27" />
     </dependencies>
   </metadata>
