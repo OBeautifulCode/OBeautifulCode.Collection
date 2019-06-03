@@ -9,7 +9,6 @@ namespace OBeautifulCode.Collection.Test
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
 
     using FakeItEasy;
@@ -1278,7 +1277,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void DictionaryEqual_first_second___Should_return_true___When_both_dictionaries_are_null()
+        public static void DictionaryEqual___Should_return_true___When_both_dictionaries_are_null()
         {
             // Arrange, Act
             var actual = EnumerableExtensions.DictionaryEqual<string, string>(null, null);
@@ -1288,7 +1287,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void DictionaryEqual_first_second___Should_return_true___When_one_but_not_both_dictionaries_are_null()
+        public static void DictionaryEqual___Should_return_true___When_one_but_not_both_dictionaries_are_null()
         {
             // Arrange
             var notNullDictionary = A.Dummy<Dictionary<string, string>>();
@@ -1303,29 +1302,130 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void DictionaryEqual_first_second___Should_return_same_result_as_DictionaryEqual___When_both_dictionaries_are_not_null()
+        public static void DictionaryEqual___Should_return_false___When_dictionaries_are_not_equal()
         {
             // Arrange
-            var dictionary1 = new Dictionary<string, string> { { "abc", "abc" } };
-            var dictionary2 = new Dictionary<string, string> { { "abc", "abc" } };
-            var dictionary3 = A.Dummy<Dictionary<string, string>>();
-            var dictionary4 = new Dictionary<string, string>();
-            var dictionary5 = new ReadOnlyDictionary<string, string>(new Dictionary<string, string>());
-            var dictionary6 = A.Dummy<Dictionary<string, string>>();
+            var dictionary1a = new Dictionary<string, string>();
+
+            var dictionary1b = new Dictionary<string, string>
+            {
+                { "abc", "abc" },
+            };
+
+            var dictionary2a = new Dictionary<string, string>
+            {
+                { "abc", "def" },
+                { "ghi", "jkl" },
+                { "mno", "pqr" },
+            };
+
+            var dictionary2b = new Dictionary<string, string>
+            {
+                { "abc", "def" },
+                { "aaa", "jkl" },
+                { "mno", "pqr" },
+            };
+
+            var dictionary3a = new Dictionary<string, string>
+            {
+                { "abc", "def" },
+                { "ghi", "jkl" },
+                { "mno", "pqr" },
+            };
+
+            var dictionary3b = new Dictionary<string, string>
+            {
+                { "abc", "def" },
+                { "mno", "pqr" },
+            };
+
+            var dictionary4a = new Dictionary<string, string>
+            {
+                { "abc", "def" },
+                { "ghi", "jkl" },
+                { "mno", "pqr" },
+            };
+
+            var dictionary4b = new Dictionary<string, string>
+            {
+                { "abc", "def" },
+                { "ghi", "aaa" },
+                { "mno", "pqr" },
+            };
+
+            var dictionary5a = new Dictionary<string, string>
+            {
+                { "abc", "def" },
+                { "ghi", "jkl" },
+                { "mno", "pqr" },
+            };
+
+            var dictionary5b = new Dictionary<string, string>
+            {
+                { "abc", "def" },
+                { "GHI", "jkl" },
+                { "mno", "pqr" },
+            };
 
             // Act
-            var actual1 = dictionary1.DictionaryEqual(dictionary2);
-            var actual2 = dictionary2.DictionaryEqual(dictionary3);
-            var actual3 = dictionary3.DictionaryEqual(dictionary2);
-            var actual4 = dictionary4.DictionaryEqual(dictionary5);
-            var actual5 = dictionary1.DictionaryEqual(dictionary6);
+            var actual1 = dictionary1a.DictionaryEqual(dictionary1b);
+            var actual2 = dictionary2a.DictionaryEqual(dictionary2b);
+            var actual3 = dictionary3a.DictionaryEqual(dictionary3b);
+            var actual4 = dictionary4a.DictionaryEqual(dictionary4b);
+            var actual5 = dictionary5a.DictionaryEqual(dictionary5b);
+
+            // Assert
+            actual1.Should().BeFalse();
+            actual2.Should().BeFalse();
+            actual3.Should().BeFalse();
+            actual4.Should().BeFalse();
+            actual5.Should().BeFalse();
+        }
+
+        [Fact]
+        public static void DictionaryEqual___Should_return_true___When_dictionaries_are_equal()
+        {
+            // Arrange
+            var dictionary1a = new Dictionary<string, string>();
+            var dictionary1b = new Dictionary<string, string>();
+
+            var dictionary2a = new Dictionary<string, string>
+            {
+                { "abc", "def" },
+                { "ghi", "jkl" },
+                { "mno", "pqr" },
+            };
+
+            var dictionary2b = new Dictionary<string, string>
+            {
+                { "mno", "pqr" },
+                { "ghi", "jkl" },
+                { "abc", "def" },
+            };
+
+            var dictionary3a = new Dictionary<string, string>
+            {
+                { "abc", "def" },
+                { "ghi", "jkl" },
+                { "mno", "pqr" },
+            };
+
+            var dictionary3b = new Dictionary<string, string>
+            {
+                { "MNO", "PQR" },
+                { "GHI", "JKL" },
+                { "ABC", "DEF" },
+            };
+
+            // Act
+            var actual1 = dictionary1a.DictionaryEqual(dictionary1b);
+            var actual2 = dictionary2a.DictionaryEqual(dictionary2b);
+            var actual3 = dictionary3a.DictionaryEqual(dictionary3b, StringComparer.OrdinalIgnoreCase, StringComparer.OrdinalIgnoreCase);
 
             // Assert
             actual1.Should().BeTrue();
-            actual2.Should().BeFalse();
-            actual3.Should().BeFalse();
-            actual4.Should().BeTrue();
-            actual5.Should().BeFalse();
+            actual2.Should().BeTrue();
+            actual3.Should().BeTrue();
         }
 
         [Fact]
