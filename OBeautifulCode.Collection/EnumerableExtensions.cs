@@ -43,7 +43,6 @@ namespace OBeautifulCode.Collection.Recipes
         /// <param name="maximumItems">Optional maximum number of items in each combination.  Default is no maximum limit.</param>
         /// <returns>
         /// All possible combinations for the input set, constrained by the specified <paramref name="maximumItems"/> and <paramref name="minimumItems"/>.
-        /// De
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="values"/> is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="minimumItems"/> is less than 1.</exception>
@@ -324,7 +323,6 @@ namespace OBeautifulCode.Collection.Recipes
         /// <returns>
         /// - true if the two source dictionaries are null.
         /// - false if one or the other is null.
-        /// - false if the dictionaries have 
         /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
         /// - otherwise, false.
         /// </returns>
@@ -353,7 +351,6 @@ namespace OBeautifulCode.Collection.Recipes
         /// <returns>
         /// - true if the two source dictionaries are null.
         /// - false if one or the other is null.
-        /// - false if the dictionaries have 
         /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
         /// - otherwise, false.
         /// </returns>
@@ -382,7 +379,6 @@ namespace OBeautifulCode.Collection.Recipes
         /// <returns>
         /// - true if the two source dictionaries are null.
         /// - false if one or the other is null.
-        /// - false if the dictionaries have 
         /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
         /// - otherwise, false.
         /// </returns>
@@ -411,7 +407,6 @@ namespace OBeautifulCode.Collection.Recipes
         /// <returns>
         /// - true if the two source dictionaries are null.
         /// - false if one or the other is null.
-        /// - false if the dictionaries have 
         /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
         /// - otherwise, false.
         /// </returns>
@@ -440,7 +435,6 @@ namespace OBeautifulCode.Collection.Recipes
         /// <returns>
         /// - true if the two source dictionaries are null.
         /// - false if one or the other is null.
-        /// - false if the dictionaries have 
         /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
         /// - otherwise, false.
         /// </returns>
@@ -469,7 +463,6 @@ namespace OBeautifulCode.Collection.Recipes
         /// <returns>
         /// - true if the two source dictionaries are null.
         /// - false if one or the other is null.
-        /// - false if the dictionaries have 
         /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
         /// - otherwise, false.
         /// </returns>
@@ -498,7 +491,6 @@ namespace OBeautifulCode.Collection.Recipes
         /// <returns>
         /// - true if the two source dictionaries are null.
         /// - false if one or the other is null.
-        /// - false if the dictionaries have 
         /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
         /// - otherwise, false.
         /// </returns>
