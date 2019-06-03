@@ -8,7 +8,7 @@
     <dependencies>
       <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.35" />
       <dependency id="OBeautifulCode.Validation.Recipes.ParameterValidator" version="1.0.16" />
-      <dependency id="OBeautifulCode.Math.Recipes.HashCodeHelper" version="1.0.69" />
+      <dependency id="OBeautifulCode.Math.Recipes.HashCodeHelper" version="1.0.70" />
     </dependencies>
   </metadata>
   <files>

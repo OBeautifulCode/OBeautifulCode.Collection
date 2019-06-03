@@ -410,8 +410,8 @@ namespace OBeautifulCode.Math.Recipes
                 foreach (var key in keysInOrder)
                 {
                     var values = (IEnumerable<TElementValue>)dictionary[key];
-
-                    helper = helper.HashElements(values.Distinct(elementValueEqualityComparer).OrderBy(_ => _, elementValueComparer));
+                    
+                    helper = helper.HashElements(values?.Distinct(elementValueEqualityComparer).OrderBy(_ => _, elementValueComparer));
                 }
             }
 
