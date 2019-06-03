@@ -1429,6 +1429,320 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
+        public static void DictionaryEqualHavingEnumerableValues___Should_return_true___When_both_dictionaries_are_null()
+        {
+            // Arrange
+            Dictionary<string, string[]> nullDictionary = null;
+
+            // Act
+            var actual = EnumerableExtensions.DictionaryEqualHavingEnumerableValues(nullDictionary, nullDictionary);
+
+            // Assert
+            actual.Should().BeTrue();
+        }
+
+        [Fact]
+        public static void DictionaryEqualHavingEnumerableValues___Should_return_true___When_one_but_not_both_dictionaries_are_null()
+        {
+            // Arrange
+            var notNullDictionary = A.Dummy<Dictionary<string, string[]>>();
+
+            // Act
+            var actual1 = EnumerableExtensions.DictionaryEqualHavingEnumerableValues(notNullDictionary, null);
+            var actual2 = EnumerableExtensions.DictionaryEqualHavingEnumerableValues(null, notNullDictionary);
+
+            // Assert
+            actual1.Should().BeFalse();
+            actual2.Should().BeFalse();
+        }
+
+        [Fact]
+        public static void DictionaryEqualHavingEnumerableValues___Should_return_false___When_enumerableEqualityComparerStrategy_is_SequenceEqual_and_dictionaries_are_not_equal()
+        {
+            // Arrange
+            var dictionary1a = new Dictionary<string, string[]>();
+
+            var dictionary1b = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "abc" } },
+            };
+
+            var dictionary2a = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary2b = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "aaa", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary3a = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary3b = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary4a = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary4b = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "aaa" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary5a = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary5b = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "GHI", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary6a = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "pqr", "stu" } },
+            };
+
+            var dictionary6b = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "stu", "pqr" } },
+            };
+
+            // Act
+            var actual1 = dictionary1a.DictionaryEqualHavingEnumerableValues(dictionary1b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.SequenceEqual);
+            var actual2 = dictionary2a.DictionaryEqualHavingEnumerableValues(dictionary2b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.SequenceEqual);
+            var actual3 = dictionary3a.DictionaryEqualHavingEnumerableValues(dictionary3b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.SequenceEqual);
+            var actual4 = dictionary4a.DictionaryEqualHavingEnumerableValues(dictionary4b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.SequenceEqual);
+            var actual5 = dictionary5a.DictionaryEqualHavingEnumerableValues(dictionary5b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.SequenceEqual);
+            var actual6 = dictionary6a.DictionaryEqualHavingEnumerableValues(dictionary6b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.SequenceEqual);
+
+            // Assert
+            actual1.Should().BeFalse();
+            actual2.Should().BeFalse();
+            actual3.Should().BeFalse();
+            actual4.Should().BeFalse();
+            actual5.Should().BeFalse();
+            actual6.Should().BeFalse();
+        }
+
+        [Fact]
+        public static void DictionaryEqualHavingEnumerableValues___Should_return_true___When_enumerableEqualityComparerStrategy_is_SequenceEqual_and_dictionaries_are_equal()
+        {
+            // Arrange
+            var dictionary1a = new Dictionary<string, string[]>();
+            var dictionary1b = new Dictionary<string, string[]>();
+
+            var dictionary2a = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary2b = new Dictionary<string, string[]>
+            {
+                { "mno", new[] { "pqr" } },
+                { "ghi", new[] { "jkl" } },
+                { "abc", new[] { "def" } },
+            };
+
+            var dictionary3a = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary3b = new Dictionary<string, string[]>
+            {
+                { "MNO", new[] { "pqr" } },
+                { "GHI", new[] { "jkl" } },
+                { "ABC", new[] { "def" } },
+            };
+
+            // Act
+            var actual1 = dictionary1a.DictionaryEqualHavingEnumerableValues(dictionary1b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.SequenceEqual);
+            var actual2 = dictionary2a.DictionaryEqualHavingEnumerableValues(dictionary2b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.SequenceEqual);
+            var actual3 = dictionary3a.DictionaryEqualHavingEnumerableValues(dictionary3b, StringComparer.OrdinalIgnoreCase, EnumerableEqualityComparerStrategy.SequenceEqual);
+
+            // Assert
+            actual1.Should().BeTrue();
+            actual2.Should().BeTrue();
+            actual3.Should().BeTrue();
+        }
+
+        [Fact]
+        public static void DictionaryEqualHavingEnumerableValues___Should_return_false___When_enumerableEqualityComparerStrategy_is_NoSymmetricDifference_and_dictionaries_are_not_equal()
+        {
+            // Arrange
+            var dictionary1a = new Dictionary<string, string[]>();
+
+            var dictionary1b = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "abc" } },
+            };
+
+            var dictionary2a = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary2b = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "aaa", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary3a = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary3b = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary4a = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary4b = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "aaa" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary5a = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary5b = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "GHI", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            // Act
+            var actual1 = dictionary1a.DictionaryEqualHavingEnumerableValues(dictionary1b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.NoSymmetricDifference);
+            var actual2 = dictionary2a.DictionaryEqualHavingEnumerableValues(dictionary2b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.NoSymmetricDifference);
+            var actual3 = dictionary3a.DictionaryEqualHavingEnumerableValues(dictionary3b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.NoSymmetricDifference);
+            var actual4 = dictionary4a.DictionaryEqualHavingEnumerableValues(dictionary4b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.NoSymmetricDifference);
+            var actual5 = dictionary5a.DictionaryEqualHavingEnumerableValues(dictionary5b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.NoSymmetricDifference);
+
+            // Assert
+            actual1.Should().BeFalse();
+            actual2.Should().BeFalse();
+            actual3.Should().BeFalse();
+            actual4.Should().BeFalse();
+            actual5.Should().BeFalse();
+        }
+
+        [Fact]
+        public static void DictionaryEqualHavingEnumerableValues___Should_return_true___When_enumerableEqualityComparerStrategy_is_NoSymmetricDifference_and_dictionaries_are_equal()
+        {
+            // Arrange
+            var dictionary1a = new Dictionary<string, string[]>();
+            var dictionary1b = new Dictionary<string, string[]>();
+
+            var dictionary2a = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary2b = new Dictionary<string, string[]>
+            {
+                { "mno", new[] { "pqr" } },
+                { "ghi", new[] { "jkl" } },
+                { "abc", new[] { "def" } },
+            };
+
+            var dictionary3a = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "pqr" } },
+            };
+
+            var dictionary3b = new Dictionary<string, string[]>
+            {
+                { "MNO", new[] { "pqr" } },
+                { "GHI", new[] { "jkl" } },
+                { "ABC", new[] { "def" } },
+            };
+
+            var dictionary4a = new Dictionary<string, string[]>
+            {
+                { "abc", new[] { "def" } },
+                { "ghi", new[] { "jkl" } },
+                { "mno", new[] { "vwx", null, "pqr", null, "stu", "pqr" } },
+            };
+
+            var dictionary4b = new Dictionary<string, string[]>
+            {
+                { "mno", new[] { "stu", "pqr", null, "vwx" } },
+                { "ghi", new[] { "jkl" } },
+                { "abc", new[] { "def" } },
+            };
+
+            // Act
+            var actual1 = dictionary1a.DictionaryEqualHavingEnumerableValues(dictionary1b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.NoSymmetricDifference);
+            var actual2 = dictionary2a.DictionaryEqualHavingEnumerableValues(dictionary2b, enumerableEqualityComparerStrategy: EnumerableEqualityComparerStrategy.NoSymmetricDifference);
+            var actual3 = dictionary3a.DictionaryEqualHavingEnumerableValues(dictionary3b, StringComparer.OrdinalIgnoreCase, EnumerableEqualityComparerStrategy.NoSymmetricDifference);
+            var actual4 = dictionary4a.DictionaryEqualHavingEnumerableValues(dictionary4b, StringComparer.OrdinalIgnoreCase, EnumerableEqualityComparerStrategy.NoSymmetricDifference);
+
+            // Assert
+            actual1.Should().BeTrue();
+            actual2.Should().BeTrue();
+            actual3.Should().BeTrue();
+            actual4.Should().BeTrue();
+        }
+
+        [Fact]
         public static void SequenceEqualsHandlingNulls_first_second_comparer___Should_return_true___When_both_sequences_are_null()
         {
             // Arrange, Act
