@@ -2,16 +2,18 @@
 <package >
   <metadata>
     <id>OBeautifulCode.Collection.Recipes.EnumerableExtensions</id>
-    <description>Helper methods for operating on objects of type IEnumerable.</description>
-    <tags>enumerable ienumerable extension extensionmethods</tags>
+    <description>Helper methods/classes for operating on objects of type IEnumerable.</description>
+    <tags>enumerable ienumerable extension extensionmethods equality comparer iequalitycomparer</tags>
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection/nuget-icon.png</iconUrl>
     <dependencies>
       <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.35" />
       <dependency id="OBeautifulCode.Validation.Recipes.ParameterValidator" version="1.0.16" />
-      <dependency id="OBeautifulCode.Collection.Recipes.EnumerableEqualityComparer" version="1.0.29" />
+      <dependency id="OBeautifulCode.Math.Recipes.HashCodeHelper" version="1.0.69" />
     </dependencies>
   </metadata>
   <files>
     <file src="EnumerableExtensions.cs" target="content\net462\.recipes\OBeautifulCode.Collection\EnumerableExtensions.cs" />
+    <file src="EnumerableEqualityComparer.cs" target="content\net462\.recipes\OBeautifulCode.Collection\EnumerableEqualityComparer.cs" />
+    <file src="EnumerableEqualityComparerStrategy.cs" target="content\net462\.recipes\OBeautifulCode.Collection\EnumerableEqualityComparerStrategy.cs" />
   </files>
 </package>

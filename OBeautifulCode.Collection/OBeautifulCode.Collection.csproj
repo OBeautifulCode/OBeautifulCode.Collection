@@ -66,9 +66,6 @@
   <ItemGroup>
     <AdditionalFiles Include=".analyzers\stylecop.json" />
     <None Include=".analyzers\release.ruleset" />
-    <None Include="EnumerableEqualityComparer.recipe-nuspec">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="CollectionExtensions.recipe-nuspec">
       <SubType>Designer</SubType>
     </None>
