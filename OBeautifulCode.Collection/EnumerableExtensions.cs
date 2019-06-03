@@ -256,45 +256,23 @@ namespace OBeautifulCode.Collection.Recipes
         /// <summary>
         /// Compares two dictionaries for equality.
         /// </summary>
-        /// <typeparam name="TKey">The type of the key of the elements of the input dictionaries.</typeparam>
-        /// <typeparam name="TValue">The type of the value of the elements of the input dictionaries.</typeparam>
-        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
-        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
+        /// <typeparam name="TKey">The type of keys in the dictionaries.</typeparam>
+        /// <typeparam name="TValue">The type of values in the dictionaries.</typeparam>
+        /// <param name="first">The first <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
+        /// <param name="second">The second <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
+        /// <param name="keyComparer">Optional equality comparer to use to compare keys.  Default is to use <see cref="EqualityComparer{TKey}.Default"/>.</param>
+        /// <param name="valueComparer">Optional equality comparer to use to compare values.  Default is to use <see cref="EqualityComparer{TValue}.Default"/>.</param>
         /// <returns>
         /// - true if the two source dictionaries are null.
         /// - false if one or the other is null.
         /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the default equality comparer for their type (both key and value, ordered by key).
         /// - otherwise, false.
         /// </returns>
-        public static bool DictionaryEqualHandlingNulls<TKey, TValue>(
-            this IReadOnlyDictionary<TKey, TValue> first,
-            IReadOnlyDictionary<TKey, TValue> second)
-        {
-            var result = DictionaryEqualHandlingNulls(first, second, null, null);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Compares two dictionaries for equality.
-        /// </summary>
-        /// <typeparam name="TKey">The type of the key of the elements of the input dictionaries.</typeparam>
-        /// <typeparam name="TValue">The type of the value of the elements of the input dictionaries.</typeparam>
-        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
-        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
-        /// <param name="keyComparer">An <see cref="IEqualityComparer{T}"/> to use to compare keys (null will use default).</param>
-        /// <param name="valueComparer">An <see cref="IEqualityComparer{T}"/> to use to compare values (null will use default).</param>
-        /// <returns>
-        /// - true if the two source dictionaries are null.
-        /// - false if one or the other is null.
-        /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the default equality comparer for their type (both key and value, ordered by key).
-        /// - otherwise, false.
-        /// </returns>
-        public static bool DictionaryEqualHandlingNulls<TKey, TValue>(
+        public static bool DictionaryEqual<TKey, TValue>(
             this IReadOnlyDictionary<TKey, TValue> first,
             IReadOnlyDictionary<TKey, TValue> second,
-            IEqualityComparer<TKey> keyComparer,
-            IEqualityComparer<TValue> valueComparer)
+            IEqualityComparer<TKey> keyComparer = null,
+            IEqualityComparer<TValue> valueComparer = null)
         {
             if ((first == null) && (second == null))
             {
@@ -316,11 +294,22 @@ namespace OBeautifulCode.Collection.Recipes
                 valueComparer = EqualityComparer<TValue>.Default;
             }
 
-            var firstKeys = first.OrderBy(_ => _.Key).Select(_ => _.Key).ToList();
-            var firstValues = first.OrderBy(_ => _.Key).Select(_ => _.Value).ToList();
+            if (first.Keys.SymmetricDifference(second.Keys, keyComparer).Any())
+            {
+                return false;
+            }
 
-            var secondKeys = second.OrderBy(_ => _.Key).Select(_ => _.Key).ToList();
-            var secondValues = second.OrderBy(_ => _.Key).Select(_ => _.Value).ToList();
+            foreach (var key in first.Keys)
+            {
+                if (!valueComparer.Equals(first[key], second[key]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
 
             var resultKeys = firstKeys.SequenceEqualHandlingNulls(secondKeys, keyComparer);
             var resultValues = firstValues.SequenceEqualHandlingNulls(secondValues, valueComparer);

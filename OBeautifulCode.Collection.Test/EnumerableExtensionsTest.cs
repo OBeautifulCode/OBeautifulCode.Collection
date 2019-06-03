@@ -1278,24 +1278,24 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void DictionaryEqualsHandlingNulls_first_second___Should_return_true___When_both_dictionaries_are_null()
+        public static void DictionaryEqual_first_second___Should_return_true___When_both_dictionaries_are_null()
         {
             // Arrange, Act
-            var actual = EnumerableExtensions.DictionaryEqualHandlingNulls<string, string>(null, null);
+            var actual = EnumerableExtensions.DictionaryEqual<string, string>(null, null);
 
             // Assert
             actual.Should().BeTrue();
         }
 
         [Fact]
-        public static void DictionaryEqualsHandlingNulls_first_second___Should_return_true___When_one_but_not_both_dictionaries_are_null()
+        public static void DictionaryEqual_first_second___Should_return_true___When_one_but_not_both_dictionaries_are_null()
         {
             // Arrange
             var notNullDictionary = A.Dummy<Dictionary<string, string>>();
 
             // Act
-            var actual1 = EnumerableExtensions.DictionaryEqualHandlingNulls<string, string>(notNullDictionary, null);
-            var actual2 = EnumerableExtensions.DictionaryEqualHandlingNulls<string, string>(null, notNullDictionary);
+            var actual1 = EnumerableExtensions.DictionaryEqual<string, string>(notNullDictionary, null);
+            var actual2 = EnumerableExtensions.DictionaryEqual<string, string>(null, notNullDictionary);
 
             // Assert
             actual1.Should().BeFalse();
@@ -1303,7 +1303,7 @@ namespace OBeautifulCode.Collection.Test
         }
 
         [Fact]
-        public static void DictionaryEqualsHandlingNulls_first_second___Should_return_same_result_as_DictionaryEqual___When_both_dictionaries_are_not_null()
+        public static void DictionaryEqual_first_second___Should_return_same_result_as_DictionaryEqual___When_both_dictionaries_are_not_null()
         {
             // Arrange
             var dictionary1 = new Dictionary<string, string> { { "abc", "abc" } };
@@ -1314,11 +1314,11 @@ namespace OBeautifulCode.Collection.Test
             var dictionary6 = A.Dummy<Dictionary<string, string>>();
 
             // Act
-            var actual1 = dictionary1.DictionaryEqualHandlingNulls(dictionary2);
-            var actual2 = dictionary2.DictionaryEqualHandlingNulls(dictionary3);
-            var actual3 = dictionary3.DictionaryEqualHandlingNulls(dictionary2);
-            var actual4 = dictionary4.DictionaryEqualHandlingNulls(dictionary5);
-            var actual5 = dictionary1.DictionaryEqualHandlingNulls(dictionary6);
+            var actual1 = dictionary1.DictionaryEqual(dictionary2);
+            var actual2 = dictionary2.DictionaryEqual(dictionary3);
+            var actual3 = dictionary3.DictionaryEqual(dictionary2);
+            var actual4 = dictionary4.DictionaryEqual(dictionary5);
+            var actual5 = dictionary1.DictionaryEqual(dictionary6);
 
             // Assert
             actual1.Should().BeTrue();
