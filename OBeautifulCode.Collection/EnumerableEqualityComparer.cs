@@ -94,7 +94,7 @@ namespace OBeautifulCode.Collection.Recipes
                     result = hashCodeHelper.HashElements(obj).Value;
                     break;
                 case EnumerableEqualityComparerStrategy.NoSymmetricDifference:
-                    result = hashCodeHelper.HashElementsWithSort(obj).Value;
+                    result = hashCodeHelper.HashElements(obj.Distinct().OrderBy(_ => _)).Value;
                     break;
                 default:
                     throw new NotSupportedException(Invariant($"This {nameof(EnumerableEqualityComparerStrategy)} is not supported: {this.enumerableEqualityComparerStrategy}."));
