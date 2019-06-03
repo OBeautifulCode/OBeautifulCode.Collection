@@ -312,16 +312,19 @@ namespace OBeautifulCode.Collection.Recipes
 
         /// <summary>
         /// Compares two dictionaries for equality.
+        /// This method should be used when the dictionary values are enumerable and where the elements
+        /// should be compared given a <see cref="EnumerableEqualityComparerStrategy"/>.
         /// </summary>
-        /// <typeparam name="TKey">The type of the key of the elements of the input dictionaries.</typeparam>
-        /// <typeparam name="TElementValue">The type of the value of the elements of the input dictionaries.</typeparam>
-        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
-        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
-        /// <param name="keyComparer">Key comparer.</param>
-        /// <param name="enumerableEqualityComparerStrategy">Equality strategy.</param>
+        /// <typeparam name="TKey">The type of keys in the dictionaries.</typeparam>
+        /// <typeparam name="TElementValue">The dictionaries values' element type.</typeparam>
+        /// <param name="first">The first <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
+        /// <param name="second">The second <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
+        /// <param name="keyComparer">Optional equality comparer to use to compare keys.  Default is to use <see cref="EqualityComparer{TKey}.Default"/>.</param>
+        /// <param name="enumerableEqualityComparerStrategy">The strategy to use when comparing the elements of the dictionaries enumerable values.</param>
         /// <returns>
         /// - true if the two source dictionaries are null.
         /// - false if one or the other is null.
+        /// - false if the dictionaries have 
         /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the default equality comparer for their type (both key and value, ordered by key).
         /// - otherwise, false.
         /// </returns>

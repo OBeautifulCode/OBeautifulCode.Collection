@@ -185,7 +185,7 @@ namespace OBeautifulCode.Math.Recipes
         /// with the same keys results in the same hash code when the corresponding values have no symmetric difference.
         /// </summary>
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
-        /// <typeparam name="TElementValue">The dictionary's keys' element type.</typeparam>
+        /// <typeparam name="TElementValue">The dictionary's values' element type.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
         /// <param name="elementValueEqualityComparer">Optional equality comparer used to get the distinct set of elements within each of the dictionary's values.  Default is to use <see cref="EqualityComparer{T}.Default"/>.</param>
         /// <param name="elementValueComparer">Optional comparer used to order the elements within each of the dictionary's values.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
@@ -207,7 +207,7 @@ namespace OBeautifulCode.Math.Recipes
         /// with the same keys results in the same hash code when the corresponding values have no symmetric difference.
         /// </summary>
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
-        /// <typeparam name="TElementValue">The dictionary's keys' element type.</typeparam>
+        /// <typeparam name="TElementValue">The dictionary's values' element type.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
         /// <param name="elementValueEqualityComparer">Optional equality comparer used to get the distinct set of elements within each of the dictionary's values.  Default is to use <see cref="EqualityComparer{T}.Default"/>.</param>
         /// <param name="elementValueComparer">Optional comparer used to order the elements within each of the dictionary's values.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
@@ -229,7 +229,7 @@ namespace OBeautifulCode.Math.Recipes
         /// with the same keys results in the same hash code when the corresponding values have no symmetric difference.
         /// </summary>
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
-        /// <typeparam name="TElementValue">The dictionary's keys' element type.</typeparam>
+        /// <typeparam name="TElementValue">The dictionary's values' element type.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
         /// <param name="elementValueEqualityComparer">Optional equality comparer used to get the distinct set of elements within each of the dictionary's values.  Default is to use <see cref="EqualityComparer{T}.Default"/>.</param>
         /// <param name="elementValueComparer">Optional comparer used to order the elements within each of the dictionary's values.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
@@ -251,7 +251,7 @@ namespace OBeautifulCode.Math.Recipes
         /// with the same keys results in the same hash code when the corresponding values have no symmetric difference.
         /// </summary>
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
-        /// <typeparam name="TElementValue">The dictionary's keys' element type.</typeparam>
+        /// <typeparam name="TElementValue">The dictionary's values' element type.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
         /// <param name="elementValueEqualityComparer">Optional equality comparer used to get the distinct set of elements within each of the dictionary's values.  Default is to use <see cref="EqualityComparer{T}.Default"/>.</param>
         /// <param name="elementValueComparer">Optional comparer used to order the elements within each of the dictionary's values.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
@@ -273,7 +273,7 @@ namespace OBeautifulCode.Math.Recipes
         /// with the same keys results in the same hash code when the corresponding values have no symmetric difference.
         /// </summary>
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
-        /// <typeparam name="TElementValue">The dictionary's keys' element type.</typeparam>
+        /// <typeparam name="TElementValue">The dictionary's values' element type.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
         /// <param name="elementValueEqualityComparer">Optional equality comparer used to get the distinct set of elements within each of the dictionary's values.  Default is to use <see cref="EqualityComparer{T}.Default"/>.</param>
         /// <param name="elementValueComparer">Optional comparer used to order the elements within each of the dictionary's values.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
@@ -295,7 +295,7 @@ namespace OBeautifulCode.Math.Recipes
         /// with the same keys results in the same hash code when the corresponding values have no symmetric difference.
         /// </summary>
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
-        /// <typeparam name="TElementValue">The dictionary's keys' element type.</typeparam>
+        /// <typeparam name="TElementValue">The dictionary's values' element type.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
         /// <param name="elementValueEqualityComparer">Optional equality comparer used to get the distinct set of elements within each of the dictionary's values.  Default is to use <see cref="EqualityComparer{T}.Default"/>.</param>
         /// <param name="elementValueComparer">Optional comparer used to order the elements within each of the dictionary's values.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
@@ -317,7 +317,7 @@ namespace OBeautifulCode.Math.Recipes
         /// with the same keys results in the same hash code when the corresponding values have no symmetric difference.
         /// </summary>
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
-        /// <typeparam name="TElementValue">The dictionary's keys' element type.</typeparam>
+        /// <typeparam name="TElementValue">The dictionary's values' element type.</typeparam>
         /// <param name="dictionary">The dictionary to hash.</param>
         /// <param name="elementValueEqualityComparer">Optional equality comparer used to get the distinct set of elements within each of the dictionary's values.  Default is to use <see cref="EqualityComparer{T}.Default"/>.</param>
         /// <param name="elementValueComparer">Optional comparer used to order the elements within each of the dictionary's values.  Default is to use <see cref="Comparer{TKey}.Default"/>.</param>
