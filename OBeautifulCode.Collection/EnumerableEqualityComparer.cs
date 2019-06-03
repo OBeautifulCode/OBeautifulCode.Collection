@@ -37,7 +37,7 @@ namespace OBeautifulCode.Collection.Recipes
         private readonly EnumerableEqualityComparerStrategy enumerableEqualityComparerStrategy;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnumEqualityComparer{T}"/> class.
+        /// Initializes a new instance of the <see cref="EnumerableEqualityComparer{T}"/> class.
         /// </summary>
         /// <param name="enumerableEqualityComparerStrategy">The strategy to use when comparing two <see cref="IEnumerable{T}"/> for equality.</param>
         public EnumerableEqualityComparer(
@@ -75,7 +75,7 @@ namespace OBeautifulCode.Collection.Recipes
                 default:
                     throw new NotSupportedException(Invariant($"This {nameof(EnumerableEqualityComparerStrategy)} is not supported: {this.enumerableEqualityComparerStrategy}."));
             }
-            
+
             return result;
         }
 
