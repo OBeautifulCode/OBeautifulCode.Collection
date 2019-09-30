@@ -306,7 +306,7 @@ namespace OBeautifulCode.Collection.Recipes
 
             IReadOnlyDictionary<TKey, TValue> secondReadOnly = new ReadOnlyDictionary<TKey, TValue>(second);
 
-            var result = DictionaryEqual(firstReadOnly, secondReadOnly, valueComparer);
+            var result = ReadOnlyDictionaryEqual(firstReadOnly, secondReadOnly, valueComparer);
 
             return result;
         }
@@ -326,7 +326,7 @@ namespace OBeautifulCode.Collection.Recipes
         /// - true if the two dictionaries are of equal length and their values are equal for the same keys.
         /// - otherwise, false.
         /// </returns>
-        public static bool DictionaryEqual<TKey, TValue>(
+        public static bool ReadOnlyDictionaryEqual<TKey, TValue>(
             this IReadOnlyDictionary<TKey, TValue> first,
             IReadOnlyDictionary<TKey, TValue> second,
             IEqualityComparer<TValue> valueComparer = null)
