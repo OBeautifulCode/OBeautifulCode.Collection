@@ -23,17 +23,17 @@ namespace OBeautifulCode.Collection.Recipes
         enum EnumerableEqualityComparerStrategy
     {
         /// <summary>
-        /// Use <see cref="EnumerableExtensions.SequenceEqualHandlingNulls{TSource}(IEnumerable{TSource}, IEnumerable{TSource}, IEqualityComparer{TSource})"/>.
+        /// Use <see cref="EnumerableExtensions.IsSequenceEqualTo{TSource}"/>.
         /// </summary>
         SequenceEqual,
 
         /// <summary>
-        /// Use <see cref="EnumerableExtensions.SymmetricDifferenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource}, IEqualityComparer{TSource})"/>.
+        /// Use <see cref="EnumerableExtensions.IsSymmetricDifferenceEqualTo{TSource}"/>.
         /// </summary>
         SymmetricDifferenceEqual,
 
         /// <summary>
-        /// Use <see cref="EnumerableExtensions.UnorderedEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource}, IEqualityComparer{TSource})"/>.
+        /// Use <see cref="EnumerableExtensions.IsUnorderedEqualTo{TSource}"/>.
         /// </summary>
         UnorderedEqual,
     }

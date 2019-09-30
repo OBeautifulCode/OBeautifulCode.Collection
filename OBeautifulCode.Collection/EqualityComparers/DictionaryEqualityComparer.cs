@@ -30,7 +30,7 @@ namespace OBeautifulCode.Collection.Recipes
             IDictionary<TKey, TValue> x,
             IDictionary<TKey, TValue> y)
         {
-            var result = x.DictionaryEqual(y);
+            var result = x.IsDictionaryEqualTo(y);
 
             return result;
         }

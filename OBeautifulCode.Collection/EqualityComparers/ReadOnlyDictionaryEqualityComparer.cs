@@ -30,7 +30,7 @@ namespace OBeautifulCode.Collection.Recipes
             IReadOnlyDictionary<TKey, TValue> x,
             IReadOnlyDictionary<TKey, TValue> y)
         {
-            var result = x.ReadOnlyDictionaryEqual(y);
+            var result = x.IsReadOnlyDictionaryEqualTo(y);
 
             return result;
         }

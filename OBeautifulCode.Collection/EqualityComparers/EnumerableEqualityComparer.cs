@@ -54,13 +54,13 @@ namespace OBeautifulCode.Collection.Recipes
             switch (this.enumerableEqualityComparerStrategy)
             {
                 case EnumerableEqualityComparerStrategy.SequenceEqual:
-                    result = x.SequenceEqualHandlingNulls(y);
+                    result = x.IsSequenceEqualTo(y);
                     break;
                 case EnumerableEqualityComparerStrategy.SymmetricDifferenceEqual:
-                    result = x.SymmetricDifferenceEqual(y);
+                    result = x.IsSymmetricDifferenceEqualTo(y);
                     break;
                 case EnumerableEqualityComparerStrategy.UnorderedEqual:
-                    result = x.UnorderedEqual(y);
+                    result = x.IsUnorderedEqualTo(y);
                     break;
                 default:
                     throw new NotSupportedException(Invariant($"This {nameof(EnumerableEqualityComparerStrategy)} is not supported: {this.enumerableEqualityComparerStrategy}."));

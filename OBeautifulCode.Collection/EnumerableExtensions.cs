@@ -97,41 +97,6 @@ namespace OBeautifulCode.Collection.Recipes
         }
 
         /// <summary>
-        /// Determines if two enumerables have no symmetric difference.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
-        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
-        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
-        /// <param name="comparer">Optional equality comparer to use to compare elements.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
-        /// <returns>
-        /// - true if the two source sequences are null.
-        /// - false if one or the other is null.
-        /// - true if there is no symmetric difference.
-        /// - otherwise, false.
-        /// </returns>
-        public static bool SymmetricDifferenceEqual<TSource>(
-            this IEnumerable<TSource> first,
-            IEnumerable<TSource> second,
-            IEqualityComparer<TSource> comparer = null)
-        {
-            if ((first == null) && (second == null))
-            {
-                return true;
-            }
-
-            if ((first == null) || (second == null))
-            {
-                return false;
-            }
-
-            var equalityComparerToUse = GetEqualityComparerToUse(comparer);
-
-            var result = !SymmetricDifference(first, second, equalityComparerToUse).Any();
-
-            return result;
-        }
-
-        /// <summary>
         /// Compares two dictionaries for equality.
         /// </summary>
         /// <typeparam name="TKey">The type of keys in the dictionaries.</typeparam>
@@ -146,7 +111,7 @@ namespace OBeautifulCode.Collection.Recipes
         /// - true if the two dictionaries are of equal length and their values are equal for the same keys.
         /// - otherwise, false.
         /// </returns>
-        public static bool DictionaryEqual<TKey, TValue>(
+        public static bool IsDictionaryEqualTo<TKey, TValue>(
             this IDictionary<TKey, TValue> first,
             IDictionary<TKey, TValue> second,
             IEqualityComparer<TValue> valueComparer = null)
@@ -170,7 +135,7 @@ namespace OBeautifulCode.Collection.Recipes
 
             IReadOnlyDictionary<TKey, TValue> secondReadOnly = new ReadOnlyDictionary<TKey, TValue>(second);
 
-            var result = ReadOnlyDictionaryEqual(firstReadOnly, secondReadOnly, valueComparer);
+            var result = IsReadOnlyDictionaryEqualTo(firstReadOnly, secondReadOnly, valueComparer);
 
             return result;
         }
@@ -190,7 +155,7 @@ namespace OBeautifulCode.Collection.Recipes
         /// - true if the two dictionaries are of equal length and their values are equal for the same keys.
         /// - otherwise, false.
         /// </returns>
-        public static bool ReadOnlyDictionaryEqual<TKey, TValue>(
+        public static bool IsReadOnlyDictionaryEqualTo<TKey, TValue>(
             this IReadOnlyDictionary<TKey, TValue> first,
             IReadOnlyDictionary<TKey, TValue> second,
             IEqualityComparer<TValue> valueComparer = null)
@@ -250,7 +215,7 @@ namespace OBeautifulCode.Collection.Recipes
         /// - true if the two sequences are of equal length and their corresponding elements are equal according to <paramref name="comparer"/>.
         /// - otherwise, false.
         /// </returns>
-        public static bool SequenceEqualHandlingNulls<TSource>(
+        public static bool IsSequenceEqualTo<TSource>(
             this IEnumerable<TSource> first,
             IEnumerable<TSource> second,
             IEqualityComparer<TSource> comparer = null)
@@ -273,6 +238,41 @@ namespace OBeautifulCode.Collection.Recipes
         }
 
         /// <summary>
+        /// Determines if two enumerables have no symmetric difference.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
+        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
+        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
+        /// <param name="comparer">Optional equality comparer to use to compare elements.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
+        /// <returns>
+        /// - true if the two source sequences are null.
+        /// - false if one or the other is null.
+        /// - true if there is no symmetric difference.
+        /// - otherwise, false.
+        /// </returns>
+        public static bool IsSymmetricDifferenceEqualTo<TSource>(
+            this IEnumerable<TSource> first,
+            IEnumerable<TSource> second,
+            IEqualityComparer<TSource> comparer = null)
+        {
+            if ((first == null) && (second == null))
+            {
+                return true;
+            }
+
+            if ((first == null) || (second == null))
+            {
+                return false;
+            }
+
+            var equalityComparerToUse = GetEqualityComparerToUse(comparer);
+
+            var result = !SymmetricDifference(first, second, equalityComparerToUse).Any();
+
+            return result;
+        }
+
+        /// <summary>
         /// Determines if two enumerables have the exact same elements in any order.
         /// Every unique element in the first set has to appear in the second set the same number of times it appears in the first.
         /// </summary>
@@ -288,7 +288,7 @@ namespace OBeautifulCode.Collection.Recipes
         /// - otherwise, false.
         /// </returns>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "This is not excessively complex.")]
-        public static bool UnorderedEqual<TSource>(
+        public static bool IsUnorderedEqualTo<TSource>(
             this IEnumerable<TSource> first,
             IEnumerable<TSource> second,
             IEqualityComparer<TSource> comparer = null)
