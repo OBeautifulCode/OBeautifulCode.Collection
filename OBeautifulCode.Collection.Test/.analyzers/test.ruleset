@@ -4,6 +4,16 @@
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     
     <!--
+      ** Generic methods should provide type parameter **
+      Often enough, a generic type parameter exists so that a method can call typeof(T),
+      which also improves the readability of the code.  For example:
+          var code = CodeGenerator.GenerateForModel<MyModel>(options)
+              versus
+          var code = CodeGenerator.GenerateForModel(typeof(MyModel), options)
+    -->
+    <Rule Id="CA1004" Action="None" />
+
+    <!--
       ** Do not nest generic types in member signatures **
       This becomes a problem with async code when we are returning a Task<GENERIC_TYPE_HERE> 
       (e.g. Task<List<string>>).   CA sees this as nested generic types, whereas the Task<T> layer 
@@ -19,7 +29,7 @@
       our methods are most often doing work.  In practice, this rule almost always produces false positives.  
     -->
     <Rule Id="CA1024" Action="None" />
-
+    
     <!--
       ** Use events where appropriate **
       This rule is triggered by methods that start with certain terms (e.g. Fire). There's is no examination
@@ -217,7 +227,30 @@
       because it is clear from the class and method names what is being tested.
     -->
     <Rule Id="SA0001" Action="None" />
+    
+    <!--
+      ** Code should not contain multiple whitespace characters in a row. **
+      This becomes a problem with alignment of variables like below,
+      because there are multiple spaces between the name and the '=' symbol:
+      
+        public ProcessDescription(
+            string name,
+            string filePath,
+            string fileVersion,
+            string productVersion,
+            bool   runningAsAdmin)
+        {
+            new { name }.Must().NotBeNullNorWhiteSpace();
 
+            this.Name           = name;
+            this.FilePath       = filePath;
+            this.FileVersion    = fileVersion;
+            this.ProductVersion = productVersion;
+            this.RunningAsAdmin = runningAsAdmin;
+        }
+    -->
+    <Rule Id="SA1025" Action="None" />
+    
     <!--
       ** Parameters must not span multiple lines **
       This rule flags cases where we construct an object in-line and use an initializer.  Consider...
@@ -296,9 +329,16 @@
     <Rule Id="SA1629" Action="Warning" />
 
     <!--
-      ** Enable xml documentation output **
+      ** File header file name documentation must match type name **
       This drives consistency and ease of navigating the file tree.
     -->
     <Rule Id="SA1649" Action="Warning" />
+    
+    <!--
+      ** Enable XML documentation output **
+      Tests do not need documentation as they are not shared out and should not contain a lot of shared logic.
+    -->
+    <Rule Id="SA1652" Action="None" />
+
   </Rules>
 </RuleSet>

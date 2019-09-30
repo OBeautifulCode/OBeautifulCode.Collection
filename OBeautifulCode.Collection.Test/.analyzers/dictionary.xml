@@ -38,6 +38,9 @@
       <!-- Acronym for Cryptographic Message Syntax -->
       <Word>CMS</Word>
 
+      <!-- The ability be be compiled. -->
+      <Word>compilable</Word>
+
       <!-- Acronym for Certificate Signing Request -->
       <Word>CSR</Word>
 

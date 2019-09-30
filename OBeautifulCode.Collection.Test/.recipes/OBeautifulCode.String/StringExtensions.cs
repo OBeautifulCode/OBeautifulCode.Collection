@@ -38,8 +38,6 @@ namespace OBeautifulCode.String.Recipes
 
         private static readonly Regex CsvParsingRegex = new Regex("(?:,\"|^\")(\"\"|[\\w\\W]*?)(?=\",|\"$)|(?:,(?!\")|^(?!\"))([^,]*?)(?=$|,)|(\r\n|\n)", RegexOptions.Compiled);
 
-        private static readonly Regex NotAlphaNumericRegex = new Regex("[^a-zA-Z0-9]", RegexOptions.Compiled);
-
         /// <summary>
         /// Appends one string to the another (base) if the base string
         /// doesn't already end with the string to append.
@@ -128,7 +126,33 @@ namespace OBeautifulCode.String.Recipes
         {
             new { value }.Must().NotBeNull();
 
-            var result = !NotAlphaNumericRegex.IsMatch(value);
+            var result = value.All(
+                _ =>
+                    (((int)_ >= 48) && ((int)_ <= 57)) ||
+                    (((int)_ >= 65) && ((int)_ <= 90)) ||
+                    (((int)_ >= 97) && ((int)_ <= 122)));
+
+            return result;
+        }
+
+        /// <summary>
+        /// Determines if a string is in the ASCII printable character set.
+        /// </summary>
+        /// <param name="value">The string to evaluate.</param>
+        /// <remarks>
+        /// An empty string ("") is considered to be in the printable set.
+        /// </remarks>
+        /// <returns>
+        /// Returns true if all of the characters in the string are printable; otherwise false.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        public static bool IsAsciiPrintable(
+            this string value)
+        {
+            new { value }.Must().NotBeNull();
+
+            var result = value.All(_ => ((int)_ >= 32) && ((int)_ <= 126));
+
             return result;
         }
 
@@ -245,7 +269,13 @@ namespace OBeautifulCode.String.Recipes
         {
             new { value }.Must().NotBeNull();
 
-            var result = NotAlphaNumericRegex.Replace(value, string.Empty);
+            var result =
+                string.Concat(
+                    value.Where(
+                        _ =>
+                            (((int)_ >= 48) && ((int)_ <= 57)) ||
+                            (((int)_ >= 65) && ((int)_ <= 90)) ||
+                            (((int)_ >= 97) && ((int)_ <= 122))));
             return result;
         }
 
@@ -325,17 +355,160 @@ namespace OBeautifulCode.String.Recipes
         }
 
         /// <summary>
-        /// Performs both ToLower() and Trim() on a string.
+        /// Converts a string to lower-case and removes all leading and
+        /// trailing white-space characters, using <see cref="CultureInfo.InvariantCulture"/>.
         /// </summary>
         /// <param name="value">The string to operate on.</param>
-        /// <returns>Lower-case, trimmed string.</returns>
+        /// <returns>The string converted to lower-case with all leading and trailing white-space characters removed.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
         public static string ToLowerTrimmed(
             this string value)
         {
-            new { value }.Must().NotBeNull();
+            var result = value.ToLowerTrimmed(CultureInfo.InvariantCulture);
 
-            var result = value.ToLower(CultureInfo.CurrentCulture).Trim();
+            return result;
+        }
+
+        /// <summary>
+        /// Converts a string to lower-case and removes all leading and
+        /// trailing white-space characters, using the specified <see cref="CultureInfo"/>.
+        /// </summary>
+        /// <param name="value">The string to operate on.</param>
+        /// <param name="cultureInfo">Provides information about the specific culture.</param>
+        /// <returns>The string converted to lower-case with all leading and trailing white-space characters removed.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="cultureInfo"/> is null.</exception>
+        public static string ToLowerTrimmed(
+            this string value,
+            CultureInfo cultureInfo)
+        {
+            new { value }.Must().NotBeNull();
+            new { cultureInfo }.Must().NotBeNull();
+
+            var result = value.ToLower(cultureInfo).Trim();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Converts a string to upper-case and removes all leading and
+        /// trailing white-space characters, using <see cref="CultureInfo.InvariantCulture"/>.
+        /// </summary>
+        /// <param name="value">The string to operate on.</param>
+        /// <returns>The string converted to upper-case with all leading and trailing white-space characters removed.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        public static string ToUpperTrimmed(
+            this string value)
+        {
+            var result = value.ToUpperTrimmed(CultureInfo.InvariantCulture);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Converts a string to upper-case and removes all leading and
+        /// trailing white-space characters, using the specified <see cref="CultureInfo"/>.
+        /// </summary>
+        /// <param name="value">The string to operate on.</param>
+        /// <param name="cultureInfo">Provides information about the specific culture.</param>
+        /// <returns>The string converted to upper-case with all leading and trailing white-space characters removed.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="cultureInfo"/> is null.</exception>
+        public static string ToUpperTrimmed(
+            this string value,
+            CultureInfo cultureInfo)
+        {
+            new { value }.Must().NotBeNull();
+            new { cultureInfo }.Must().NotBeNull();
+
+            var result = value.ToUpper(cultureInfo).Trim();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Converts the first character of the specified string to lower-case, using <see cref="CultureInfo.InvariantCulture"/>.
+        /// </summary>
+        /// <param name="value">The string to operate on.</param>
+        /// <returns>The string with the first character converted to lower-case.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        public static string ToLowerFirstCharacter(
+            this string value)
+        {
+            var result = value.ToLowerFirstCharacter(CultureInfo.InvariantCulture);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Converts the first character of the specified string to lower-case, using the specified <see cref="CultureInfo"/>.
+        /// </summary>
+        /// <param name="value">The string to operate on.</param>
+        /// <param name="cultureInfo">Provides information about the specific culture.</param>
+        /// <returns>The string with the first character converted to lower-case.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="cultureInfo"/> is null.</exception>
+        public static string ToLowerFirstCharacter(
+            this string value,
+            CultureInfo cultureInfo)
+        {
+            new { value }.Must().NotBeNull();
+            new { cultureInfo }.Must().NotBeNull();
+
+            string result;
+
+            if (value.Length == 0)
+            {
+                result = value;
+            }
+            else
+            {
+                result = Char.ToLower(value[0], cultureInfo) + value.Substring(1, value.Length - 1);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Converts the first character of the specified string to upper-case, using <see cref="CultureInfo.InvariantCulture"/>.
+        /// </summary>
+        /// <param name="value">The string to operate on.</param>
+        /// <returns>The string with the first character converted to upper-case.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        public static string ToUpperFirstCharacter(
+            this string value)
+        {
+            var result = value.ToUpperFirstCharacter(CultureInfo.InvariantCulture);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Converts the first character of the specified string to upper-case, using the specified <see cref="CultureInfo"/>.
+        /// </summary>
+        /// <param name="value">The string to operate on.</param>
+        /// <param name="cultureInfo">Provides information about the specific culture.</param>
+        /// <returns>The string with the first character converted to upper-case.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="cultureInfo"/> is null.</exception>
+        public static string ToUpperFirstCharacter(
+            this string value,
+            CultureInfo cultureInfo)
+        {
+            new { value }.Must().NotBeNull();
+            new { cultureInfo }.Must().NotBeNull();
+
+            string result;
+
+            if (value.Length == 0)
+            {
+                result = value;
+            }
+            else
+            {
+                result = Char.ToUpper(value[0], cultureInfo) + value.Substring(1, value.Length - 1);
+            }
+
             return result;
         }
 

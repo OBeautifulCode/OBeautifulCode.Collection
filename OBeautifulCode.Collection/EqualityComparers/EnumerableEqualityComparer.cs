@@ -12,9 +12,6 @@ namespace OBeautifulCode.Collection.Recipes
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-
-    using OBeautifulCode.Math.Recipes;
 
     using static System.FormattableString;
 
@@ -52,25 +49,18 @@ namespace OBeautifulCode.Collection.Recipes
             IEnumerable<T> x,
             IEnumerable<T> y)
         {
-            if (ReferenceEquals(x, y))
-            {
-                return true;
-            }
-
-            if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
-            {
-                return false;
-            }
-
             bool result;
 
             switch (this.enumerableEqualityComparerStrategy)
             {
                 case EnumerableEqualityComparerStrategy.SequenceEqual:
-                    result = x.SequenceEqual(y);
+                    result = x.SequenceEqualHandlingNulls(y);
                     break;
-                case EnumerableEqualityComparerStrategy.NoSymmetricDifference:
-                    result = !x.SymmetricDifference(y).Any();
+                case EnumerableEqualityComparerStrategy.SymmetricDifferenceEqual:
+                    result = x.SymmetricDifferenceEqual(y);
+                    break;
+                case EnumerableEqualityComparerStrategy.UnorderedEqual:
+                    result = x.UnorderedEqual(y);
                     break;
                 default:
                     throw new NotSupportedException(Invariant($"This {nameof(EnumerableEqualityComparerStrategy)} is not supported: {this.enumerableEqualityComparerStrategy}."));
@@ -84,23 +74,16 @@ namespace OBeautifulCode.Collection.Recipes
         public int GetHashCode(
             IEnumerable<T> obj)
         {
-            int result;
-
-            var hashCodeHelper = HashCodeHelper.Initialize();
-
-            switch (this.enumerableEqualityComparerStrategy)
-            {
-                case EnumerableEqualityComparerStrategy.SequenceEqual:
-                    result = hashCodeHelper.HashElements(obj).Value;
-                    break;
-                case EnumerableEqualityComparerStrategy.NoSymmetricDifference:
-                    result = hashCodeHelper.HashElements(obj.Distinct().OrderBy(_ => _)).Value;
-                    break;
-                default:
-                    throw new NotSupportedException(Invariant($"This {nameof(EnumerableEqualityComparerStrategy)} is not supported: {this.enumerableEqualityComparerStrategy}."));
-            }
-
-            return result;
+            // The result would vary based on EnumerableEqualityComparerStrategy
+            // and in some cases would require the elements to be sortable (implement IComparable)
+            // It's highly unlikely that a Dictionary will be constructed with an instance of
+            // this EqualityComparer.
+            // However, this comparer IS used internally, by some of the 
+            // equality methods in EnumerableExtensions.  As such, we always return 0, which guarantees
+            // that two objects that are equal return the same hash code (the contract is perfectly ok
+            // if the same hash code is returned for two objects that are NOT equal).
+            // see: https://stackoverflow.com/questions/4095395/whats-the-role-of-gethashcode-in-the-iequalitycomparert-in-net
+            return 0;
         }
     }
 }

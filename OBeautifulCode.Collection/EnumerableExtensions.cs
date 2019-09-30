@@ -12,8 +12,10 @@ namespace OBeautifulCode.Collection.Recipes
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
 
+    using OBeautifulCode.Reflection.Recipes;
     using OBeautifulCode.String.Recipes;
     using OBeautifulCode.Validation.Recipes;
 
@@ -111,28 +113,7 @@ namespace OBeautifulCode.Collection.Recipes
             IEnumerable secondSet)
         {
             var result = SymmetricDifference(value.OfType<object>(), secondSet.OfType<object>());
-            return result;
-        }
 
-        /// <summary>
-        /// Gets the symmetric difference of two sets using the default equality comparer.
-        /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
-        /// </summary>
-        /// <remarks>
-        /// If one set has duplicate items when evaluated using the comparer, then the resulting symmetric difference will only
-        /// contain one copy of the the duplicate item and only if it doesn't appear in the other set.
-        /// </remarks>
-        /// <typeparam name="TSource">The type of elements in the collection.</typeparam>
-        /// <param name="value">The first enumerable.</param>
-        /// <param name="secondSet">The second enumerable to compare against the first.</param>
-        /// <returns>IEnumerable(T) with the symmetric difference of the two sets.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="secondSet"/> is null.</exception>
-        public static IEnumerable<TSource> SymmetricDifference<TSource>(
-            this IEnumerable<TSource> value,
-            IEnumerable<TSource> secondSet)
-        {
-            var result = SymmetricDifference(value, secondSet, null);
             return result;
         }
 
@@ -147,28 +128,61 @@ namespace OBeautifulCode.Collection.Recipes
         /// <typeparam name="TSource">The type of elements in the collection.</typeparam>
         /// <param name="value">The first enumerable.</param>
         /// <param name="secondSet">The second enumerable to compare against the first.</param>
-        /// <param name="comparer">The comparer object to use to compare each item in the collection.  If null uses EqualityComparer(T).Default.</param>
+        /// <param name="comparer">Optional equality comparer to use to compare elements.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
         /// <returns>Returns an <see cref="IEnumerable{T}"/> with the symmetric difference of the two sets.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="secondSet"/> is null.</exception>
         public static IEnumerable<TSource> SymmetricDifference<TSource>(
             this IEnumerable<TSource> value,
             IEnumerable<TSource> secondSet,
-            IEqualityComparer<TSource> comparer)
+            IEqualityComparer<TSource> comparer = null)
         {
             // ReSharper disable PossibleMultipleEnumeration
             new { value }.Must().NotBeNull();
             new { secondSet }.Must().NotBeNull();
 
-            if (comparer == null)
-            {
-                comparer = EqualityComparer<TSource>.Default;
-            }
+            var equalityComparerToUse = GetEqualityComparerToUse(comparer);
 
-            var result = value.Except(secondSet, comparer).Union(secondSet.Except(value, comparer), comparer);
+            var result = value.Except(secondSet, equalityComparerToUse).Union(secondSet.Except(value, equalityComparerToUse), equalityComparerToUse);
+
             return result;
 
             // ReSharper restore PossibleMultipleEnumeration
+        }
+
+        /// <summary>
+        /// Determines if two enumerables have no symmetric difference.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
+        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
+        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
+        /// <param name="comparer">Optional equality comparer to use to compare elements.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
+        /// <returns>
+        /// - true if the two source sequences are null.
+        /// - false if one or the other is null.
+        /// - true if there is no symmetric difference.
+        /// - otherwise, false.
+        /// </returns>
+        public static bool SymmetricDifferenceEqual<TSource>(
+            this IEnumerable<TSource> first,
+            IEnumerable<TSource> second,
+            IEqualityComparer<TSource> comparer = null)
+        {
+            if ((first == null) && (second == null))
+            {
+                return true;
+            }
+
+            if ((first == null) || (second == null))
+            {
+                return false;
+            }
+
+            var equalityComparerToUse = GetEqualityComparerToUse(comparer);
+
+            var result = !SymmetricDifference(first, second, equalityComparerToUse).Any();
+
+            return result;
         }
 
         /// <summary>
@@ -259,18 +273,17 @@ namespace OBeautifulCode.Collection.Recipes
         /// <typeparam name="TValue">The type of values in the dictionaries.</typeparam>
         /// <param name="first">The first <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
         /// <param name="second">The second <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="keyComparer">Optional equality comparer to use to compare keys.  Default is to use <see cref="EqualityComparer{TKey}.Default"/>.</param>
-        /// <param name="valueComparer">Optional equality comparer to use to compare values.  Default is to use <see cref="EqualityComparer{TValue}.Default"/>.</param>
+        /// <param name="valueComparer">Optional equality comparer to use to compare values.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
         /// <returns>
         /// - true if the two source dictionaries are null.
         /// - false if one or the other is null.
-        /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
+        /// - false if the dictionaries are of different length.
+        /// - true if the two dictionaries are of equal length and their values are equal for the same keys.
         /// - otherwise, false.
         /// </returns>
         public static bool DictionaryEqual<TKey, TValue>(
-            this IReadOnlyDictionary<TKey, TValue> first,
-            IReadOnlyDictionary<TKey, TValue> second,
-            IEqualityComparer<TKey> keyComparer = null,
+            this IDictionary<TKey, TValue> first,
+            IDictionary<TKey, TValue> second,
             IEqualityComparer<TValue> valueComparer = null)
         {
             if ((first == null) && (second == null))
@@ -283,268 +296,39 @@ namespace OBeautifulCode.Collection.Recipes
                 return false;
             }
 
-            if (keyComparer == null)
-            {
-                keyComparer = EqualityComparer<TKey>.Default;
-            }
-
-            if (valueComparer == null)
-            {
-                valueComparer = EqualityComparer<TValue>.Default;
-            }
-
-            var firstKeys = first.OrderBy(_ => _.Key).Select(_ => _.Key).ToList();
-            var secondKeys = second.OrderBy(_ => _.Key).Select(_ => _.Key).ToList();
-            var resultKeys = firstKeys.SequenceEqualHandlingNulls(secondKeys, keyComparer);
-
-            if (!resultKeys)
+            if (first.Keys.Count != second.Keys.Count)
             {
                 return false;
             }
 
-            var firstValues = first.OrderBy(_ => _.Key).Select(_ => _.Value).ToList();
-            var secondValues = second.OrderBy(_ => _.Key).Select(_ => _.Value).ToList();
-            var result = firstValues.SequenceEqualHandlingNulls(secondValues, valueComparer);
+            IReadOnlyDictionary<TKey, TValue> firstReadOnly = new ReadOnlyDictionary<TKey, TValue>(first);
+
+            IReadOnlyDictionary<TKey, TValue> secondReadOnly = new ReadOnlyDictionary<TKey, TValue>(second);
+
+            var result = DictionaryEqual(firstReadOnly, secondReadOnly, valueComparer);
 
             return result;
         }
 
         /// <summary>
         /// Compares two dictionaries for equality.
-        /// This method should be used when the dictionary values are enumerable and where the elements
-        /// should be compared given a <see cref="EnumerableEqualityComparerStrategy"/>.
         /// </summary>
         /// <typeparam name="TKey">The type of keys in the dictionaries.</typeparam>
-        /// <typeparam name="TElementValue">The dictionaries values' element type.</typeparam>
+        /// <typeparam name="TValue">The type of values in the dictionaries.</typeparam>
         /// <param name="first">The first <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
         /// <param name="second">The second <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="keyComparer">Optional equality comparer to use to compare keys.  Default is to use <see cref="EqualityComparer{TKey}.Default"/>.</param>
-        /// <param name="enumerableEqualityComparerStrategy">The strategy to use when comparing the elements of the dictionaries enumerable values.</param>
+        /// <param name="valueComparer">Optional equality comparer to use to compare values.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
         /// <returns>
         /// - true if the two source dictionaries are null.
         /// - false if one or the other is null.
-        /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
+        /// - false if the dictionaries are of different length.
+        /// - true if the two dictionaries are of equal length and their values are equal for the same keys.
         /// - otherwise, false.
         /// </returns>
-        public static bool DictionaryEqualHavingEnumerableValues<TKey, TElementValue>(
-            this IReadOnlyDictionary<TKey, TElementValue[]> first,
-            IReadOnlyDictionary<TKey, TElementValue[]> second,
-            IEqualityComparer<TKey> keyComparer = null,
-            EnumerableEqualityComparerStrategy enumerableEqualityComparerStrategy = EnumerableEqualityComparerStrategy.SequenceEqual)
-        {
-            var result = DictionaryEqualHavingEnumerableValues<TKey, TElementValue[], TElementValue>(first, second, keyComparer, enumerableEqualityComparerStrategy);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Compares two dictionaries for equality.
-        /// This method should be used when the dictionary values are enumerable and where the elements
-        /// should be compared given a <see cref="EnumerableEqualityComparerStrategy"/>.
-        /// </summary>
-        /// <typeparam name="TKey">The type of keys in the dictionaries.</typeparam>
-        /// <typeparam name="TElementValue">The dictionaries values' element type.</typeparam>
-        /// <param name="first">The first <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="second">The second <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="keyComparer">Optional equality comparer to use to compare keys.  Default is to use <see cref="EqualityComparer{TKey}.Default"/>.</param>
-        /// <param name="enumerableEqualityComparerStrategy">The strategy to use when comparing the elements of the dictionaries enumerable values.</param>
-        /// <returns>
-        /// - true if the two source dictionaries are null.
-        /// - false if one or the other is null.
-        /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
-        /// - otherwise, false.
-        /// </returns>
-        public static bool DictionaryEqualHavingEnumerableValues<TKey, TElementValue>(
-            this IReadOnlyDictionary<TKey, IEnumerable<TElementValue>> first,
-            IReadOnlyDictionary<TKey, IEnumerable<TElementValue>> second,
-            IEqualityComparer<TKey> keyComparer = null,
-            EnumerableEqualityComparerStrategy enumerableEqualityComparerStrategy = EnumerableEqualityComparerStrategy.SequenceEqual)
-        {
-            var result = DictionaryEqualHavingEnumerableValues<TKey, IEnumerable<TElementValue>, TElementValue>(first, second, keyComparer, enumerableEqualityComparerStrategy);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Compares two dictionaries for equality.
-        /// This method should be used when the dictionary values are enumerable and where the elements
-        /// should be compared given a <see cref="EnumerableEqualityComparerStrategy"/>.
-        /// </summary>
-        /// <typeparam name="TKey">The type of keys in the dictionaries.</typeparam>
-        /// <typeparam name="TElementValue">The dictionaries values' element type.</typeparam>
-        /// <param name="first">The first <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="second">The second <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="keyComparer">Optional equality comparer to use to compare keys.  Default is to use <see cref="EqualityComparer{TKey}.Default"/>.</param>
-        /// <param name="enumerableEqualityComparerStrategy">The strategy to use when comparing the elements of the dictionaries enumerable values.</param>
-        /// <returns>
-        /// - true if the two source dictionaries are null.
-        /// - false if one or the other is null.
-        /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
-        /// - otherwise, false.
-        /// </returns>
-        public static bool DictionaryEqualHavingEnumerableValues<TKey, TElementValue>(
-            this IReadOnlyDictionary<TKey, ICollection<TElementValue>> first,
-            IReadOnlyDictionary<TKey, ICollection<TElementValue>> second,
-            IEqualityComparer<TKey> keyComparer = null,
-            EnumerableEqualityComparerStrategy enumerableEqualityComparerStrategy = EnumerableEqualityComparerStrategy.SequenceEqual)
-        {
-            var result = DictionaryEqualHavingEnumerableValues<TKey, ICollection<TElementValue>, TElementValue>(first, second, keyComparer, enumerableEqualityComparerStrategy);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Compares two dictionaries for equality.
-        /// This method should be used when the dictionary values are enumerable and where the elements
-        /// should be compared given a <see cref="EnumerableEqualityComparerStrategy"/>.
-        /// </summary>
-        /// <typeparam name="TKey">The type of keys in the dictionaries.</typeparam>
-        /// <typeparam name="TElementValue">The dictionaries values' element type.</typeparam>
-        /// <param name="first">The first <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="second">The second <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="keyComparer">Optional equality comparer to use to compare keys.  Default is to use <see cref="EqualityComparer{TKey}.Default"/>.</param>
-        /// <param name="enumerableEqualityComparerStrategy">The strategy to use when comparing the elements of the dictionaries enumerable values.</param>
-        /// <returns>
-        /// - true if the two source dictionaries are null.
-        /// - false if one or the other is null.
-        /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
-        /// - otherwise, false.
-        /// </returns>
-        public static bool DictionaryEqualHavingEnumerableValues<TKey, TElementValue>(
-            this IReadOnlyDictionary<TKey, IReadOnlyCollection<TElementValue>> first,
-            IReadOnlyDictionary<TKey, IReadOnlyCollection<TElementValue>> second,
-            IEqualityComparer<TKey> keyComparer = null,
-            EnumerableEqualityComparerStrategy enumerableEqualityComparerStrategy = EnumerableEqualityComparerStrategy.SequenceEqual)
-        {
-            var result = DictionaryEqualHavingEnumerableValues<TKey, IReadOnlyCollection<TElementValue>, TElementValue>(first, second, keyComparer, enumerableEqualityComparerStrategy);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Compares two dictionaries for equality.
-        /// This method should be used when the dictionary values are enumerable and where the elements
-        /// should be compared given a <see cref="EnumerableEqualityComparerStrategy"/>.
-        /// </summary>
-        /// <typeparam name="TKey">The type of keys in the dictionaries.</typeparam>
-        /// <typeparam name="TElementValue">The dictionaries values' element type.</typeparam>
-        /// <param name="first">The first <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="second">The second <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="keyComparer">Optional equality comparer to use to compare keys.  Default is to use <see cref="EqualityComparer{TKey}.Default"/>.</param>
-        /// <param name="enumerableEqualityComparerStrategy">The strategy to use when comparing the elements of the dictionaries enumerable values.</param>
-        /// <returns>
-        /// - true if the two source dictionaries are null.
-        /// - false if one or the other is null.
-        /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
-        /// - otherwise, false.
-        /// </returns>
-        public static bool DictionaryEqualHavingEnumerableValues<TKey, TElementValue>(
-            this IReadOnlyDictionary<TKey, List<TElementValue>> first,
-            IReadOnlyDictionary<TKey, List<TElementValue>> second,
-            IEqualityComparer<TKey> keyComparer = null,
-            EnumerableEqualityComparerStrategy enumerableEqualityComparerStrategy = EnumerableEqualityComparerStrategy.SequenceEqual)
-        {
-            var result = DictionaryEqualHavingEnumerableValues<TKey, List<TElementValue>, TElementValue>(first, second, keyComparer, enumerableEqualityComparerStrategy);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Compares two dictionaries for equality.
-        /// This method should be used when the dictionary values are enumerable and where the elements
-        /// should be compared given a <see cref="EnumerableEqualityComparerStrategy"/>.
-        /// </summary>
-        /// <typeparam name="TKey">The type of keys in the dictionaries.</typeparam>
-        /// <typeparam name="TElementValue">The dictionaries values' element type.</typeparam>
-        /// <param name="first">The first <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="second">The second <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="keyComparer">Optional equality comparer to use to compare keys.  Default is to use <see cref="EqualityComparer{TKey}.Default"/>.</param>
-        /// <param name="enumerableEqualityComparerStrategy">The strategy to use when comparing the elements of the dictionaries enumerable values.</param>
-        /// <returns>
-        /// - true if the two source dictionaries are null.
-        /// - false if one or the other is null.
-        /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
-        /// - otherwise, false.
-        /// </returns>
-        public static bool DictionaryEqualHavingEnumerableValues<TKey, TElementValue>(
-            this IReadOnlyDictionary<TKey, IList<TElementValue>> first,
-            IReadOnlyDictionary<TKey, IList<TElementValue>> second,
-            IEqualityComparer<TKey> keyComparer = null,
-            EnumerableEqualityComparerStrategy enumerableEqualityComparerStrategy = EnumerableEqualityComparerStrategy.SequenceEqual)
-        {
-            var result = DictionaryEqualHavingEnumerableValues<TKey, IList<TElementValue>, TElementValue>(first, second, keyComparer, enumerableEqualityComparerStrategy);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Compares two dictionaries for equality.
-        /// This method should be used when the dictionary values are enumerable and where the elements
-        /// should be compared given a <see cref="EnumerableEqualityComparerStrategy"/>.
-        /// </summary>
-        /// <typeparam name="TKey">The type of keys in the dictionaries.</typeparam>
-        /// <typeparam name="TElementValue">The dictionaries values' element type.</typeparam>
-        /// <param name="first">The first <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="second">The second <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="keyComparer">Optional equality comparer to use to compare keys.  Default is to use <see cref="EqualityComparer{TKey}.Default"/>.</param>
-        /// <param name="enumerableEqualityComparerStrategy">The strategy to use when comparing the elements of the dictionaries enumerable values.</param>
-        /// <returns>
-        /// - true if the two source dictionaries are null.
-        /// - false if one or the other is null.
-        /// - true if the two dictionaries are of equal length and their corresponding elements are equal according to the specified equality comparer for their type (both keys and values, ordered by key).
-        /// - otherwise, false.
-        /// </returns>
-        public static bool DictionaryEqualHavingEnumerableValues<TKey, TElementValue>(
-            this IReadOnlyDictionary<TKey, IReadOnlyList<TElementValue>> first,
-            IReadOnlyDictionary<TKey, IReadOnlyList<TElementValue>> second,
-            IEqualityComparer<TKey> keyComparer = null,
-            EnumerableEqualityComparerStrategy enumerableEqualityComparerStrategy = EnumerableEqualityComparerStrategy.SequenceEqual)
-        {
-            var result = DictionaryEqualHavingEnumerableValues<TKey, IReadOnlyList<TElementValue>, TElementValue>(first, second, keyComparer, enumerableEqualityComparerStrategy);
-
-            return result;
-        }
-
-        /// <summary>
-        /// The same as <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource})"/>,
-        /// except that it handles cases where one or both sets are null.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
-        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
-        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
-        /// <returns>
-        /// - true if the two source sequences are null.
-        /// - false if one or the other is null.
-        /// - true if the two sequences are of equal length and their corresponding elements are equal according to the default equality comparer for their type.
-        /// - otherwise, false.
-        /// </returns>
-        public static bool SequenceEqualHandlingNulls<TSource>(
-            this IEnumerable<TSource> first,
-            IEnumerable<TSource> second)
-        {
-            var result = SequenceEqualHandlingNulls(first, second, null);
-
-            return result;
-        }
-
-        /// <summary>
-        /// The same as <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource}, IEqualityComparer{TSource})" />,
-        /// except that it handles cases where one or both sets are null.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
-        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
-        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
-        /// <param name="comparer">An <see cref="IEqualityComparer{T}"/> to use to compare elements.</param>
-        /// <returns>
-        /// - true if the two source sequences are null.
-        /// - false if one or the other is null.
-        /// - true if the two sequences are of equal length and their corresponding elements are equal according to <paramref name="comparer"/>.
-        /// - otherwise, false.
-        /// </returns>
-        public static bool SequenceEqualHandlingNulls<TSource>(
-            this IEnumerable<TSource> first,
-            IEnumerable<TSource> second,
-            IEqualityComparer<TSource> comparer)
+        public static bool DictionaryEqual<TKey, TValue>(
+            this IReadOnlyDictionary<TKey, TValue> first,
+            IReadOnlyDictionary<TKey, TValue> second,
+            IEqualityComparer<TValue> valueComparer = null)
         {
             if ((first == null) && (second == null))
             {
@@ -556,12 +340,181 @@ namespace OBeautifulCode.Collection.Recipes
                 return false;
             }
 
-            if (comparer == null)
+            if (first.Keys.Count() != second.Keys.Count())
             {
-                comparer = EqualityComparer<TSource>.Default;
+                return false;
             }
 
-            var result = first.SequenceEqual(second, comparer);
+            IEqualityComparer<TValue> valueEqualityComparerToUse = null;
+
+            foreach (var key in first.Keys)
+            {
+                if (!second.ContainsKey(key))
+                {
+                    return false;
+                }
+
+                var firstValue = first[key];
+                var secondValue = second[key];
+
+                if (valueEqualityComparerToUse == null)
+                {
+                    valueEqualityComparerToUse = GetEqualityComparerToUse(valueComparer);
+                }
+
+                if (!valueEqualityComparerToUse.Equals(firstValue, secondValue))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// The same as <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource}, IEqualityComparer{TSource})" />,
+        /// except that it handles cases where one or both sets are null.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
+        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
+        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
+        /// <param name="comparer">Optional equality comparer to use to compare elements.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
+        /// <returns>
+        /// - true if the two source sequences are null.
+        /// - false if one or the other is null.
+        /// - true if the two sequences are of equal length and their corresponding elements are equal according to <paramref name="comparer"/>.
+        /// - otherwise, false.
+        /// </returns>
+        public static bool SequenceEqualHandlingNulls<TSource>(
+            this IEnumerable<TSource> first,
+            IEnumerable<TSource> second,
+            IEqualityComparer<TSource> comparer = null)
+        {
+            if ((first == null) && (second == null))
+            {
+                return true;
+            }
+
+            if ((first == null) || (second == null))
+            {
+                return false;
+            }
+
+            var equalityComparerToUse = GetEqualityComparerToUse(comparer);
+
+            var result = first.SequenceEqual(second, equalityComparerToUse);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Determines if two enumerables have the exact same elements in any order.
+        /// Every unique element in the first set has to appear in the second set the same number of times it appears in the first.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
+        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
+        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
+        /// <param name="comparer">Optional equality comparer to use to compare elements.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
+        /// <returns>
+        /// - true if the two source sequences are null.
+        /// - false if one or the other is null.
+        /// - false if there is any symmetric difference.
+        /// - true if the two sequences both contain the same number of elements for each unique element.
+        /// - otherwise, false.
+        /// </returns>
+        public static bool UnorderedEqual<TSource>(
+            this IEnumerable<TSource> first,
+            IEnumerable<TSource> second,
+            IEqualityComparer<TSource> comparer = null)
+        {
+            if ((first == null) && (second == null))
+            {
+                return true;
+            }
+
+            if ((first == null) || (second == null))
+            {
+                return false;
+            }
+
+            var equalityComparerToUse = GetEqualityComparerToUse(comparer);
+
+            // ReSharper disable PossibleMultipleEnumeration
+            if (first.SymmetricDifference(second, equalityComparerToUse).Any())
+            {
+                return false;
+            }
+
+            var firstGroupedByElement = first.GroupBy(_ => _, equalityComparerToUse).ToList();
+            var secondGroupedByElement = second.GroupBy(_ => _, equalityComparerToUse).ToList();
+
+            var firstElementToCountMap = firstGroupedByElement.Where(_ => _.Key != null).ToDictionary(_ => _.Key, _ => _.Count(), equalityComparerToUse);
+            var secondElementToCountMap = secondGroupedByElement.Where(_ => _.Key != null).ToDictionary(_ => _.Key, _ => _.Count(), equalityComparerToUse);
+
+            foreach (var element in firstElementToCountMap.Keys)
+            {
+                if (firstElementToCountMap[element] != secondElementToCountMap[element])
+                {
+                    return false;
+                }
+            }
+
+            var firstNullCount = firstGroupedByElement.FirstOrDefault(_ => _.Key == null)?.Count();
+            var secondNullCount = secondGroupedByElement.FirstOrDefault(_ => _.Key == null)?.Count();
+
+            var result = firstNullCount == secondNullCount;
+
+            return result;
+
+            // ReSharper restore PossibleMultipleEnumeration
+        }
+
+        private static IEqualityComparer<T> GetEqualityComparerToUse<T>(
+            IEqualityComparer<T> comparer)
+        {
+            var type = typeof(T);
+
+            IEqualityComparer<T> result;
+
+            if (comparer != null)
+            {
+                result = comparer;
+            }
+            else if (type.IsSystemDictionaryType())
+            {
+                var genericArguments = type.GetGenericArguments();
+
+                // IDictionary is the only System dictionary type that doesn't implement IReadOnlyDictionary
+                // which is why we have to special-case it here.
+                var equalityComparerConstructorInfo = type.GetGenericTypeDefinition() == typeof(IDictionary<,>)
+                    ? typeof(DictionaryEqualityComparer<,>).MakeGenericType(genericArguments).GetConstructor(new Type[0])
+                    : typeof(ReadOnlyDictionaryEqualityComparer<,>).MakeGenericType(genericArguments).GetConstructor(new Type[0]);
+
+                // ReSharper disable once PossibleNullReferenceException
+                result = (IEqualityComparer<T>)equalityComparerConstructorInfo.Invoke(null);
+            }
+            else if (type.IsArray)
+            {
+                var constructorInfo = typeof(EnumerableEqualityComparer<>).MakeGenericType(type.GetElementType()).GetConstructor(new[] { typeof(EnumerableEqualityComparerStrategy) });
+
+                // ReSharper disable once PossibleNullReferenceException
+                result = (IEqualityComparer<T>)constructorInfo.Invoke(new object[] { EnumerableEqualityComparerStrategy.SequenceEqual });
+            }
+            else if (type.IsSystemCollectionType())
+            {
+                var genericArguments = type.GetGenericArguments();
+
+                var constructorInfo = typeof(EnumerableEqualityComparer<>).MakeGenericType(genericArguments[0]).GetConstructor(new[] { typeof(EnumerableEqualityComparerStrategy) });
+
+                var enumerableEqualityComparerStrategy = type.IsSystemOrderedEnumerableType() ? EnumerableEqualityComparerStrategy.SequenceEqual : EnumerableEqualityComparerStrategy.UnorderedEqual;
+
+                // ReSharper disable once PossibleNullReferenceException
+                result = (IEqualityComparer<T>)constructorInfo.Invoke(new object[] { enumerableEqualityComparerStrategy });
+            }
+            else
+            {
+                result = EqualityComparer<T>.Default;
+            }
 
             return result;
         }
@@ -591,24 +544,6 @@ namespace OBeautifulCode.Collection.Recipes
                 result++;
                 bitPattern &= bitPattern - 1;
             }
-
-            return result;
-        }
-
-        private static bool DictionaryEqualHavingEnumerableValues<TKey, TValue, TElementValue>(
-            this IReadOnlyDictionary<TKey, TValue> first,
-            IReadOnlyDictionary<TKey, TValue> second,
-            IEqualityComparer<TKey> keyComparer = null,
-            EnumerableEqualityComparerStrategy enumerableEqualityComparerStrategy = EnumerableEqualityComparerStrategy.SequenceEqual)
-        {
-            if (keyComparer == null)
-            {
-                keyComparer = EqualityComparer<TKey>.Default;
-            }
-
-            var valueComparer = (IEqualityComparer<TValue>)new EnumerableEqualityComparer<TElementValue>(enumerableEqualityComparerStrategy);
-
-            var result = DictionaryEqual(first, second, keyComparer, valueComparer);
 
             return result;
         }

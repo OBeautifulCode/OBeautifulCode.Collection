@@ -10,7 +10,6 @@
 namespace OBeautifulCode.Collection.Recipes
 {
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Determines the strategy to use when comparing two <see cref="IEnumerable{T}"/> for equality.
@@ -24,13 +23,18 @@ namespace OBeautifulCode.Collection.Recipes
         enum EnumerableEqualityComparerStrategy
     {
         /// <summary>
-        /// Use <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource})"/>.
+        /// Use <see cref="EnumerableExtensions.SequenceEqualHandlingNulls{TSource}(IEnumerable{TSource}, IEnumerable{TSource}, IEqualityComparer{TSource})"/>.
         /// </summary>
         SequenceEqual,
 
         /// <summary>
-        /// Use <see cref="EnumerableExtensions.SymmetricDifference{TSource}(IEnumerable{TSource}, IEnumerable{TSource})"/>.
+        /// Use <see cref="EnumerableExtensions.SymmetricDifferenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource}, IEqualityComparer{TSource})"/>.
         /// </summary>
-        NoSymmetricDifference,
+        SymmetricDifferenceEqual,
+
+        /// <summary>
+        /// Use <see cref="EnumerableExtensions.UnorderedEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource}, IEqualityComparer{TSource})"/>.
+        /// </summary>
+        UnorderedEqual,
     }
 }
