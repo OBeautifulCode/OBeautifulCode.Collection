@@ -13,6 +13,7 @@ namespace OBeautifulCode.Collection.Recipes
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     using OBeautifulCode.Reflection.Recipes;
@@ -422,6 +423,7 @@ namespace OBeautifulCode.Collection.Recipes
         /// - true if the two sequences both contain the same number of elements for each unique element.
         /// - otherwise, false.
         /// </returns>
+        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "This is not excessively complex.")]
         public static bool UnorderedEqual<TSource>(
             this IEnumerable<TSource> first,
             IEnumerable<TSource> second,
