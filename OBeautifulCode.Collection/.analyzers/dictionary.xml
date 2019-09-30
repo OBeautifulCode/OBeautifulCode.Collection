@@ -51,6 +51,9 @@
       <!-- The act of deserializing. -->
       <Word>deserializes</Word>
 
+      <!-- Refers to objects that are IEnumerable. -->
+      <Word>enumerables</Word>
+
       <!-- Acronym for Extract, Transform, Load -->
       <Word>ETL</Word>
 
