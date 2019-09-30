@@ -97,61 +97,6 @@ namespace OBeautifulCode.Collection.Recipes
         }
 
         /// <summary>
-        /// Gets the symmetric difference of two sets using the default equality comparer.
-        /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
-        /// </summary>
-        /// <remarks>
-        /// If one set has duplicate items when evaluated using the comparer, then the resulting symmetric difference will only
-        /// contain one copy of the the duplicate item and only if it doesn't appear in the other set.
-        /// </remarks>
-        /// <param name="value">The first enumerable.</param>
-        /// <param name="secondSet">The second enumerable to compare against the first.</param>
-        /// <returns>IEnumerable(T) with the symmetric difference of the two sets.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="secondSet"/> is null.</exception>
-        public static IEnumerable SymmetricDifference(
-            this IEnumerable value,
-            IEnumerable secondSet)
-        {
-            var result = SymmetricDifference(value.OfType<object>(), secondSet.OfType<object>());
-
-            return result;
-        }
-
-        /// <summary>
-        /// Gets the symmetric difference of two sets using an equality comparer.
-        /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
-        /// </summary>
-        /// <remarks>
-        /// If one set has duplicate items when evaluated using the comparer, then the resulting symmetric difference will only
-        /// contain one copy of the the duplicate item and only if it doesn't appear in the other set.
-        /// </remarks>
-        /// <typeparam name="TSource">The type of elements in the collection.</typeparam>
-        /// <param name="value">The first enumerable.</param>
-        /// <param name="secondSet">The second enumerable to compare against the first.</param>
-        /// <param name="comparer">Optional equality comparer to use to compare elements.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
-        /// <returns>Returns an <see cref="IEnumerable{T}"/> with the symmetric difference of the two sets.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="secondSet"/> is null.</exception>
-        public static IEnumerable<TSource> SymmetricDifference<TSource>(
-            this IEnumerable<TSource> value,
-            IEnumerable<TSource> secondSet,
-            IEqualityComparer<TSource> comparer = null)
-        {
-            // ReSharper disable PossibleMultipleEnumeration
-            new { value }.Must().NotBeNull();
-            new { secondSet }.Must().NotBeNull();
-
-            var equalityComparerToUse = GetEqualityComparerToUse(comparer);
-
-            var result = value.Except(secondSet, equalityComparerToUse).Union(secondSet.Except(value, equalityComparerToUse), equalityComparerToUse);
-
-            return result;
-
-            // ReSharper restore PossibleMultipleEnumeration
-        }
-
-        /// <summary>
         /// Determines if two enumerables have no symmetric difference.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
@@ -183,87 +128,6 @@ namespace OBeautifulCode.Collection.Recipes
 
             var result = !SymmetricDifference(first, second, equalityComparerToUse).Any();
 
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a common separated values (CSV) string from the individual strings in an <see cref="IEnumerable"/>,
-        /// making CSV treatments where needed (double quotes around strings with commas, etc.).
-        /// </summary>
-        /// <param name="value">The enumerable to transform into a CSV string.</param>
-        /// <param name="nullValueEncoding">Optional value to use when encoding null elements.  Defaults to the empty string.</param>
-        /// <remarks>
-        /// CSV treatments: <a href="http://en.wikipedia.org/wiki/Comma-separated_values"/>.
-        /// </remarks>
-        /// <returns>
-        /// Returns a string that contains each element in the input enumerable,
-        /// separated by a comma and with the proper escaping.
-        /// If the enumerable is empty, returns null.
-        /// </returns>
-        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
-        public static string ToCsv(
-            this IEnumerable<string> value,
-            string nullValueEncoding = "")
-        {
-            // ReSharper disable once PossibleMultipleEnumeration
-            new { value }.Must().NotBeNull();
-
-            // ReSharper disable once PossibleMultipleEnumeration
-            var result = value.Select(item => item == null ? nullValueEncoding : item.ToCsvSafe()).ToDelimitedString(",");
-            return result;
-        }
-
-        /// <summary>
-        /// Concatenates the individual values in an <see cref="IEnumerable"/> with a given delimiter
-        /// separating the individual values.
-        /// </summary>
-        /// <param name="value">The enumerable to concatenate.</param>
-        /// <param name="delimiter">The delimiter to use between elements in the enumerable.</param>
-        /// <remarks>
-        /// If an element of the IEnumerable is null, then its treated like an empty string.
-        /// </remarks>
-        /// <returns>
-        /// Returns a string that contains each element in the input enumerable, separated by the given delimiter.
-        /// If the enumerable is empty, then this method returns null.
-        /// </returns>
-        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="delimiter"/> is null.</exception>
-        public static string ToDelimitedString(
-            this IEnumerable<string> value,
-            string delimiter)
-        {
-            // ReSharper disable once PossibleMultipleEnumeration
-            new { value }.Must().NotBeNull();
-            new { delimiter }.Must().NotBeNull();
-
-            // ReSharper disable once PossibleMultipleEnumeration
-            var valueAsList = value.ToList();
-            if (valueAsList.Count == 0)
-            {
-                return null;
-            }
-
-            // ReSharper disable once PossibleMultipleEnumeration
-            var result = string.Join(delimiter, value);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a string with the values in a given <see cref="IEnumerable"/>, separated by a newline.
-        /// </summary>
-        /// <param name="value">The enumerable to concatenate.</param>
-        /// <remarks>
-        /// If an element of the IEnumerable is null, then its treated like an empty string.
-        /// </remarks>
-        /// <returns>
-        /// Returns a string that contains each element in the input enumerable, separated by a newline.
-        /// If the enumerable is empty, then this method returns null.
-        /// </returns>
-        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
-        public static string ToNewLineDelimited(
-            this IEnumerable<string> value)
-        {
-            var result = value.ToDelimitedString(Environment.NewLine);
             return result;
         }
 
@@ -469,6 +333,142 @@ namespace OBeautifulCode.Collection.Recipes
             return result;
 
             // ReSharper restore PossibleMultipleEnumeration
+        }
+
+        /// <summary>
+        /// Gets the symmetric difference of two sets using the default equality comparer.
+        /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
+        /// </summary>
+        /// <remarks>
+        /// If one set has duplicate items when evaluated using the comparer, then the resulting symmetric difference will only
+        /// contain one copy of the the duplicate item and only if it doesn't appear in the other set.
+        /// </remarks>
+        /// <param name="value">The first enumerable.</param>
+        /// <param name="secondSet">The second enumerable to compare against the first.</param>
+        /// <returns>IEnumerable(T) with the symmetric difference of the two sets.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="secondSet"/> is null.</exception>
+        public static IEnumerable SymmetricDifference(
+            this IEnumerable value,
+            IEnumerable secondSet)
+        {
+            var result = SymmetricDifference(value.OfType<object>(), secondSet.OfType<object>());
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the symmetric difference of two sets using an equality comparer.
+        /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
+        /// </summary>
+        /// <remarks>
+        /// If one set has duplicate items when evaluated using the comparer, then the resulting symmetric difference will only
+        /// contain one copy of the the duplicate item and only if it doesn't appear in the other set.
+        /// </remarks>
+        /// <typeparam name="TSource">The type of elements in the collection.</typeparam>
+        /// <param name="value">The first enumerable.</param>
+        /// <param name="secondSet">The second enumerable to compare against the first.</param>
+        /// <param name="comparer">Optional equality comparer to use to compare elements.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
+        /// <returns>Returns an <see cref="IEnumerable{T}"/> with the symmetric difference of the two sets.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="secondSet"/> is null.</exception>
+        public static IEnumerable<TSource> SymmetricDifference<TSource>(
+            this IEnumerable<TSource> value,
+            IEnumerable<TSource> secondSet,
+            IEqualityComparer<TSource> comparer = null)
+        {
+            // ReSharper disable PossibleMultipleEnumeration
+            new { value }.Must().NotBeNull();
+            new { secondSet }.Must().NotBeNull();
+
+            var equalityComparerToUse = GetEqualityComparerToUse(comparer);
+
+            var result = value.Except(secondSet, equalityComparerToUse).Union(secondSet.Except(value, equalityComparerToUse), equalityComparerToUse);
+
+            return result;
+
+            // ReSharper restore PossibleMultipleEnumeration
+        }
+
+        /// <summary>
+        /// Creates a common separated values (CSV) string from the individual strings in an <see cref="IEnumerable"/>,
+        /// making CSV treatments where needed (double quotes around strings with commas, etc.).
+        /// </summary>
+        /// <param name="value">The enumerable to transform into a CSV string.</param>
+        /// <param name="nullValueEncoding">Optional value to use when encoding null elements.  Defaults to the empty string.</param>
+        /// <remarks>
+        /// CSV treatments: <a href="http://en.wikipedia.org/wiki/Comma-separated_values"/>.
+        /// </remarks>
+        /// <returns>
+        /// Returns a string that contains each element in the input enumerable,
+        /// separated by a comma and with the proper escaping.
+        /// If the enumerable is empty, returns null.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        public static string ToCsv(
+            this IEnumerable<string> value,
+            string nullValueEncoding = "")
+        {
+            // ReSharper disable once PossibleMultipleEnumeration
+            new { value }.Must().NotBeNull();
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            var result = value.Select(item => item == null ? nullValueEncoding : item.ToCsvSafe()).ToDelimitedString(",");
+            return result;
+        }
+
+        /// <summary>
+        /// Concatenates the individual values in an <see cref="IEnumerable"/> with a given delimiter
+        /// separating the individual values.
+        /// </summary>
+        /// <param name="value">The enumerable to concatenate.</param>
+        /// <param name="delimiter">The delimiter to use between elements in the enumerable.</param>
+        /// <remarks>
+        /// If an element of the IEnumerable is null, then its treated like an empty string.
+        /// </remarks>
+        /// <returns>
+        /// Returns a string that contains each element in the input enumerable, separated by the given delimiter.
+        /// If the enumerable is empty, then this method returns null.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="delimiter"/> is null.</exception>
+        public static string ToDelimitedString(
+            this IEnumerable<string> value,
+            string delimiter)
+        {
+            // ReSharper disable once PossibleMultipleEnumeration
+            new { value }.Must().NotBeNull();
+            new { delimiter }.Must().NotBeNull();
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            var valueAsList = value.ToList();
+            if (valueAsList.Count == 0)
+            {
+                return null;
+            }
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            var result = string.Join(delimiter, value);
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a string with the values in a given <see cref="IEnumerable"/>, separated by a newline.
+        /// </summary>
+        /// <param name="value">The enumerable to concatenate.</param>
+        /// <remarks>
+        /// If an element of the IEnumerable is null, then its treated like an empty string.
+        /// </remarks>
+        /// <returns>
+        /// Returns a string that contains each element in the input enumerable, separated by a newline.
+        /// If the enumerable is empty, then this method returns null.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        public static string ToNewLineDelimited(
+            this IEnumerable<string> value)
+        {
+            var result = value.ToDelimitedString(Environment.NewLine);
+            return result;
         }
 
         private static IEqualityComparer<T> GetEqualityComparerToUse<T>(
