@@ -116,12 +116,12 @@ namespace OBeautifulCode.Collection.Recipes
             IDictionary<TKey, TValue> second,
             IEqualityComparer<TValue> valueComparer = null)
         {
-            if ((first == null) && (second == null))
+            if (ReferenceEquals(first, second))
             {
                 return true;
             }
 
-            if ((first == null) || (second == null))
+            if (ReferenceEquals(first, null) || ReferenceEquals(second, null))
             {
                 return false;
             }
@@ -160,12 +160,12 @@ namespace OBeautifulCode.Collection.Recipes
             IReadOnlyDictionary<TKey, TValue> second,
             IEqualityComparer<TValue> valueComparer = null)
         {
-            if ((first == null) && (second == null))
+            if (ReferenceEquals(first, second))
             {
                 return true;
             }
 
-            if ((first == null) || (second == null))
+            if (ReferenceEquals(first, null) || ReferenceEquals(second, null))
             {
                 return false;
             }
@@ -220,12 +220,12 @@ namespace OBeautifulCode.Collection.Recipes
             IEnumerable<TSource> second,
             IEqualityComparer<TSource> comparer = null)
         {
-            if ((first == null) && (second == null))
+            if (ReferenceEquals(first, second))
             {
                 return true;
             }
 
-            if ((first == null) || (second == null))
+            if (ReferenceEquals(first, null) || ReferenceEquals(second, null))
             {
                 return false;
             }
@@ -255,12 +255,12 @@ namespace OBeautifulCode.Collection.Recipes
             IEnumerable<TSource> second,
             IEqualityComparer<TSource> comparer = null)
         {
-            if ((first == null) && (second == null))
+            if (ReferenceEquals(first, second))
             {
                 return true;
             }
 
-            if ((first == null) || (second == null))
+            if (ReferenceEquals(first, null) || ReferenceEquals(second, null))
             {
                 return false;
             }
@@ -293,12 +293,12 @@ namespace OBeautifulCode.Collection.Recipes
             IEnumerable<TSource> second,
             IEqualityComparer<TSource> comparer = null)
         {
-            if ((first == null) && (second == null))
+            if (ReferenceEquals(first, second))
             {
                 return true;
             }
 
-            if ((first == null) || (second == null))
+            if (ReferenceEquals(first, null) || ReferenceEquals(second, null))
             {
                 return false;
             }
