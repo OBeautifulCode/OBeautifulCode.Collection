@@ -12,7 +12,6 @@ namespace OBeautifulCode.Collection.Recipes
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
@@ -131,13 +130,30 @@ namespace OBeautifulCode.Collection.Recipes
                 return false;
             }
 
-            IReadOnlyDictionary<TKey, TValue> firstReadOnly = new ReadOnlyDictionary<TKey, TValue>(first);
+            IEqualityComparer<TValue> valueEqualityComparerToUse = null;
 
-            IReadOnlyDictionary<TKey, TValue> secondReadOnly = new ReadOnlyDictionary<TKey, TValue>(second);
+            foreach (var key in first.Keys)
+            {
+                if (!second.ContainsKey(key))
+                {
+                    return false;
+                }
 
-            var result = IsReadOnlyDictionaryEqualTo(firstReadOnly, secondReadOnly, valueComparer);
+                var firstValue = first[key];
+                var secondValue = second[key];
 
-            return result;
+                if (valueEqualityComparerToUse == null)
+                {
+                    valueEqualityComparerToUse = GetEqualityComparerToUse(valueComparer);
+                }
+
+                if (!valueEqualityComparerToUse.Equals(firstValue, secondValue))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
