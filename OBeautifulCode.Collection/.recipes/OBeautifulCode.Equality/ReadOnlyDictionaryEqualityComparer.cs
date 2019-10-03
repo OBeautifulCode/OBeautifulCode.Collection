@@ -9,11 +9,7 @@
 
 namespace OBeautifulCode.Equality.Recipes
 {
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-
-    using OBeautifulCode.Equality.Recipes.Internal;
 
     /// <summary>
     /// An implementation of <see cref="IEqualityComparer{T}"/> for any <see cref="IReadOnlyDictionary{TKey, TValue}"/>.
@@ -40,16 +36,12 @@ namespace OBeautifulCode.Equality.Recipes
         }
 
         /// <inheritdoc />
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = ObcSuppressBecause.CA1065_DoNotRaiseExceptionsInUnexpectedLocations_ThrowNotImplementedExceptionForCodePathThatWillNeverBeCalled)]
         public int GetHashCode(
             IReadOnlyDictionary<TKey, TValue> obj)
         {
-            // It's highly unlikely that a Dictionary (or some other data structure that relies on
-            // hashing) will be constructed with an instance of this EqualityComparer.
-            // This method is NOT used by internally by EqualityExtensions.
-            // If needed in the future, we can use HashCodeHelper.
-            // see: https://stackoverflow.com/questions/4095395/whats-the-role-of-gethashcode-in-the-iequalitycomparert-in-net
-            throw new NotImplementedException();
+            var result = HashCodeHelper.Initialize().Hash(obj).Value;
+
+            return result;
         }
     }
 }

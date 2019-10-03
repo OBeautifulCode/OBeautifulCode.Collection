@@ -13,6 +13,8 @@ namespace OBeautifulCode.Equality.Recipes
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 
+    using OBeautifulCode.Equality.Recipes.Internal;
+
     using static System.FormattableString;
 
     /// <summary>
@@ -44,7 +46,7 @@ namespace OBeautifulCode.Equality.Recipes
         }
 
         /// <inheritdoc />
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "This is an appropriate exception to raise.")]
+        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = ObcSuppressBecause.CA1065_DoNotRaiseExceptionsInUnexpectedLocations_ThrowNotSupportedExceptionForUnreachableCodePath)]
         public bool Equals(
             IEnumerable<T> x,
             IEnumerable<T> y)
@@ -67,16 +69,27 @@ namespace OBeautifulCode.Equality.Recipes
         }
 
         /// <inheritdoc />
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "This is an appropriate exception to raise.")]
+        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = ObcSuppressBecause.CA1065_DoNotRaiseExceptionsInUnexpectedLocations_ThrowNotSupportedExceptionForUnreachableCodePath)]
         public int GetHashCode(
             IEnumerable<T> obj)
         {
-            // It's highly unlikely that a Dictionary (or some other data structure that relies on
-            // hashing) will be constructed with an instance of this EqualityComparer.
-            // This method is NOT used by internally by EqualityExtensions.
-            // If needed in the future, we can use HashCodeHelper.
-            // see: https://stackoverflow.com/questions/4095395/whats-the-role-of-gethashcode-in-the-iequalitycomparert-in-net
-            throw new NotImplementedException();
+            int result;
+
+            var objAsList = new List<T>(obj);
+
+            switch (this.enumerableEqualityComparerStrategy)
+            {
+                case EnumerableEqualityComparerStrategy.SequenceEqual:
+                    result = HashCodeHelper.Initialize().Hash(objAsList).Value;
+                    break;
+                case EnumerableEqualityComparerStrategy.UnorderedEqual:
+                    result = HashCodeHelper.Initialize().Hash<IReadOnlyCollection<T>>(objAsList).Value;
+                    break;
+                default:
+                    throw new NotSupportedException(Invariant($"This {nameof(EnumerableEqualityComparerStrategy)} is not supported: {this.enumerableEqualityComparerStrategy}."));
+            }
+
+            return result;
         }
     }
 }
