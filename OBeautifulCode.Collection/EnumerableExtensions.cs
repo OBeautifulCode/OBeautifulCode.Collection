@@ -12,10 +12,9 @@ namespace OBeautifulCode.Collection.Recipes
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
-    using OBeautifulCode.Reflection.Recipes;
+    using OBeautifulCode.Equality.Recipes;
     using OBeautifulCode.String.Recipes;
     using OBeautifulCode.Validation.Recipes;
 
@@ -96,262 +95,6 @@ namespace OBeautifulCode.Collection.Recipes
         }
 
         /// <summary>
-        /// Compares two dictionaries for equality.
-        /// </summary>
-        /// <typeparam name="TKey">The type of keys in the dictionaries.</typeparam>
-        /// <typeparam name="TValue">The type of values in the dictionaries.</typeparam>
-        /// <param name="first">The first <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="second">The second <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="valueComparer">Optional equality comparer to use to compare values.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
-        /// <returns>
-        /// - true if the two source dictionaries are null.
-        /// - false if one or the other is null.
-        /// - false if the dictionaries are of different length.
-        /// - true if the two dictionaries are of equal length and their values are equal for the same keys.
-        /// - otherwise, false.
-        /// </returns>
-        public static bool IsDictionaryEqualTo<TKey, TValue>(
-            this IDictionary<TKey, TValue> first,
-            IDictionary<TKey, TValue> second,
-            IEqualityComparer<TValue> valueComparer = null)
-        {
-            if (ReferenceEquals(first, second))
-            {
-                return true;
-            }
-
-            if (ReferenceEquals(first, null) || ReferenceEquals(second, null))
-            {
-                return false;
-            }
-
-            if (first.Keys.Count != second.Keys.Count)
-            {
-                return false;
-            }
-
-            IEqualityComparer<TValue> valueEqualityComparerToUse = null;
-
-            foreach (var key in first.Keys)
-            {
-                if (!second.ContainsKey(key))
-                {
-                    return false;
-                }
-
-                var firstValue = first[key];
-                var secondValue = second[key];
-
-                if (valueEqualityComparerToUse == null)
-                {
-                    valueEqualityComparerToUse = GetEqualityComparerToUse(valueComparer);
-                }
-
-                if (!valueEqualityComparerToUse.Equals(firstValue, secondValue))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Compares two dictionaries for equality.
-        /// </summary>
-        /// <typeparam name="TKey">The type of keys in the dictionaries.</typeparam>
-        /// <typeparam name="TValue">The type of values in the dictionaries.</typeparam>
-        /// <param name="first">The first <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="second">The second <see cref="IReadOnlyDictionary{TKey, TValue}"/> to compare.</param>
-        /// <param name="valueComparer">Optional equality comparer to use to compare values.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
-        /// <returns>
-        /// - true if the two source dictionaries are null.
-        /// - false if one or the other is null.
-        /// - false if the dictionaries are of different length.
-        /// - true if the two dictionaries are of equal length and their values are equal for the same keys.
-        /// - otherwise, false.
-        /// </returns>
-        public static bool IsReadOnlyDictionaryEqualTo<TKey, TValue>(
-            this IReadOnlyDictionary<TKey, TValue> first,
-            IReadOnlyDictionary<TKey, TValue> second,
-            IEqualityComparer<TValue> valueComparer = null)
-        {
-            if (ReferenceEquals(first, second))
-            {
-                return true;
-            }
-
-            if (ReferenceEquals(first, null) || ReferenceEquals(second, null))
-            {
-                return false;
-            }
-
-            if (first.Keys.Count() != second.Keys.Count())
-            {
-                return false;
-            }
-
-            IEqualityComparer<TValue> valueEqualityComparerToUse = null;
-
-            foreach (var key in first.Keys)
-            {
-                if (!second.ContainsKey(key))
-                {
-                    return false;
-                }
-
-                var firstValue = first[key];
-                var secondValue = second[key];
-
-                if (valueEqualityComparerToUse == null)
-                {
-                    valueEqualityComparerToUse = GetEqualityComparerToUse(valueComparer);
-                }
-
-                if (!valueEqualityComparerToUse.Equals(firstValue, secondValue))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// The same as <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource}, IEqualityComparer{TSource})" />,
-        /// except that it handles cases where one or both sets are null.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
-        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
-        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
-        /// <param name="comparer">Optional equality comparer to use to compare elements.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
-        /// <returns>
-        /// - true if the two source sequences are null.
-        /// - false if one or the other is null.
-        /// - true if the two sequences are of equal length and their corresponding elements are equal according to <paramref name="comparer"/>.
-        /// - otherwise, false.
-        /// </returns>
-        public static bool IsSequenceEqualTo<TSource>(
-            this IEnumerable<TSource> first,
-            IEnumerable<TSource> second,
-            IEqualityComparer<TSource> comparer = null)
-        {
-            if (ReferenceEquals(first, second))
-            {
-                return true;
-            }
-
-            if (ReferenceEquals(first, null) || ReferenceEquals(second, null))
-            {
-                return false;
-            }
-
-            var equalityComparerToUse = GetEqualityComparerToUse(comparer);
-
-            var result = first.SequenceEqual(second, equalityComparerToUse);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Determines if two enumerables have no symmetric difference.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
-        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
-        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
-        /// <param name="comparer">Optional equality comparer to use to compare elements.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
-        /// <returns>
-        /// - true if the two source sequences are null.
-        /// - false if one or the other is null.
-        /// - true if there is no symmetric difference.
-        /// - otherwise, false.
-        /// </returns>
-        public static bool IsSymmetricDifferenceEqualTo<TSource>(
-            this IEnumerable<TSource> first,
-            IEnumerable<TSource> second,
-            IEqualityComparer<TSource> comparer = null)
-        {
-            if (ReferenceEquals(first, second))
-            {
-                return true;
-            }
-
-            if (ReferenceEquals(first, null) || ReferenceEquals(second, null))
-            {
-                return false;
-            }
-
-            var equalityComparerToUse = GetEqualityComparerToUse(comparer);
-
-            var result = !SymmetricDifference(first, second, equalityComparerToUse).Any();
-
-            return result;
-        }
-
-        /// <summary>
-        /// Determines if two enumerables have the exact same elements in any order.
-        /// Every unique element in the first set has to appear in the second set the same number of times it appears in the first.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
-        /// <param name="first">An <see cref="IEnumerable{T}"/> to compare to <paramref name="second"/>.</param>
-        /// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
-        /// <param name="comparer">Optional equality comparer to use to compare elements.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
-        /// <returns>
-        /// - true if the two source sequences are null.
-        /// - false if one or the other is null.
-        /// - false if there is any symmetric difference.
-        /// - true if the two sequences both contain the same number of elements for each unique element.
-        /// - otherwise, false.
-        /// </returns>
-        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "This is not excessively complex.")]
-        public static bool IsUnorderedEqualTo<TSource>(
-            this IEnumerable<TSource> first,
-            IEnumerable<TSource> second,
-            IEqualityComparer<TSource> comparer = null)
-        {
-            if (ReferenceEquals(first, second))
-            {
-                return true;
-            }
-
-            if (ReferenceEquals(first, null) || ReferenceEquals(second, null))
-            {
-                return false;
-            }
-
-            var equalityComparerToUse = GetEqualityComparerToUse(comparer);
-
-            // ReSharper disable PossibleMultipleEnumeration
-            if (first.SymmetricDifference(second, equalityComparerToUse).Any())
-            {
-                return false;
-            }
-
-            var firstGroupedByElement = first.GroupBy(_ => _, equalityComparerToUse).ToList();
-            var secondGroupedByElement = second.GroupBy(_ => _, equalityComparerToUse).ToList();
-
-            var firstElementToCountMap = firstGroupedByElement.Where(_ => _.Key != null).ToDictionary(_ => _.Key, _ => _.Count(), equalityComparerToUse);
-            var secondElementToCountMap = secondGroupedByElement.Where(_ => _.Key != null).ToDictionary(_ => _.Key, _ => _.Count(), equalityComparerToUse);
-
-            foreach (var element in firstElementToCountMap.Keys)
-            {
-                if (firstElementToCountMap[element] != secondElementToCountMap[element])
-                {
-                    return false;
-                }
-            }
-
-            var firstNullCount = firstGroupedByElement.FirstOrDefault(_ => _.Key == null)?.Count();
-            var secondNullCount = secondGroupedByElement.FirstOrDefault(_ => _.Key == null)?.Count();
-
-            var result = firstNullCount == secondNullCount;
-
-            return result;
-
-            // ReSharper restore PossibleMultipleEnumeration
-        }
-
-        /// <summary>
         /// Gets the symmetric difference of two sets using the default equality comparer.
         /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
         /// </summary>
@@ -384,7 +127,7 @@ namespace OBeautifulCode.Collection.Recipes
         /// <typeparam name="TSource">The type of elements in the collection.</typeparam>
         /// <param name="value">The first enumerable.</param>
         /// <param name="secondSet">The second enumerable to compare against the first.</param>
-        /// <param name="comparer">Optional equality comparer to use to compare elements.  Default is to call <see cref="GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
+        /// <param name="comparer">Optional equality comparer to use to compare elements.  Default is to call <see cref="EqualityComparerHelper.GetEqualityComparerToUse{T}(IEqualityComparer{T})"/>.</param>
         /// <returns>Returns an <see cref="IEnumerable{T}"/> with the symmetric difference of the two sets.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="secondSet"/> is null.</exception>
@@ -397,7 +140,7 @@ namespace OBeautifulCode.Collection.Recipes
             new { value }.Must().NotBeNull();
             new { secondSet }.Must().NotBeNull();
 
-            var equalityComparerToUse = GetEqualityComparerToUse(comparer);
+            var equalityComparerToUse = EqualityComparerHelper.GetEqualityComparerToUse(comparer);
 
             var result = value.Except(secondSet, equalityComparerToUse).Union(secondSet.Except(value, equalityComparerToUse), equalityComparerToUse);
 
@@ -484,56 +227,6 @@ namespace OBeautifulCode.Collection.Recipes
             this IEnumerable<string> value)
         {
             var result = value.ToDelimitedString(Environment.NewLine);
-            return result;
-        }
-
-        private static IEqualityComparer<T> GetEqualityComparerToUse<T>(
-            IEqualityComparer<T> comparer)
-        {
-            var type = typeof(T);
-
-            IEqualityComparer<T> result;
-
-            if (comparer != null)
-            {
-                result = comparer;
-            }
-            else if (type.IsSystemDictionaryType())
-            {
-                var genericArguments = type.GetGenericArguments();
-
-                // IDictionary is the only System dictionary type that doesn't implement IReadOnlyDictionary
-                // which is why we have to special-case it here.
-                var equalityComparerConstructorInfo = type.GetGenericTypeDefinition() == typeof(IDictionary<,>)
-                    ? typeof(DictionaryEqualityComparer<,>).MakeGenericType(genericArguments).GetConstructor(new Type[0])
-                    : typeof(ReadOnlyDictionaryEqualityComparer<,>).MakeGenericType(genericArguments).GetConstructor(new Type[0]);
-
-                // ReSharper disable once PossibleNullReferenceException
-                result = (IEqualityComparer<T>)equalityComparerConstructorInfo.Invoke(null);
-            }
-            else if (type.IsArray)
-            {
-                var constructorInfo = typeof(EnumerableEqualityComparer<>).MakeGenericType(type.GetElementType()).GetConstructor(new[] { typeof(EnumerableEqualityComparerStrategy) });
-
-                // ReSharper disable once PossibleNullReferenceException
-                result = (IEqualityComparer<T>)constructorInfo.Invoke(new object[] { EnumerableEqualityComparerStrategy.SequenceEqual });
-            }
-            else if (type.IsSystemCollectionType())
-            {
-                var genericArguments = type.GetGenericArguments();
-
-                var constructorInfo = typeof(EnumerableEqualityComparer<>).MakeGenericType(genericArguments[0]).GetConstructor(new[] { typeof(EnumerableEqualityComparerStrategy) });
-
-                var enumerableEqualityComparerStrategy = type.IsSystemOrderedEnumerableType() ? EnumerableEqualityComparerStrategy.SequenceEqual : EnumerableEqualityComparerStrategy.UnorderedEqual;
-
-                // ReSharper disable once PossibleNullReferenceException
-                result = (IEqualityComparer<T>)constructorInfo.Invoke(new object[] { enumerableEqualityComparerStrategy });
-            }
-            else
-            {
-                result = EqualityComparer<T>.Default;
-            }
-
             return result;
         }
 
