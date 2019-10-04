@@ -230,6 +230,39 @@ namespace OBeautifulCode.Collection.Recipes
             return result;
         }
 
+        /// <summary>
+        /// Converts a generic dictionary to a non-generic dictionary.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
+        /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
+        /// <param name="value">The dictionary to convert.</param>
+        /// <returns>
+        /// The specified generic dictionary converted to a non-generic dictionary.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/>is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains duplicate keys.</exception>
+        public static IDictionary ToNonGenericDictionary<TKey, TValue>(
+            this IEnumerable<KeyValuePair<TKey, TValue>> value)
+        {
+            // ReSharper disable PossibleMultipleEnumeration
+            new { value }.Must().NotBeNull();
+
+            var result = new Hashtable();
+            foreach (var item in value)
+            {
+                if (result.ContainsKey(item.Key))
+                {
+                    throw new ArgumentException(Invariant($"{nameof(value)} contains duplicate keys."), nameof(value));
+                }
+
+                result.Add(item.Key, item.Value);
+            }
+
+            return result;
+
+            // ReSharper restore PossibleMultipleEnumeration
+        }
+
         private static List<T> GenerateCombination<T>(
             IReadOnlyList<T> inputList,
             int bitPattern)
