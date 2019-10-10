@@ -14,10 +14,10 @@ namespace OBeautifulCode.Collection.Recipes
     using System.Collections.Generic;
     using System.Linq;
 
+    using OBeautifulCode.Assertion.Recipes;
     using OBeautifulCode.Equality.Recipes;
     using OBeautifulCode.String.Recipes;
-    using OBeautifulCode.Validation.Recipes;
-
+    
     using static System.FormattableString;
 
     /// <summary>
@@ -54,9 +54,9 @@ namespace OBeautifulCode.Collection.Recipes
             int maximumItems = int.MaxValue)
         {
             // ReSharper disable once PossibleMultipleEnumeration
-            new { values }.Must().NotBeNull();
-            new { minimumItems }.Must().BeGreaterThanOrEqualTo(1);
-            new { maximumItems }.Must().BeGreaterThanOrEqualTo(minimumItems, Invariant($"{nameof(maximumItems)} < {nameof(minimumItems)}."));
+            new { values }.AsArg().Must().NotBeNull();
+            new { minimumItems }.AsArg().Must().BeGreaterThanOrEqualTo(1);
+            new { maximumItems }.AsArg().Must().BeGreaterThanOrEqualTo(minimumItems, Invariant($"{nameof(maximumItems)} < {nameof(minimumItems)}."));
 
             // ReSharper disable once PossibleMultipleEnumeration
             var valuesList = values.Distinct().ToList();
@@ -137,8 +137,8 @@ namespace OBeautifulCode.Collection.Recipes
             IEqualityComparer<TSource> comparer = null)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            new { value }.Must().NotBeNull();
-            new { secondSet }.Must().NotBeNull();
+            new { value }.AsArg().Must().NotBeNull();
+            new { secondSet }.AsArg().Must().NotBeNull();
 
             var equalityComparerToUse = EqualityComparerHelper.GetEqualityComparerToUse(comparer);
 
@@ -169,7 +169,7 @@ namespace OBeautifulCode.Collection.Recipes
             string nullValueEncoding = "")
         {
             // ReSharper disable once PossibleMultipleEnumeration
-            new { value }.Must().NotBeNull();
+            new { value }.AsArg().Must().NotBeNull();
 
             // ReSharper disable once PossibleMultipleEnumeration
             var result = value.Select(item => item == null ? nullValueEncoding : item.ToCsvSafe()).ToDelimitedString(",");
@@ -196,8 +196,8 @@ namespace OBeautifulCode.Collection.Recipes
             string delimiter)
         {
             // ReSharper disable once PossibleMultipleEnumeration
-            new { value }.Must().NotBeNull();
-            new { delimiter }.Must().NotBeNull();
+            new { value }.AsArg().Must().NotBeNull();
+            new { delimiter }.AsArg().Must().NotBeNull();
 
             // ReSharper disable once PossibleMultipleEnumeration
             var valueAsList = value.ToList();
@@ -245,7 +245,7 @@ namespace OBeautifulCode.Collection.Recipes
             this IEnumerable<KeyValuePair<TKey, TValue>> value)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            new { value }.Must().NotBeNull();
+            new { value }.AsArg().Must().NotBeNull();
 
             var result = new Hashtable();
             foreach (var item in value)
