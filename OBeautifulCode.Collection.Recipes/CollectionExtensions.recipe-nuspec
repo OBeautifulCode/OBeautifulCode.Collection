@@ -4,7 +4,7 @@
     <id>OBeautifulCode.Collection.Recipes.CollectionExtensions</id>
     <description>Helper methods for operating on objects of type ICollection.</description>
     <tags>collection icollection extension extensionmethods</tags>
-    <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection/nuget-icon.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection.Recipes/nuget-icon.png</iconUrl>
     <dependencies>
       <dependency id="OBeautifulCode.Validation.Recipes.ParameterValidator" version="1.0.27" />
     </dependencies>

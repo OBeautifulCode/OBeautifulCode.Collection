@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace OBeautifulCode.Collection.Test
+namespace OBeautifulCode.Collection.Recipes.Test
 {
     using System;
     using System.Collections;
@@ -17,7 +17,6 @@ namespace OBeautifulCode.Collection.Test
     using FluentAssertions;
 
     using OBeautifulCode.AutoFakeItEasy;
-    using OBeautifulCode.Collection.Recipes;
     using OBeautifulCode.String.Recipes;
 
     using Xunit;

@@ -4,15 +4,13 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace OBeautifulCode.Collection.Test
+namespace OBeautifulCode.Collection.Recipes.Test
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using FluentAssertions;
-
-    using OBeautifulCode.Collection.Recipes;
 
     using Xunit;
 

@@ -8,8 +8,8 @@
     <ProjectGuid>{7713E31D-FDC3-419E-8E90-3ADF0D0383C8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OBeautifulCode.Collection.Test</RootNamespace>
-    <AssemblyName>OBeautifulCode.Collection.Test</AssemblyName>
+    <RootNamespace>OBeautifulCode.Collection.Recipes.Test</RootNamespace>
+    <AssemblyName>OBeautifulCode.Collection.Recipes.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -99,9 +99,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OBeautifulCode.Collection\OBeautifulCode.Collection.csproj">
+    <ProjectReference Include="..\OBeautifulCode.Collection.Recipes\OBeautifulCode.Collection.Recipes.csproj">
       <Project>{fc669937-2c66-4bd7-a9c5-b13c33260ecc}</Project>
-      <Name>OBeautifulCode.Collection</Name>
+      <Name>OBeautifulCode.Collection.Recipes</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,0 @@
-<package >
-  <metadata>
-    <description>Provides collection-related convenience/helper methods.</description>
-    <tags>collection ienumerable helper</tags>
-    <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection/nuget-icon.png</iconUrl>
-  </metadata>
-</package>

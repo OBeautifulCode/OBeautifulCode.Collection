@@ -4,7 +4,7 @@
     <id>OBeautifulCode.Collection.Recipes.EnumerableExtensions</id>
     <description>Helper methods/classes for operating on objects of type IEnumerable.</description>
     <tags>enumerable ienumerable extension extensionmethods equality comparer iequalitycomparer</tags>
-    <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection/nuget-icon.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection.Recipes/nuget-icon.png</iconUrl>
     <dependencies>
       <dependency id="OBeautifulCode.Equality.Recipes.EqualityHelpers" version="1.0.5" />
       <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.40" />

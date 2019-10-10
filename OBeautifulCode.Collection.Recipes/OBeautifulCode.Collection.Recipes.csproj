@@ -7,8 +7,8 @@
     <ProjectGuid>{FC669937-2C66-4BD7-A9C5-B13C33260ECC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OBeautifulCode.Collection</RootNamespace>
-    <AssemblyName>OBeautifulCode.Collection</AssemblyName>
+    <RootNamespace>OBeautifulCode.Collection.Recipes</RootNamespace>
+    <AssemblyName>OBeautifulCode.Collection.Recipes</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -23,7 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Debug\OBeautifulCode.Collection.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\OBeautifulCode.Collection.Recipes.XML</DocumentationFile>
     <DefineConstants>OBeautifulCodeCollectionRecipesProject</DefineConstants>
     <CodeAnalysisRuleSet />
   </PropertyGroup>
@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\OBeautifulCode.Collection.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\OBeautifulCode.Collection.Recipes.XML</DocumentationFile>
     <CodeAnalysisRuleSet />
   </PropertyGroup>
   <ItemGroup>
@@ -79,9 +79,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="EnumerableExtensions.recipe-nuspec" />
-    <None Include="OBeautifulCode.Collection.override-nuspec">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
