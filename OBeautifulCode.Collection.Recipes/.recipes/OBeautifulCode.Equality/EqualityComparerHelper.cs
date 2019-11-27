@@ -76,6 +76,10 @@ namespace OBeautifulCode.Equality.Recipes
                 // ReSharper disable once PossibleNullReferenceException
                 result = (IEqualityComparer<T>)constructorInfo.Invoke(new object[] { enumerableEqualityComparerStrategy });
             }
+            else if (type == typeof(DateTime))
+            {
+                result = (IEqualityComparer<T>)new DateTimeEqualityComparer();
+            }
             else
             {
                 result = EqualityComparer<T>.Default;

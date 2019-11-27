@@ -56,6 +56,10 @@ namespace OBeautifulCode.Equality.Recipes
 
         private static readonly MethodInfo HashUnorderedCollectionMethodInfo = typeof(HashCodeHelper).GetMethod(nameof(HashUnorderedCollection), BindingFlags.NonPublic | BindingFlags.Instance);
 
+        private static readonly Type ComparableType = typeof(IComparable);
+
+        private static readonly Type UnboundGenericComparableType = typeof(IComparable<>);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HashCodeHelper"/> class.
         /// </summary>
@@ -156,10 +160,8 @@ namespace OBeautifulCode.Equality.Recipes
             }
             else
             {
-                var keyComparer = Comparer<TKey>.Default;
-
                 // Is there a comparer for the keys?
-                if (IsObjectComparer(keyComparer))
+                if (!IsComparable<TKey>())
                 {
                     // There is no comparer for the keys and thus we cannot sort the key/value pairs.
                     // The best we can do is hash the count, which will ensure
@@ -172,7 +174,7 @@ namespace OBeautifulCode.Equality.Recipes
                     // The keys can be sorted.  Sort the key/value pairs by the keys
                     // and then hash the key collection and the value collection,
                     // treating them as ordered collections.
-                    var keyValuePairsInOrder = dictionary.OrderBy(_ => _.Key, keyComparer).ToList();
+                    var keyValuePairsInOrder = dictionary.OrderBy(_ => _.Key).ToList();
 
                     result = result.HashOrderedCollection(keyValuePairsInOrder.Select(_ => _.Key));
 
@@ -202,10 +204,8 @@ namespace OBeautifulCode.Equality.Recipes
             {
                 result = result.HashUnorderedCollection(dictionary.Keys);
 
-                var keyComparer = Comparer<TKey>.Default;
-
                 // Is there a comparer for the keys?
-                if (IsObjectComparer(keyComparer))
+                if (!IsComparable<TKey>())
                 {
                     // There is no comparer for the keys and thus we cannot sort the key/value pairs.
                     // The best we can do is hash the count, which will ensure
@@ -218,7 +218,7 @@ namespace OBeautifulCode.Equality.Recipes
                     // The keys can be sorted.  Sort the key/value pairs by the keys
                     // and then hash the key collection and the value collection,
                     // treating them as ordered collections.
-                    var keyValuePairsInOrder = dictionary.OrderBy(_ => _.Key, keyComparer).ToList();
+                    var keyValuePairsInOrder = dictionary.OrderBy(_ => _.Key).ToList();
 
                     result = result.HashOrderedCollection(keyValuePairsInOrder.Select(_ => _.Key));
 
@@ -273,11 +273,9 @@ namespace OBeautifulCode.Equality.Recipes
             }
             else
             {
-                var comparer = Comparer<TElement>.Default;
-
                 // Is there a comparer for the element type?
                 // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-                if (IsObjectComparer(comparer))
+                if (!IsComparable<TElement>())
                 {
                     // There is no comparer and thus we cannot sort the elements.
                     // The best we can do is hash the element count, which will ensure
@@ -291,19 +289,54 @@ namespace OBeautifulCode.Equality.Recipes
                     // it as an ordered collection and hash that.  This ensures that
                     // two unordered collections that are equal but having a different
                     // order will result in the same hash code.
-                    result = result.HashOrderedCollection(collection.OrderBy(_ => _, comparer));
+                    result = result.HashOrderedCollection(collection.OrderBy(_ => _));
                 }
             }
 
             return result;
         }
 
-        private static bool IsObjectComparer<T>(
-            IComparer<T> comparer)
+        private static bool IsComparable<T>()
         {
-            var typeFullName = comparer.GetType().FullName;
+            var type = typeof(T);
 
-            var result = typeFullName != null && typeFullName.StartsWith("System.Collections.Generic.ObjectComparer", StringComparison.Ordinal);
+            var result = IsComparable(type);
+
+            return result;
+        }
+
+        private static bool IsComparable(
+            Type type)
+        {
+            // Previously, we called Comparer<T>.Default and checked whether that was equal to ObjectComparer<T>.
+            // If so, we considered the type to be NOT comparable.  Comparer<T>.Default checks, among other things,
+            // whether T is IComparable<T>.  Unfortunately, types like Enum don't implement IComparable<T>,
+            // but are IComparable.  So for enums, Comparer<T>.Default returns ObjectComparer<T>.  It turns out,
+            // ObjectComparer<T> doesn't just check for reference equality.  Among other things, it checks whether
+            // the type is IComparable.  So we combined the approach taken by Comparer<T>.Default and ObjectComparer<T>
+            // into the follow...
+            bool result;
+
+            var genericComparableType = UnboundGenericComparableType.MakeGenericType(type);
+
+            if (type.IsAssignableTo(genericComparableType))
+            {
+                result = true;
+            }
+            else if (type.IsAssignableTo(ComparableType))
+            {
+                result = true;
+            }
+            else if (type.IsNullableType())
+            {
+                var underlyingType = type.GetGenericArguments()[0];
+
+                result = IsComparable(underlyingType);
+            }
+            else
+            {
+                result = false;
+            }
 
             return result;
         }

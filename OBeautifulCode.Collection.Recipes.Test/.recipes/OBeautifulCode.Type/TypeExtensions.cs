@@ -281,6 +281,28 @@ namespace OBeautifulCode.Type.Recipes
         }
 
         /// <summary>
+        /// Determines if the specified type is assignable to null.
+        /// </summary>
+        /// <remarks>Adapted from: <a href="https://stackoverflow.com/a/1770232/356790" />.</remarks>
+        /// <param name="type">The type.</param>
+        /// <returns>
+        /// true if the specified type is assignable to null, otherwise false.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is null.</exception>
+        public static bool IsAssignableToNull(
+            this Type type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            var result = (!type.IsValueType) || type.IsNullableType();
+
+            return result;
+        }
+
+        /// <summary>
         /// Determines if the specified type is a class type, that's not anonymous, and is closed.
         /// </summary>
         /// <remarks>
