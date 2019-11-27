@@ -59,41 +59,17 @@ namespace OBeautifulCode.Collection.Recipes
             new { maximumItems }.AsArg().Must().BeGreaterThanOrEqualTo(minimumItems, Invariant($"{nameof(maximumItems)} < {nameof(minimumItems)}."));
 
             // ReSharper disable once PossibleMultipleEnumeration
-            var valuesList = values.Distinct().ToList();
+            var valuesList = values.Distinct().ToArray();
 
-            if (valuesList.Count > 30)
-            {
-                throw new NotSupportedException("Greater than 30 unique values is not currently supported.");
-            }
+            var result = new List<T[]>();
 
-            var nonEmptyCombinations = (int)Math.Pow(2, valuesList.Count) - 1;
-            var result = new List<List<T>>();
+            maximumItems = Math.Min(valuesList.Length, maximumItems);
 
-            // Optimize generation of empty combination, if empty combination is wanted
-            if (minimumItems == 0)
+            for (var x = minimumItems; x <= maximumItems; x++)
             {
-                result.Add(new List<T>());
-            }
+                var combinations = GetCombinations(valuesList, x).Select(_=> _.ToArray()).ToList();
 
-            if ((minimumItems <= 1) && (maximumItems >= valuesList.Count))
-            {
-                // Simple case, generate all possible non-empty combinations
-                for (var bitPattern = 1; bitPattern <= nonEmptyCombinations; bitPattern++)
-                {
-                    result.Add(GenerateCombination(valuesList, bitPattern));
-                }
-            }
-            else
-            {
-                // Not-so-simple case, avoid generating the unwanted combinations
-                for (var bitPattern = 1; bitPattern <= nonEmptyCombinations; bitPattern++)
-                {
-                    var bitCount = CountBits(bitPattern);
-                    if (bitCount >= minimumItems && bitCount <= maximumItems)
-                    {
-                        result.Add(GenerateCombination(valuesList, bitPattern));
-                    }
-                }
+                result.AddRange(combinations);
             }
 
             return result;
@@ -268,33 +244,57 @@ namespace OBeautifulCode.Collection.Recipes
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        private static List<T> GenerateCombination<T>(
-            IReadOnlyList<T> inputList,
-            int bitPattern)
+        private static IEnumerable<T[]> GetCombinations<T>(
+            T[] values,
+            int numberOfElementsInEachCombination)
         {
-            var result = new List<T>(inputList.Count);
-            for (var j = 0; j < inputList.Count; j++)
-            {
-                if ((bitPattern >> j & 1) == 1)
-                {
-                    result.Add(inputList[j]);
-                }
-            }
+            // adapted from: https://codereview.stackexchange.com/a/195025/4172
+            var result = new T[numberOfElementsInEachCombination];
 
-            return result;
+            foreach (var j in GetCombinations(numberOfElementsInEachCombination, values.Length))
+            {
+                for (var i = 0; i < numberOfElementsInEachCombination; i++)
+                {
+                    result[i] = values[j[i]];
+                }
+
+                yield return result;
+            }
         }
 
-        private static int CountBits(
-            int bitPattern)
+        private static IEnumerable<int[]> GetCombinations(
+            int numberOfElementsInEachCombination,
+            int valuesCount)
         {
-            var result = 0;
-            while (bitPattern != 0)
-            {
-                result++;
-                bitPattern &= bitPattern - 1;
-            }
+            // adapted from: https://codereview.stackexchange.com/a/195025/4172
+            var result = new int[numberOfElementsInEachCombination];
 
-            return result;
+            var stack = new Stack<int>(numberOfElementsInEachCombination);
+
+            stack.Push(0);
+
+            while (stack.Count > 0)
+            {
+                var index = stack.Count - 1;
+
+                var value = stack.Pop();
+
+                while (value < valuesCount)
+                {
+                    result[index++] = value++;
+
+                    stack.Push(value);
+
+                    if (index != numberOfElementsInEachCombination)
+                    {
+                        continue; 
+                    }
+
+                    yield return (int[])result.Clone();
+
+                    break;
+                }
+            }
         }
     }
 }
