@@ -61,8 +61,13 @@ namespace OBeautifulCode.Collection.Recipes
             // ReSharper disable once PossibleMultipleEnumeration
             var valuesList = values.Distinct().ToList();
 
+            if (valuesList.Count > 30)
+            {
+                throw new NotSupportedException("Greater than 30 unique values is not currently supported.");
+            }
+
             var nonEmptyCombinations = (int)Math.Pow(2, valuesList.Count) - 1;
-            var result = new List<List<T>>(nonEmptyCombinations + 1);
+            var result = new List<List<T>>();
 
             // Optimize generation of empty combination, if empty combination is wanted
             if (minimumItems == 0)
