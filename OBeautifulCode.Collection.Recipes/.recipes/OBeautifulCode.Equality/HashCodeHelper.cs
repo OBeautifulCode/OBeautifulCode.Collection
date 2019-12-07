@@ -9,7 +9,6 @@
 
 namespace OBeautifulCode.Equality.Recipes
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -56,10 +55,6 @@ namespace OBeautifulCode.Equality.Recipes
 
         private static readonly MethodInfo HashUnorderedCollectionMethodInfo = typeof(HashCodeHelper).GetMethod(nameof(HashUnorderedCollection), BindingFlags.NonPublic | BindingFlags.Instance);
 
-        private static readonly Type ComparableType = typeof(IComparable);
-
-        private static readonly Type UnboundGenericComparableType = typeof(IComparable<>);
-
         /// <summary>
         /// Initializes a new instance of the <see cref="HashCodeHelper"/> class.
         /// </summary>
@@ -103,27 +98,23 @@ namespace OBeautifulCode.Equality.Recipes
 
                 var valueType = typeof(T);
 
-                if (valueType.IsSystemDictionaryType())
+                if (valueType.IsClosedSystemDictionaryType())
                 {
-                    var genericArguments = valueType.GetGenericArguments();
-
                     var methodInfo = valueType.GetGenericTypeDefinition() == typeof(IDictionary<,>)
                         ? HashDictionaryMethodInfo
                         : HashReadOnlyDictionaryMethodInfo;
 
-                    result = (HashCodeHelper)methodInfo.MakeGenericMethod(genericArguments).Invoke(this, new[] { (object)item });
+                    result = (HashCodeHelper)methodInfo.MakeGenericMethod(valueType.GenericTypeArguments).Invoke(this, new[] { (object)item });
                 }
-                else if (valueType.IsSystemCollectionType())
+                else if (valueType.IsClosedSystemCollectionType())
                 {
-                    var genericArguments = valueType.GetGenericArguments();
-
-                    if (valueType.IsSystemOrderedCollectionType())
+                    if (valueType.IsClosedSystemOrderedCollectionType())
                     {
-                        result = (HashCodeHelper)HashOrderedCollectionMethodInfo.MakeGenericMethod(genericArguments).Invoke(this, new[] { (object)item });
+                        result = (HashCodeHelper)HashOrderedCollectionMethodInfo.MakeGenericMethod(valueType.GenericTypeArguments).Invoke(this, new[] { (object)item });
                     }
                     else
                     {
-                        result = (HashCodeHelper)HashUnorderedCollectionMethodInfo.MakeGenericMethod(genericArguments).Invoke(this, new[] { (object)item });
+                        result = (HashCodeHelper)HashUnorderedCollectionMethodInfo.MakeGenericMethod(valueType.GenericTypeArguments).Invoke(this, new[] { (object)item });
                     }
                 }
                 else if (valueType.IsArray)
@@ -161,7 +152,7 @@ namespace OBeautifulCode.Equality.Recipes
             else
             {
                 // Is there a comparer for the keys?
-                if (!IsComparable<TKey>())
+                if (!TypeExtensions.HasWorkingDefaultComparer<TKey>())
                 {
                     // There is no comparer for the keys and thus we cannot sort the key/value pairs.
                     // The best we can do is hash the count, which will ensure
@@ -205,7 +196,7 @@ namespace OBeautifulCode.Equality.Recipes
                 result = result.HashUnorderedCollection(dictionary.Keys);
 
                 // Is there a comparer for the keys?
-                if (!IsComparable<TKey>())
+                if (!TypeExtensions.HasWorkingDefaultComparer<TKey>())
                 {
                     // There is no comparer for the keys and thus we cannot sort the key/value pairs.
                     // The best we can do is hash the count, which will ensure
@@ -275,7 +266,7 @@ namespace OBeautifulCode.Equality.Recipes
             {
                 // Is there a comparer for the element type?
                 // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-                if (!IsComparable<TElement>())
+                if (!TypeExtensions.HasWorkingDefaultComparer<TElement>())
                 {
                     // There is no comparer and thus we cannot sort the elements.
                     // The best we can do is hash the element count, which will ensure
@@ -291,51 +282,6 @@ namespace OBeautifulCode.Equality.Recipes
                     // order will result in the same hash code.
                     result = result.HashOrderedCollection(collection.OrderBy(_ => _));
                 }
-            }
-
-            return result;
-        }
-
-        private static bool IsComparable<T>()
-        {
-            var type = typeof(T);
-
-            var result = IsComparable(type);
-
-            return result;
-        }
-
-        private static bool IsComparable(
-            Type type)
-        {
-            // Previously, we called Comparer<T>.Default and checked whether that was equal to ObjectComparer<T>.
-            // If so, we considered the type to be NOT comparable.  Comparer<T>.Default checks, among other things,
-            // whether T is IComparable<T>.  Unfortunately, types like Enum don't implement IComparable<T>,
-            // but are IComparable.  So for enums, Comparer<T>.Default returns ObjectComparer<T>.  It turns out,
-            // ObjectComparer<T> doesn't just check for reference equality.  Among other things, it checks whether
-            // the type is IComparable.  So we combined the approach taken by Comparer<T>.Default and ObjectComparer<T>
-            // into the follow...
-            bool result;
-
-            var genericComparableType = UnboundGenericComparableType.MakeGenericType(type);
-
-            if (type.IsAssignableTo(genericComparableType))
-            {
-                result = true;
-            }
-            else if (type.IsAssignableTo(ComparableType))
-            {
-                result = true;
-            }
-            else if (type.IsNullableType())
-            {
-                var underlyingType = type.GetGenericArguments()[0];
-
-                result = IsComparable(underlyingType);
-            }
-            else
-            {
-                result = false;
             }
 
             return result;
