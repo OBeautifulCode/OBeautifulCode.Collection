@@ -46,12 +46,10 @@ namespace OBeautifulCode.Collection.Recipes.Test
 
             // Assert
             actual1.Should().BeOfType<ArgumentOutOfRangeException>();
-            actual1.Message.Should().Contain("minimumItems");
-            actual1.Message.Should().Contain("'comparisonValue' is '1'");
+            actual1.Message.Should().Contain("'minimumItems' < '1'");
 
             actual2.Should().BeOfType<ArgumentOutOfRangeException>();
-            actual2.Message.Should().Contain("minimumItems");
-            actual2.Message.Should().Contain("'comparisonValue' is '1'");
+            actual2.Message.Should().Contain("'minimumItems' < '1'");
         }
 
         [Fact]
