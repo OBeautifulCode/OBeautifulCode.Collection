@@ -6,8 +6,8 @@
     <tags>enumerable ienumerable extension extensionmethods equality comparer iequalitycomparer</tags>
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection.Recipes/nuget-icon.png</iconUrl>
     <dependencies>
-      <dependency id="OBeautifulCode.Equality.Recipes.EqualityHelpers" version="1.0.20" />
-      <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.45" />
+      <dependency id="OBeautifulCode.Equality.Recipes.EqualityHelpers" version="1.0.22" />
+      <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.47" />
       <dependency id="OBeautifulCode.CodeAnalysis.Recipes.SuppressBecause" version="1.0.6" />
     </dependencies>
   </metadata>
