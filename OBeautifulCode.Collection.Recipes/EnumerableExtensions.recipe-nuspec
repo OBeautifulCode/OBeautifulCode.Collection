@@ -8,10 +8,10 @@
     <dependencies>
       <dependency id="OBeautifulCode.Equality.Recipes.EqualityHelpers" version="1.0.20" />
       <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.45" />
+      <dependency id="OBeautifulCode.CodeAnalysis.Recipes.SuppressBecause" version="1.0.6" />
     </dependencies>
   </metadata>
   <files>
-    <file src=".analyzers\SuppressBecause.cs" target="content\net462\.recipes\OBeautifulCode.Collection\SuppressBecause.cs" />
     <file src="EnumerableExtensions.cs" target="content\net462\.recipes\OBeautifulCode.Collection\EnumerableExtensions.cs" />
   </files>
 </package>

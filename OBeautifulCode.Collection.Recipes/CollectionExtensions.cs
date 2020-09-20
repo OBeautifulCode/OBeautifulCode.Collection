@@ -9,14 +9,14 @@
 
 namespace OBeautifulCode.Collection.Recipes
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
+    using global::System;
+    using global::System.Collections;
+    using global::System.Collections.Generic;
 
     /// <summary>
     /// Helper methods for operating on objects of type <see cref="ICollection{T}"/>.
     /// </summary>
-#if !OBeautifulCodeCollectionRecipesProject
+#if !OBeautifulCodeCollectionSolution
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Collection.Recipes", "See package version number")]
     internal

@@ -9,20 +9,20 @@
 
 namespace OBeautifulCode.Collection.Recipes
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
+    using global::System;
+    using global::System.Collections;
+    using global::System.Collections.Generic;
+    using global::System.Linq;
 
     using OBeautifulCode.Equality.Recipes;
     using OBeautifulCode.String.Recipes;
-    
-    using static System.FormattableString;
+
+    using static global::System.FormattableString;
 
     /// <summary>
     /// Helper methods for operating on objects of type <see cref="IEnumerable"/> and <see cref="IEnumerable{T}"/>.
     /// </summary>
-#if !OBeautifulCodeCollectionRecipesProject
+#if !OBeautifulCodeCollectionSolution
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Collection.Recipes", "See package version number")]
     internal
