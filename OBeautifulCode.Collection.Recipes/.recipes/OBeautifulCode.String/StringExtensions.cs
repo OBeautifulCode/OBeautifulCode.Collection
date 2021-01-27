@@ -22,8 +22,8 @@ namespace OBeautifulCode.String.Recipes
     /// Adds some convenient extension methods to strings.
     /// </summary>
 #if !OBeautifulCodeStringSolution
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    [System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.String.Recipes", "See package version number")]
+    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+    [global::System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.String.Recipes", "See package version number")]
     internal
 #else
     public
@@ -273,6 +273,47 @@ namespace OBeautifulCode.String.Recipes
             }
 
             var result = new string(chars, 0, count);
+            return result;
+        }
+
+        /// <summary>
+        /// Replaces tokens in a specified string value with the specified replacement values.
+        /// </summary>
+        /// <remarks>
+        /// DO NOT use this method if your replacement values contain tokens themselves.
+        /// This method does not process tokens in any guaranteed order.
+        /// </remarks>
+        /// <param name="value">The string containing tokens to replace.</param>
+        /// <param name="tokenToReplacementValueMap">
+        /// A map of the case-sensitive tokens to their replacement values.
+        /// If a replacement value is null, an empty string will be used.
+        /// </param>
+        /// <returns>
+        /// The result of replacing all tokens in <paramref name="value"/> with their replacement value.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="tokenToReplacementValueMap"/> is null.</exception>
+        public static string ReplaceTokens(
+            this string value,
+            IReadOnlyDictionary<string, string> tokenToReplacementValueMap)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            if (tokenToReplacementValueMap == null)
+            {
+                throw new ArgumentNullException(nameof(tokenToReplacementValueMap));
+            }
+
+            var result = value;
+
+            foreach (var token in tokenToReplacementValueMap.Keys)
+            {
+                result = result.Replace(token, tokenToReplacementValueMap[token]);
+            }
+
             return result;
         }
 

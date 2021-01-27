@@ -39,6 +39,10 @@ namespace OBeautifulCode.Assertion.Recipes
 
         private static readonly Type NullableGuidType = typeof(Guid?);
 
+        private static readonly Type DateTimeType = typeof(DateTime);
+
+        private static readonly Type NullableDateTimeType = typeof(DateTime?);
+
         private static readonly Type DictionaryType = typeof(IDictionary);
 
         private static readonly Type UnboundGenericDictionaryType = typeof(IDictionary<,>);
@@ -53,7 +57,7 @@ namespace OBeautifulCode.Assertion.Recipes
             },
         };
 
-        private static readonly IReadOnlyCollection<TypeValidation> MustBeBooleanTypeValidations = new[]
+        private static readonly IReadOnlyCollection<TypeValidation> MustBeBooleanOrNullableBooleanTypeValidations = new[]
         {
             new TypeValidation
             {
@@ -71,12 +75,31 @@ namespace OBeautifulCode.Assertion.Recipes
             },
         };
 
-        private static readonly IReadOnlyCollection<TypeValidation> MustBeGuidTypeValidations = new[]
+        private static readonly IReadOnlyCollection<TypeValidation> MustBeGuidOrNullableGuidTypeValidations = new[]
         {
             new TypeValidation
             {
                 Handler = ThrowIfNotAssignableToType,
                 ReferenceTypes = new[] { GuidType, NullableGuidType },
+            },
+        };
+
+        private static readonly IReadOnlyCollection<TypeValidation> MustBeDateTimeOrNullableDateTimeTypeValidations = new[]
+        {
+            new TypeValidation
+            {
+                Handler = ThrowIfNotAssignableToType,
+                ReferenceTypes = new[] { DateTimeType, NullableDateTimeType },
+            },
+        };
+
+        private static readonly IReadOnlyCollection<TypeValidation> MustBeNullableDateTimeTypeValidations = new[]
+        {
+            new TypeValidation
+            {
+                // DateTime is assignable to DateTime?, so we call ThrowIfNotEqualToType instead of ThrowIfNotAssignableToType
+                Handler = ThrowIfNotEqualToType,
+                ReferenceTypes = new[] { NullableDateTimeType },
             },
         };
 
@@ -251,6 +274,21 @@ namespace OBeautifulCode.Assertion.Recipes
             var validTypes = typeValidation.ReferenceTypes;
 
             if (!validTypes.Any(_ => verifiableItemType.IsAssignableTo(_, treatGenericTypeDefinitionAsAssignableTo: true)))
+            {
+                ThrowSubjectUnexpectedType(verification, verifiableItem, validTypes);
+            }
+        }
+
+        private static void ThrowIfNotEqualToType(
+            Verification verification,
+            VerifiableItem verifiableItem,
+            TypeValidation typeValidation)
+        {
+            var verifiableItemType = verifiableItem.ItemType;
+
+            var validTypes = typeValidation.ReferenceTypes;
+
+            if (validTypes.All(_ => verifiableItemType != _))
             {
                 ThrowSubjectUnexpectedType(verification, verifiableItem, validTypes);
             }
