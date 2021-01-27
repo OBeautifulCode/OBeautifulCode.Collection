@@ -17,8 +17,8 @@ namespace OBeautifulCode.Collection.Recipes
     /// Helper methods for operating on objects of type <see cref="ICollection{T}"/>.
     /// </summary>
 #if !OBeautifulCodeCollectionSolution
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    [System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Collection.Recipes", "See package version number")]
+    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+    [global::System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Collection.Recipes", "See package version number")]
     internal
 #else
     public
