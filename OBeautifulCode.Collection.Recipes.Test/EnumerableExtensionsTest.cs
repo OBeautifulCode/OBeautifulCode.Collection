@@ -16,6 +16,7 @@ namespace OBeautifulCode.Collection.Recipes.Test
 
     using FluentAssertions;
 
+    using OBeautifulCode.Assertion.Recipes;
     using OBeautifulCode.AutoFakeItEasy;
     using OBeautifulCode.String.Recipes;
 
@@ -162,6 +163,60 @@ namespace OBeautifulCode.Collection.Recipes.Test
 
             // Assert
             actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public static void RandomizeElements___Should_throw_ArgumentNullException___When_value_is_null()
+        {
+            // Arrange, Act
+            var actual = Record.Exception(() => EnumerableExtensions.RandomizeElements<int>(null));
+
+            // Assert
+            actual.AsTest().Must().BeOfType<ArgumentNullException>();
+        }
+
+        [Fact]
+        public static void RandomizeElements___Should_return_empty_enumerable___When_value_is_empty()
+        {
+            // Arrange
+            var value = new bool[0];
+
+            // Act
+            var actual = value.RandomizeElements();
+
+            // Assert
+            actual.AsTest().Must().BeEmptyEnumerable();
+        }
+
+        [Fact]
+        public static void RandomizeElements___Should_return_same_enumerable___When_value_has_one_element()
+        {
+            // Arrange
+            var value = Some.ReadOnlyDummies<string>(1).ToList();
+
+            // Act
+            var actual = value.RandomizeElements().ToList();
+
+            // Assert
+            actual.AsTest().Must().BeEqualTo(value);
+        }
+
+        [Fact]
+        public static void RandomizeElements___Should_elements_in_random_order___When_value_has_more_than_one_element()
+        {
+            // Arrange
+            var values = new IReadOnlyCollection<string>[]
+            {
+                Some.ReadOnlyDummies<string>(2),
+                Some.ReadOnlyDummies<string>(3),
+                Some.ReadOnlyDummies<string>(4),
+            };
+
+            // Act
+            var actual = values.Select(_ => (IReadOnlyCollection<string>)_.RandomizeElements().ToList()).ToArray();
+
+            // Assert
+            actual.AsTest().Must().BeEqualTo(values);
         }
 
         [Fact]

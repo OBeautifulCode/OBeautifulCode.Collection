@@ -15,6 +15,7 @@ namespace OBeautifulCode.Collection.Recipes
     using global::System.Linq;
 
     using OBeautifulCode.Equality.Recipes;
+    using OBeautifulCode.Math.Recipes;
     using OBeautifulCode.String.Recipes;
 
     using static global::System.FormattableString;
@@ -79,6 +80,42 @@ namespace OBeautifulCode.Collection.Recipes
                 var combinations = GetCombinations(valuesList, x).Select(_=> _.ToArray()).ToList();
 
                 result.AddRange(combinations);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Puts the elements of a specified enumerable into a new enumerable, in random order.
+        /// </summary>
+        /// <param name="value">The enumerable.</param>
+        /// <returns>
+        /// A new enumerable having all of the elements of the specified enumerable, but in random order.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        public static IEnumerable<T> RandomizeElements<T>(
+            this IEnumerable<T> value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            var result = value.ToList();
+
+            var elementCount = result.Count;
+
+            while (elementCount > 1)
+            {
+                elementCount--;
+
+                var randomIndex = ThreadSafeRandom.Next(elementCount + 1);
+
+                T element = result[randomIndex];
+
+                result[randomIndex] = result[elementCount];
+
+                result[elementCount] = element;
             }
 
             return result;
