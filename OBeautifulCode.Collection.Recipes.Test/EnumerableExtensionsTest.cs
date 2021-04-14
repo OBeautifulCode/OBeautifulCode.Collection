@@ -166,6 +166,123 @@ namespace OBeautifulCode.Collection.Recipes.Test
         }
 
         [Fact]
+        public static void GetLongestCommonPrefix___Should_throw_ArgumentNullException___When_parameter_values_is_null()
+        {
+            // Arrange, Act
+            var actual = Record.Exception(() => EnumerableExtensions.GetLongestCommonPrefix(null));
+
+            // Assert
+            actual.Should().BeOfType<ArgumentNullException>();
+            actual.Message.Should().Contain("values");
+        }
+
+        [Fact]
+        public static void GetLongestCommonPrefix___Should_throw_ArgumentException___When_parameter_values_is_empty()
+        {
+            // Arrange, Act
+            var actual = Record.Exception(() => new string[0].GetLongestCommonPrefix());
+
+            // Assert
+            actual.Should().BeOfType<ArgumentException>();
+            actual.Message.Should().Contain("values is empty");
+        }
+
+        [Fact]
+        public static void GetLongestCommonPrefix___Should_return_single_element___When_parameter_values_has_one_element()
+        {
+            // Arrange
+            var expected = new[]
+            {
+                null,
+                string.Empty,
+                A.Dummy<string>(),
+            };
+
+            // Act
+            var actual = expected.Select(_ => new[] { _ }.GetLongestCommonPrefix()).ToArray();
+
+            // Assert
+            actual.AsTest().Must().BeEqualTo(expected);
+        }
+
+        [Fact]
+        public static void GetLongestCommonPrefix___Should_return_null___When_parameter_values_contains_one_or_more_null_elements()
+        {
+            // Arrange
+            var expected = new[]
+            {
+                A.Dummy<string>(),
+                A.Dummy<string>(),
+                null,
+            };
+
+            // Act
+            var actual = expected.GetLongestCommonPrefix();
+
+            // Assert
+            actual.AsTest().Must().BeNull();
+        }
+
+        [Fact]
+        public static void GetLongestCommonPrefix___Should_return_empty_string___When_parameter_values_contains_no_common_prefix()
+        {
+            // Arrange
+            var values = new[]
+            {
+                new[]
+                {
+                    "abc",
+                    "Abc",
+                },
+                new[]
+                {
+                    "abc",
+                    "def",
+                    "ghi",
+                },
+            };
+
+            // Act
+            var actual = values.Select(_ => _.GetLongestCommonPrefix()).ToList();
+
+            // Assert
+            actual.AsTest().Must().Each().BeEqualTo(string.Empty);
+        }
+
+        [Fact]
+        public static void GetLongestCommonPrefix___Should_return_longest_common_prefix___When_there_is_some_common_prefix()
+        {
+            // Arrange
+            var values = new[]
+            {
+                new[]
+                {
+                    "aA",
+                    "aa",
+                },
+                new[]
+                {
+                    "h:/a/b/c",
+                    "h:/a/b/d",
+                    "h:/a/b/e",
+                    "h:/a/c",
+                },
+            };
+
+            var expected = new[]
+            {
+                "a",
+                "h:/a/",
+            };
+
+            // Act
+            var actual = values.Select(_ => _.GetLongestCommonPrefix()).ToArray();
+
+            // Assert
+            actual.AsTest().Must().BeEqualTo(expected);
+        }
+
+        [Fact]
         public static void RandomizeElements___Should_throw_ArgumentNullException___When_value_is_null()
         {
             // Arrange, Act
