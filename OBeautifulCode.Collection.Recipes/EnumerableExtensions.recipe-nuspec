@@ -6,10 +6,10 @@
     <tags>enumerable ienumerable extension extensionmethods equality comparer iequalitycomparer</tags>
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection.Recipes/nuget-icon.png</iconUrl>
     <dependencies>
-      <dependency id="OBeautifulCode.Equality.Recipes.EqualityHelpers" version="1.0.23" />
-      <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.50" />
-      <dependency id="OBeautifulCode.Math.Recipes.ThreadSafeRandom" version="1.0.77" />
-      <dependency id="OBeautifulCode.CodeAnalysis.Recipes.SuppressBecause" version="1.0.14" />
+      <dependency id="OBeautifulCode.Equality.Recipes.EqualityHelpers" version="1.0.28" />
+      <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.56" />
+      <dependency id="OBeautifulCode.Math.Recipes.ThreadSafeRandom" version="1.0.78" />
+      <dependency id="OBeautifulCode.CodeAnalysis.Recipes.SuppressBecause" version="1.0.15" />
     </dependencies>
   </metadata>
   <files>
