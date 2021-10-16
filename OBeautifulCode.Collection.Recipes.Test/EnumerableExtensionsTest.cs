@@ -337,6 +337,357 @@ namespace OBeautifulCode.Collection.Recipes.Test
         }
 
         [Fact]
+        public static void SplitIntoChunksOfLength___Should_throw_ArgumentNullException___When_parameter_value_is_null()
+        {
+            // Arrange
+            var lengthPerChunk = A.Dummy<int>().ThatIs(_ => _ > 0);
+
+            // Act
+            var actual = Record.Exception(() => EnumerableExtensions.SplitIntoChunksOfLength<string>(null, lengthPerChunk));
+
+            // Assert
+            actual.AsTest().Must().BeOfType<ArgumentNullException>();
+            actual.Message.AsTest().Must().ContainString("value");
+        }
+
+        [Fact]
+        public static void SplitIntoChunksOfLength___Should_throw_ArgumentOutOfRangeException___When_parameter_lengthPerChunk_is_less_than_or_equal_to_0()
+        {
+            // Arrange
+            var value = A.Dummy<List<int>>();
+            var lengthPerChunk = A.Dummy<NegativeInteger>();
+
+            // Act
+            var actual1 = Record.Exception(() => value.SplitIntoChunksOfLength(0));
+            var actual2 = Record.Exception(() => value.SplitIntoChunksOfLength(lengthPerChunk));
+
+            // Assert
+            actual1.AsTest().Must().BeOfType<ArgumentOutOfRangeException>();
+            actual1.Message.AsTest().Must().ContainString("lengthPerChunk");
+
+            actual2.AsTest().Must().BeOfType<ArgumentOutOfRangeException>();
+            actual2.Message.AsTest().Must().ContainString("lengthPerChunk");
+        }
+
+        [Fact]
+        public static void SplitIntoChunksOfLength___Should_return_empty_list___When_value_is_an_empty_collection()
+        {
+            // Arrange
+            var value = new List<int>();
+            var lengthPerChunk = A.Dummy<PositiveInteger>();
+
+            // Act
+            var actual = value.SplitIntoChunksOfLength(lengthPerChunk);
+
+            // Assert
+            actual.AsTest().Must().BeEmptyEnumerable();
+        }
+
+        [Fact]
+        public static void SplitIntoChunksOfLength___Should_return_chunks___When_length_of_value_divides_evenly_by_lengthPerChunk()
+        {
+            // Arrange
+            var value = new List<string>
+            {
+                " ",
+                "s",
+                "o",
+                "m",
+                "e",
+                " ",
+                "b",
+                "r",
+                "o",
+                "w",
+                "n",
+                " ",
+                "c",
+                "o",
+                "w",
+                "s",
+                " ",
+                " ",
+            };
+
+            var lengthPerChunk1 = 1;
+            IReadOnlyList<IReadOnlyList<string>> expected1 = new List<List<string>>
+            {
+                new List<string> { " " },
+                new List<string> { "s" },
+                new List<string> { "o" },
+                new List<string> { "m" },
+                new List<string> { "e" },
+                new List<string> { " " },
+                new List<string> { "b" },
+                new List<string> { "r" },
+                new List<string> { "o" },
+                new List<string> { "w" },
+                new List<string> { "n" },
+                new List<string> { " " },
+                new List<string> { "c" },
+                new List<string> { "o" },
+                new List<string> { "w" },
+                new List<string> { "s" },
+                new List<string> { " " },
+                new List<string> { " " },
+            };
+
+            var lengthPerChunk2 = 6;
+            IReadOnlyList<IReadOnlyList<string>> expected2 = new List<List<string>>
+            {
+                new List<string>
+                {
+                    " ",
+                    "s",
+                    "o",
+                    "m",
+                    "e",
+                    " ",
+                },
+                new List<string>
+                {
+                    "b",
+                    "r",
+                    "o",
+                    "w",
+                    "n",
+                    " ",
+                },
+                new List<string>
+                {
+                "c",
+                "o",
+                "w",
+                "s",
+                " ",
+                " ",
+                },
+            };
+
+            var lengthPerChunk3 = 9;
+            IReadOnlyList<IReadOnlyList<string>> expected3 = new List<List<string>>
+            {
+                new List<string>
+                {
+                    " ",
+                    "s",
+                    "o",
+                    "m",
+                    "e",
+                    " ",
+                    "b",
+                    "r",
+                    "o",
+                },
+                new List<string>
+                {
+                    "w",
+                    "n",
+                    " ",
+                    "c",
+                    "o",
+                    "w",
+                    "s",
+                    " ",
+                    " ",
+                },
+            };
+
+            var lengthPerChunk4 = 18;
+            IReadOnlyList<IReadOnlyList<string>> expected4 = new[] { value };
+
+            // Act
+            var actual1 = value.SplitIntoChunksOfLength(lengthPerChunk1);
+            var actual2 = value.SplitIntoChunksOfLength(lengthPerChunk2);
+            var actual3 = value.SplitIntoChunksOfLength(lengthPerChunk3);
+            var actual4 = value.SplitIntoChunksOfLength(lengthPerChunk4);
+
+            // Assert
+            actual1.AsTest().Must().BeEqualTo(expected1);
+            actual2.AsTest().Must().BeEqualTo(expected2);
+            actual3.AsTest().Must().BeEqualTo(expected3);
+            actual4.AsTest().Must().BeEqualTo(expected4);
+        }
+
+        [Fact]
+        public static void SplitIntoChunksOfLength___Should_return_chunks___When_length_of_value_does_not_divide_evenly_by_lengthPerChunk()
+        {
+            // Arrange
+            var value = new List<string>
+            {
+                " ",
+                "s",
+                "o",
+                "m",
+                "e",
+                " ",
+                "b",
+                "r",
+                "o",
+                "w",
+                "n",
+                " ",
+                "c",
+                "o",
+                "w",
+                "s",
+                " ",
+            };
+
+            var lengthPerChunk1 = 3;
+            IReadOnlyList<IReadOnlyList<string>> expected1 = new List<List<string>>
+            {
+                new List<string>
+                {
+                    " ",
+                    "s",
+                    "o",
+                },
+                new List<string>
+                {
+                    "m",
+                    "e",
+                    " ",
+                },
+                new List<string>
+                {
+                    "b",
+                    "r",
+                    "o",
+                },
+                new List<string>
+                {
+                    "w",
+                    "n",
+                    " ",
+                },
+                new List<string>
+                {
+                    "c",
+                    "o",
+                    "w",
+                },
+                new List<string>
+                {
+                    "s",
+                    " ",
+                },
+            };
+
+            var lengthPerChunk2 = 5;
+            IReadOnlyList<IReadOnlyList<string>> expected2 = new List<List<string>>
+            {
+                new List<string>
+                {
+                    " ",
+                    "s",
+                    "o",
+                    "m",
+                    "e",
+                },
+                new List<string>
+                {
+                    " ",
+                    "b",
+                    "r",
+                    "o",
+                    "w",
+                },
+                new List<string>
+                {
+                    "n",
+                    " ",
+                    "c",
+                    "o",
+                    "w",
+                },
+                new List<string>
+                {
+                    "s",
+                    " ",
+                },
+            };
+
+            var lengthPerChunk3 = 9;
+            IReadOnlyList<IReadOnlyList<string>> expected3 = new List<List<string>>
+            {
+                new List<string>
+                {
+                    " ",
+                    "s",
+                    "o",
+                    "m",
+                    "e",
+                    " ",
+                    "b",
+                    "r",
+                    "o",
+                },
+                new List<string>
+                {
+                    "w",
+                    "n",
+                    " ",
+                    "c",
+                    "o",
+                    "w",
+                    "s",
+                    " ",
+                },
+            };
+
+            var lengthPerChunk4 = 16;
+            IReadOnlyList<IReadOnlyList<string>> expected4 = new List<List<string>>
+            {
+                new List<string>
+                {
+                    " ",
+                    "s",
+                    "o",
+                    "m",
+                    "e",
+                    " ",
+                    "b",
+                    "r",
+                    "o",
+                    "w",
+                    "n",
+                    " ",
+                    "c",
+                    "o",
+                    "w",
+                    "s",
+                },
+                new List<string>
+                {
+                    " ",
+                },
+            };
+
+            var lengthPerChunk5 = 18;
+            IReadOnlyList<IReadOnlyList<string>> expected5 = new[] { value };
+
+            var lengthPerChunk6 = int.MaxValue;
+            IReadOnlyList<IReadOnlyList<string>> expected6 = new[] { value };
+
+            // Act
+            var actual1 = value.SplitIntoChunksOfLength(lengthPerChunk1);
+            var actual2 = value.SplitIntoChunksOfLength(lengthPerChunk2);
+            var actual3 = value.SplitIntoChunksOfLength(lengthPerChunk3);
+            var actual4 = value.SplitIntoChunksOfLength(lengthPerChunk4);
+            var actual5 = value.SplitIntoChunksOfLength(lengthPerChunk5);
+            var actual6 = value.SplitIntoChunksOfLength(lengthPerChunk6);
+
+            // Assert
+            actual1.AsTest().Must().BeEqualTo(expected1);
+            actual2.AsTest().Must().BeEqualTo(expected2);
+            actual3.AsTest().Must().BeEqualTo(expected3);
+            actual4.AsTest().Must().BeEqualTo(expected4);
+            actual5.AsTest().Must().BeEqualTo(expected5);
+            actual6.AsTest().Must().BeEqualTo(expected6);
+        }
+
+        [Fact]
         public static void SymmetricDifference___Should_throw_ArgumentNullException___When_first_set_is_null()
         {
             // Arrange
