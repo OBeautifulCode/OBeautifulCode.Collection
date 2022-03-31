@@ -359,7 +359,7 @@ namespace OBeautifulCode.Collection.Recipes.Test
         }
 
         [Fact]
-        public static void RemoveRange___Should_remove_items_in_itemsToRemove_using_specified_comparer___When_throwIfNotFound_is_false()
+        public static void RemoveRange___Should_remove_items_in_itemsToRemove_using_specified_comparer___When_throwIfNotFound_is_false_and_sometimes_items_not_found()
         {
             // Arrange, Act
             var scenarios = new[]
@@ -386,6 +386,35 @@ namespace OBeautifulCode.Collection.Recipes.Test
 
             // Assert
             var actual = scenarios.Select(_ => _.Value.RemoveRange(_.ItemsToRemove, StringComparer.OrdinalIgnoreCase)).ToList();
+
+            // Assert
+            actual.AsTest().Must().BeEqualTo(scenarios.Select(_ => (IEnumerable<string>)_.Expected).ToList());
+        }
+
+        [Fact]
+        public static void RemoveRange___Should_remove_items_in_itemsToRemove_using_specified_comparer___When_throwIfNotFound_is_true_and_items_always_found()
+        {
+            // Arrange, Act
+            var scenarios = new[]
+            {
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "B" }, Expected = new[] { "A", "C" } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "b", }, Expected = new[] { "A", "C" } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "a" }, Expected = new[] { "B", "C" } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "c" }, Expected = new[] { "A", "B" } },
+                new { Value = new[] { "A", null, "C" }, ItemsToRemove = new string[] { null }, Expected = new[] { "A", "C" } },
+                new { Value = new[] { "A", null, "C" }, ItemsToRemove = new[] { null, "a" }, Expected = new[] { "C" } },
+                new { Value = new[] { "A", null, "C" }, ItemsToRemove = new[] { null, "c" }, Expected = new[] { "A" } },
+                new { Value = new[] { "A", null, "C" }, ItemsToRemove = new[] { "a", null }, Expected = new[] { "C" } },
+                new { Value = new[] { "A", null, "C" }, ItemsToRemove = new[] { "c", null }, Expected = new[] { "A" } },
+                new { Value = new[] { "A", null, "C" }, ItemsToRemove = new string[] { }, Expected = new[] { "A", null, "C" } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "a", "b", "c" }, Expected = new string[] { } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "C", "B", "A" }, Expected = new string[] { } },
+                new { Value = new[] { "A", "b", "C", "B", "a" }, ItemsToRemove = new[] { "B" }, Expected = new[] { "A", "C", "B", "a" } },
+                new { Value = new[] { "A", "b", "C", "B", "a" }, ItemsToRemove = new[] { "a" }, Expected = new[] { "b", "C", "B", "a" } },
+            };
+
+            // Assert
+            var actual = scenarios.Select(_ => _.Value.RemoveRange(_.ItemsToRemove, StringComparer.OrdinalIgnoreCase, throwIfNotFound: true)).ToList();
 
             // Assert
             actual.AsTest().Must().BeEqualTo(scenarios.Select(_ => (IEnumerable<string>)_.Expected).ToList());

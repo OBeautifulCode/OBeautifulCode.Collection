@@ -209,17 +209,21 @@ namespace OBeautifulCode.Collection.Recipes
 
             foreach (var item in itemsToRemove)
             {
+                var found = false;
+
                 for (var x = 0; x < result.Count; x++)
                 {
                     if (comparer.Equals(result[x], item))
                     {
                         result.RemoveAt(x);
+                        
+                        found = true;
 
                         break;
                     }
                 }
 
-                if (throwIfNotFound)
+                if (throwIfNotFound && (!found))
                 {
                     throw new InvalidOperationException(Invariant($"Could not find the following item to remove from the specified enumerable: {item}."));
                 }
