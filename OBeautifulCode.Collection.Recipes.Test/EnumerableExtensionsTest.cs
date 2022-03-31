@@ -337,6 +337,82 @@ namespace OBeautifulCode.Collection.Recipes.Test
         }
 
         [Fact]
+        public static void RemoveRange___Should_throw_ArgumentNullException___When_parameter_value_is_null()
+        {
+            // Arrange, Act
+            var actual = Record.Exception(() => EnumerableExtensions.RemoveRange(null, new[] { 1 }));
+
+            // Assert
+            actual.AsTest().Must().BeOfType<ArgumentNullException>();
+            actual.Message.Must().ContainString("value");
+        }
+
+        [Fact]
+        public static void RemoveRange___Should_throw_ArgumentNullException___When_parameter_itemsToRemove_is_null()
+        {
+            // Arrange, Act
+            var actual = Record.Exception(() => new[] { 1 }.RemoveRange(null));
+
+            // Assert
+            actual.AsTest().Must().BeOfType<ArgumentNullException>();
+            actual.Message.Must().ContainString("itemsToRemove");
+        }
+
+        [Fact]
+        public static void RemoveRange___Should_remove_items_in_itemsToRemove_using_specified_comparer___When_throwIfNotFound_is_false()
+        {
+            // Arrange, Act
+            var scenarios = new[]
+            {
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "B" }, Expected = new[] { "A", "C" } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "b", }, Expected = new[] { "A", "C" } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "B", "b" }, Expected = new[] { "A", "C" } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "b", "B" }, Expected = new[] { "A", "C" } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "a" }, Expected = new[] { "B", "C" } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "c" }, Expected = new[] { "A", "B" } },
+                new { Value = new[] { "A", null, "C" }, ItemsToRemove = new[] { "D" }, Expected = new[] { "A", null, "C" } },
+                new { Value = new[] { "A", null, "C" }, ItemsToRemove = new string[] { null }, Expected = new[] { "A", "C" } },
+                new { Value = new[] { "A", null, "C" }, ItemsToRemove = new[] { null, "a" }, Expected = new[] { "C" } },
+                new { Value = new[] { "A", null, "C" }, ItemsToRemove = new[] { null, "c" }, Expected = new[] { "A" } },
+                new { Value = new[] { "A", null, "C" }, ItemsToRemove = new[] { "a", null }, Expected = new[] { "C" } },
+                new { Value = new[] { "A", null, "C" }, ItemsToRemove = new[] { "c", null }, Expected = new[] { "A" } },
+                new { Value = new string[] { }, ItemsToRemove = new[] { "c", null, "B" }, Expected = new string[] { } },
+                new { Value = new[] { "A", null, "C" }, ItemsToRemove = new string[] { }, Expected = new[] { "A", null, "C" } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "a", "b", "c" }, Expected = new string[] { } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "C", "B", "A" }, Expected = new string[] { } },
+                new { Value = new[] { "A", "b", "C", "B", "a" }, ItemsToRemove = new[] { "B" }, Expected = new[] { "A", "C", "B", "a" } },
+                new { Value = new[] { "A", "b", "C", "B", "a" }, ItemsToRemove = new[] { "a" }, Expected = new[] { "b", "C", "B", "a" } },
+            };
+
+            // Assert
+            var actual = scenarios.Select(_ => _.Value.RemoveRange(_.ItemsToRemove, StringComparer.OrdinalIgnoreCase)).ToList();
+
+            // Assert
+            actual.AsTest().Must().BeEqualTo(scenarios.Select(_ => (IEnumerable<string>)_.Expected).ToList());
+        }
+
+        [Fact]
+        public static void RemoveRange___Should_throw_InvalidOperationException___When_throwIfNotFound_is_true_and_an_item_to_remove_was_not_found()
+        {
+            // Arrange, Act
+            var scenarios = new[]
+            {
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "d" } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "B", "d" } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new string[] { null } },
+                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "B", "B" } },
+                new { Value = new[] { "A", "B", null, "C" }, ItemsToRemove = new string[] { null, null } },
+                new { Value = new[] { "A", "B", "C", "A" }, ItemsToRemove = new[] { "A", "A", "a" } },
+            };
+
+            // Assert
+            var actual = scenarios.Select(_ => Record.Exception(() => _.Value.RemoveRange(_.ItemsToRemove, StringComparer.OrdinalIgnoreCase, throwIfNotFound: true))).ToList();
+
+            // Assert
+            actual.AsTest().Must().Each().BeOfType<InvalidOperationException>();
+        }
+
+        [Fact]
         public static void SplitIntoChunksOfLength___Should_throw_ArgumentNullException___When_parameter_value_is_null()
         {
             // Arrange
