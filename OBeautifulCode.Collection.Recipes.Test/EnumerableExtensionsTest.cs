@@ -359,7 +359,7 @@ namespace OBeautifulCode.Collection.Recipes.Test
         }
 
         [Fact]
-        public static void RemoveRange___Should_remove_items_in_itemsToRemove_using_specified_comparer___When_throwIfNotFound_is_false_and_sometimes_items_not_found()
+        public static void RemoveRange___Should_remove_items_in_itemsToRemove_using_specified_comparer___When_sometimes_items_not_found()
         {
             // Arrange, Act
             var scenarios = new[]
@@ -392,7 +392,7 @@ namespace OBeautifulCode.Collection.Recipes.Test
         }
 
         [Fact]
-        public static void RemoveRange___Should_remove_items_in_itemsToRemove_using_specified_comparer___When_throwIfNotFound_is_true_and_items_always_found()
+        public static void RemoveRange___Should_remove_items_in_itemsToRemove_using_specified_comparer___When_items_always_found()
         {
             // Arrange, Act
             var scenarios = new[]
@@ -414,31 +414,10 @@ namespace OBeautifulCode.Collection.Recipes.Test
             };
 
             // Assert
-            var actual = scenarios.Select(_ => _.Value.RemoveRange(_.ItemsToRemove, StringComparer.OrdinalIgnoreCase, throwIfNotFound: true)).ToList();
+            var actual = scenarios.Select(_ => _.Value.RemoveRange(_.ItemsToRemove, StringComparer.OrdinalIgnoreCase)).ToList();
 
             // Assert
             actual.AsTest().Must().BeEqualTo(scenarios.Select(_ => (IEnumerable<string>)_.Expected).ToList());
-        }
-
-        [Fact]
-        public static void RemoveRange___Should_throw_InvalidOperationException___When_throwIfNotFound_is_true_and_an_item_to_remove_was_not_found()
-        {
-            // Arrange, Act
-            var scenarios = new[]
-            {
-                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "d" } },
-                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "B", "d" } },
-                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new string[] { null } },
-                new { Value = new[] { "A", "B", "C" }, ItemsToRemove = new[] { "B", "B" } },
-                new { Value = new[] { "A", "B", null, "C" }, ItemsToRemove = new string[] { null, null } },
-                new { Value = new[] { "A", "B", "C", "A" }, ItemsToRemove = new[] { "A", "A", "a" } },
-            };
-
-            // Assert
-            var actual = scenarios.Select(_ => Record.Exception(() => _.Value.RemoveRange(_.ItemsToRemove, StringComparer.OrdinalIgnoreCase, throwIfNotFound: true))).ToList();
-
-            // Assert
-            actual.AsTest().Must().Each().BeOfType<InvalidOperationException>();
         }
 
         [Fact]
