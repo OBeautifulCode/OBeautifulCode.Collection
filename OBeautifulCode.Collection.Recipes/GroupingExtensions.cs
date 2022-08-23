@@ -4005,11 +4005,6 @@ namespace OBeautifulCode.Collection.Recipes
                 TKey key,
                 IEnumerable<TElement> elements)
             {
-                if (key == null)
-                {
-                    throw new ArgumentNullException(nameof(key));
-                }
-
                 if (elements == null)
                 {
                     throw new ArgumentNullException(nameof(elements));
