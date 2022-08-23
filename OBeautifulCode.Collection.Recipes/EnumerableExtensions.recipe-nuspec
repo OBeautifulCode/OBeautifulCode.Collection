@@ -3,7 +3,7 @@
   <metadata>
     <id>OBeautifulCode.Collection.Recipes.EnumerableExtensions</id>
     <description>Helper methods/classes for operating on objects of type IEnumerable.</description>
-    <tags>enumerable ienumerable extension extensionmethods equality comparer iequalitycomparer</tags>
+    <tags>enumerable ienumerable extension extensionmethods</tags>
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection.Recipes/nuget-icon.png</iconUrl>
     <dependencies>
       <dependency id="OBeautifulCode.Equality.Recipes.EqualityHelpers" version="1.0.35" />
