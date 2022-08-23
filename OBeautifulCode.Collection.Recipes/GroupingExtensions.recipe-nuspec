@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>OBeautifulCode.Collection.Recipes.GroupingExtensions</id>
-    <description>Extension methods that perform grouping..</description>
+    <description>Extension methods that perform grouping.</description>
     <tags>group groupby grouping extension extensionmethods</tags>
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Collection/master/OBeautifulCode.Collection.Recipes/nuget-icon.png</iconUrl>
     <dependencies>
@@ -10,6 +10,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="EnumerableExtensions.cs" target="content\net462\.recipes\OBeautifulCode.Collection\GroupingExtensions.cs" />
+    <file src="GroupingExtensions.cs" target="content\net462\.recipes\OBeautifulCode.Collection\GroupingExtensions.cs" />
   </files>
 </package>
